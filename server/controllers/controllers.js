@@ -24,7 +24,6 @@ exports.getEventsBySlug = function (req, res) {
             let time = new Date(vobject.dateTimeValue().parseICS(eventStart).toDateTime()).getTime()
             return (queryStart < time &&  time < queryEnd)
         })
-        
         return result
     }
 }
