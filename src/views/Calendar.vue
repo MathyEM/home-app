@@ -2,7 +2,7 @@
 	<FullCalendar :options="calendarOptions" />
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -41,9 +41,14 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions(['getSlugs']),
+
 		handleDateClick: function(arg) {
 			console.log(arg.event.start.toISOString())
 		}
+	},
+	async created() {
+		this.getSlugs()
 	}
 }
 </script>

@@ -1,7 +1,13 @@
+import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
+
+const caldavAPI = "http://localhost:3000"
+const sluglist = caldavAPI+'/calendars/sluglist'
+
+const createEventSourceURL = slug => `${caldavAPI}/calendar/${slug}/events`
 
 export default new Vuex.Store({
   state: {
@@ -16,19 +22,31 @@ export default new Vuex.Store({
         start: '2021-06-08'
       }
     ],
-    eventSources: [
-      {
-        url: 'http://localhost:3000/calendar/personal/events'
-      }
-    ]
+    eventSources: []
   },
   getters: {
     events: state => state.events,
     eventSources: state => state.eventSources,
   },
   mutations: {
+    ADD_EVENT_SOURCE(state, payload) {
+      state.eventSources.push({
+        url: createEventSourceURL(payload)
+      })
+    },
   },
   actions: {
+    async getSlugs({ commit }) {
+      try {
+        await axios.get(sluglist).then((response) => {
+          response.data.forEach((slug) => {
+            commit('ADD_EVENT_SOURCE', slug)
+          })
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   modules: {
   }

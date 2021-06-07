@@ -10,6 +10,10 @@ router.get('/', (req, res) => {
     res.send("Hello world!")
 })
 
+router.get('/calendars/sluglist', (req, res) => {
+    res.json(controllers.getSlugList(req, res))
+})
+
 router.get('/calendars', (req, res) => {
     res.json(caldav.calendars)
 })
