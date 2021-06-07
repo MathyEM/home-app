@@ -80,11 +80,16 @@ account.then(function(account) {
             let event = {}
             let task = {}
 
-            if (!getEventData(calendarData, "begin:vtodo")) {
+            if (!getEventData(calendarData, "begin:vtodo")) { //Add VEVENT
                 event.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
-                event.props = vobject.parseICS(object.calendarData).components.VEVENT[0].properties
+                let props = vobject.parseICS(object.calendarData).components.VEVENT[0].properties
+                event.id = props.UID[0].value
+                event.start = props.DTSTART[0].value
+                event.end = props.DTEND[0].value
+                event.title = props.SUMMARY[0].value
+                
                 cal.events.push(event)
-            } else {
+            } else { // Add VTODO
                 task.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
                 task.props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
                 cal.tasks.push(task)

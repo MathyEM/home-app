@@ -20,7 +20,7 @@ exports.getEventsBySlug = function (req, res) {
         let queryStart = new Date(start).getTime()
         let queryEnd = new Date(end).getTime()
         const result = events.filter(event => {
-            let eventStart = event.props.DTSTART[0].value
+            let eventStart = event.start
             let time = new Date(vobject.dateTimeValue().parseICS(eventStart).toDateTime()).getTime()
             return (queryStart < time &&  time < queryEnd)
         })

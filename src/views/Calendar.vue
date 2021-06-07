@@ -15,14 +15,15 @@ export default {
 		FullCalendar // make the <FullCalendar> tag available
 	},
 	computed: {
-		...mapGetters(['events']),
+		...mapGetters(['events', 'eventSources']),
 
 		calendarOptions() {
 			return {
 				plugins: [ dayGridPlugin, interactionPlugin ],
 				initialView: 'dayGridMonth',
 				eventClick: this.handleDateClick,
-				events: this.events,
+				//events: this.events,
+				eventSources: this.eventSources,
 				locale: daLocale,
 				eventTimeFormat: {
 					hour: '2-digit',

@@ -16,9 +16,15 @@ export default new Vuex.Store({
         start: '2021-06-08'
       }
     ],
+    eventSources: [
+      {
+        url: 'http://localhost:3000/calendar/personal/events'
+      }
+    ]
   },
   getters: {
     events: state => state.events,
+    eventSources: state => state.eventSources,
   },
   mutations: {
   },
