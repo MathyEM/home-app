@@ -10,6 +10,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import daLocale from '@fullcalendar/core/locales/da';
 
 export default {
+	name: "Calendar",
 	components: {
 		FullCalendar // make the <FullCalendar> tag available
 	},
