@@ -28,7 +28,9 @@ export default {
 					hour: '2-digit',
 					minute: '2-digit',
 					meridiem: false
-				}
+				},
+				// aspectRatio: 1.8,
+				height: "100%",
 			}
 		}
 	},
