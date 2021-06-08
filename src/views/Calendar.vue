@@ -1,5 +1,5 @@
 <template>
-	<FullCalendar :options="calendarOptions" />
+	<FullCalendar ref="fullCalendar" :options="calendarOptions" />
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -41,14 +41,23 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['getSlugs']),
+		...mapActions(['setEventSources']),
 
 		handleDateClick: function(arg) {
 			console.log(arg.event.start.toISOString())
 		}
 	},
 	async created() {
-		this.getSlugs()
+		await this.setEventSources()
+
+		let calendarApi = this.$refs.fullCalendar.getApi()
+
+		let personal = calendarApi.getEventSourceById('personal')
+
+		console.log(personal.internalEventSource._raw)
+	},
+	mounted() {
+
 	}
 }
 </script>
