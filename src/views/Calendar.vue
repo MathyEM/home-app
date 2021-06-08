@@ -1,8 +1,12 @@
 <template>
-	<FullCalendar ref="fullCalendar" :options="calendarOptions" />
+	<div class="calendar-container">
+		<CalendarSidebar :eventSources="eventSources"/>
+		<FullCalendar ref="fullCalendar" :options="calendarOptions" />
+	</div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import CalendarSidebar from '../components/calendar/CalendarSidebar'
 
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -12,7 +16,8 @@ import daLocale from '@fullcalendar/core/locales/da';
 export default {
 	name: "Calendar",
 	components: {
-		FullCalendar // make the <FullCalendar> tag available
+		FullCalendar, // make the <FullCalendar> tag available
+		CalendarSidebar,
 	},
 	computed: {
 		...mapGetters(['events', 'eventSources']),
@@ -33,7 +38,7 @@ export default {
 				// aspectRatio: 1.8,
 				height: "100%",
 			}
-		}
+		},
 	},
 	data() {
 		return {
@@ -50,11 +55,11 @@ export default {
 	async created() {
 		await this.setEventSources()
 
-		let calendarApi = this.$refs.fullCalendar.getApi()
+		// let calendarApi = this.$refs.fullCalendar.getApi()
 
-		let personal = calendarApi.getEventSourceById('personal')
+		// let personal = calendarApi.getEventSourceById('personal')
 
-		console.log(personal.internalEventSource._raw)
+		// console.log(personal.internalEventSource._raw)
 	},
 	mounted() {
 
