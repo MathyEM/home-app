@@ -1,11 +1,25 @@
 const caldav = require('../caldav')
 const vobject = require('vobject')
 const { Calendar } = require('dav')
+const { calendar } = require('vobject')
 
 const calendars = caldav.calendars
 
 exports.getCalendars = function (req, res) {
-    res.json(calendars)
+    const calendarsData = []
+
+    calendars.forEach(calendar => {
+        if (calendar.slug.includes('app-generated')) return // Filter out app-generated calendars
+        cal = {
+            displayName: calendar.displayName,
+            id: calendar.slug,
+            hasEvents: calendar.events.length > 0 ? true : false,
+            hasTodos: calendar.tasks.length > 0 ? true : false
+        }
+        calendarsData.push(cal)
+    })
+
+    res.json(calendarsData)
 }
 
 exports.getSlugList = function (req, res) {
