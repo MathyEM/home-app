@@ -4,27 +4,30 @@ const { Calendar } = require('dav')
 
 const calendars = caldav.calendars
 
+exports.getCalendars = function (req, res) {
+    res.json(calendars)
+}
+
 exports.getSlugList = function (req, res) {
     let slugs = []
     calendars.forEach((calendar) => {
         if (calendar.slug.includes('app-generated')) return // Filter out app-generated calendars
         slugs.push(calendar.slug)
     })
-    return slugs
+    res.json(slugs)
 }
 
 exports.getCalendarBySlug = function (req, res) {
-    return calendars.find(calendar => calendar.href.includes(req.params.slug))
+    res.json(calendars.find(calendar => calendar.href.includes(req.params.slug)))
 }
 
 exports.getEventsBySlug = function (req, res) {
     var events = exports.getCalendarBySlug(req, res).events
 
-    if (!req.query.start) {
-        return events
+    if (req.query.start) { // if start date query parameter is set
+        res.json(getEventsByDate(req.query.start, req.query.end))
     }
-
-    return getEventsByDate(req.query.start, req.query.end)
+    res.json(events)
 
     function getEventsByDate(start, end) {
         let queryStart = new Date(start).getTime()
@@ -39,7 +42,7 @@ exports.getEventsBySlug = function (req, res) {
 }
 
 exports.getTasksBySlug = function (req, res) {
-    return exports.getCalendarBySlug(req, res).tasks
+    res.json(exports.getCalendarBySlug(req, res).tasks)
 }
 
 exports.createTodo = function (req, res) {

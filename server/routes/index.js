@@ -1,33 +1,18 @@
 var express = require('express');
-const vobject = require('vobject');
 var router = express.Router();
 
-
-const caldav = require('../caldav')
 const controllers = require('../controllers/controllers')
 
-router.get('/', (req, res) => {
-    res.send("Hello world!")
-})
+router.get('/', (req, res) => res.send("Hello world!"))
 
-router.get('/calendars/sluglist', (req, res) => {
-    res.json(controllers.getSlugList(req, res))
-})
+router.get('/calendars', controllers.getCalendars)
 
-router.get('/calendars', (req, res) => {
-    res.json(caldav.calendars)
-})
+router.get('/calendars/sluglist', controllers.getSlugList)
 
-router.get('/calendar/:slug', (req, res) => {
-    res.json(controllers.getCalendarBySlug(req, res))
-})
+router.get('/calendar/:slug', controllers.getCalendarBySlug)
 
-router.get('/calendar/:slug/events', (req, res) => {
-    res.json(controllers.getEventsBySlug(req, res))
-})
+router.get('/calendar/:slug/events', controllers.getEventsBySlug)
 
-router.get('/calendar/:slug/tasks', (req, res) => {
-    res.json(controllers.getTasksBySlug(req, res))
-})
+router.get('/calendar/:slug/tasks', controllers.getTasksBySlug)
 
 module.exports = router
