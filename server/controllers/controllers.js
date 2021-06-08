@@ -18,14 +18,17 @@ exports.getSlugList = function (req, res) {
 }
 
 exports.getCalendarBySlug = function (req, res) {
-    res.json(calendars.find(calendar => calendar.href.includes(req.params.slug)))
+    const calendar = filterBySlug(req)
+    res.json(calendar)
 }
 
 exports.getEventsBySlug = function (req, res) {
-    var events = exports.getCalendarBySlug(req, res).events
+    const calendar = filterBySlug(req)
+    var events = calendar.events
 
     if (req.query.start) { // if start date query parameter is set
         res.json(getEventsByDate(req.query.start, req.query.end))
+        return
     }
     res.json(events)
 
@@ -42,7 +45,9 @@ exports.getEventsBySlug = function (req, res) {
 }
 
 exports.getTasksBySlug = function (req, res) {
-    res.json(exports.getCalendarBySlug(req, res).tasks)
+    const calendar = filterBySlug(req)
+    const tasks = calendar.tasks
+    res.json(tasks)
 }
 
 exports.createTodo = function (req, res) {
@@ -75,4 +80,8 @@ exports.createTodo = function (req, res) {
         // })
     
     })
+}
+
+function filterBySlug(req) {
+    return calendars.find(calendar => calendar.href.includes(req.params.slug))
 }
