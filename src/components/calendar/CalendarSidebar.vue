@@ -33,7 +33,7 @@ export default {
 				let calendarApi = this.calendarApi
 
 				if (checked) { //add event source
-					let newEventSource = this.eventSources.find(element => element.id = value)
+					let newEventSource = this.eventSources.find(element => element.id === value)
 					calendarApi.addEventSource(newEventSource)
 				} else { //remove event source
 					let eventSource = calendarApi.getEventSourceById(value)
