@@ -1,8 +1,5 @@
 <template>
 	<div class="calendar-container">
-		<button v-on:click="logEventSource">log eventSource</button>
-		<button v-on:click="removeEventSource">remove eventSource</button>
-		<button v-on:click="addEventSource">add eventSource</button>
 		<CalendarSidebar :eventSources="eventSources" :calendarApi="calendarApi" />
 		<FullCalendar ref="fullCalendar" :options="calendarOptions" />
 	</div>
@@ -45,19 +42,6 @@ export default {
 	data() {
 		return {
 			calendarApi: Object,
-			logEventSource: () => {
-				let personal = this.calendarApi.getEventSourceById('personal')
-				console.log(personal);
-			},
-			removeEventSource: () => {
-				let personal = this.calendarApi.getEventSourceById('personal')
-				personal.remove()
-			},
-			addEventSource: () => {
-				let personal = this.calendarApi.getEventSourceById('personal')
-				personal
-				this.calendarApi.refetchEvents()
-			}
 		}
 	},
 	methods: {
@@ -68,11 +52,7 @@ export default {
 		}
 	},
 	async created() {
-		// await this.setEventSources()
 
-		
-		
-		// console.log(personal.internalEventSource._raw)
 	},
 	mounted() {
 		this.calendarApi = this.$refs.fullCalendar.getApi()

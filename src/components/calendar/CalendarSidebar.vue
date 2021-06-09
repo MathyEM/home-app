@@ -7,6 +7,13 @@
 					<label>
 						<input type="checkbox" class="checkbox" checked="true" v-bind:value="eventSource.id" v-on:change="toggleEventSources"><p>{{ eventSource.name }}</p>
 					</label>
+					<v-swatches 
+						v-model="eventSource.color"
+						v-on:input="changeEventSourceColor(index, eventSource.id, $event)"
+						:swatches="swatches"
+						row-length="5"
+						popover-x="right"
+					></v-swatches>
 				</div>
 			</section>
 		</div>
@@ -14,8 +21,18 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
+import VSwatches from 'vue-swatches'
+
+// Import the styles too, typically in App.vue or main.js
+import 'vue-swatches/dist/vue-swatches.css'
+
 export default {
 	name: "CalendarSidebar",
+	components: {
+		VSwatches,
+	},
 	props: {
 		eventSources: {
 			type: Array,
@@ -29,27 +46,47 @@ export default {
 		return {
 			toggleEventSources: (event) => {
 				let checked = event.target.checked
-				let value = event.target.value
-				let calendarApi = this.calendarApi
+				let id = event.target.value
 
 				if (checked) { //add event source
-					let newEventSource = this.eventSources.find(element => element.id === value)
-					calendarApi.addEventSource(newEventSource)
+					this.addEventSource(id)
 				} else { //remove event source
-					let eventSource = calendarApi.getEventSourceById(value)
-					eventSource.remove()
+					this.removeEventSource(id)
 				}
+			},
+			changeEventSourceColor: (index, id, color) => {
+				this.$store.dispatch('setEventSourceColor', {index, id, color})
+				this.refreshEventSource(id)
+				this.setLocalStorageEventSourceColors({id: id, color: color})
+			},
+			refreshEventSource(eventSourceId) {
+				this.removeEventSource(eventSourceId)
+				this.addEventSource(eventSourceId)
+			},
+			removeEventSource: (eventSourceId) => {
+				let eventSource = this.calendarApi.getEventSourceById(eventSourceId)
+				eventSource.remove()
+			},
+			addEventSource: (eventSourceId) => {
+				let newEventSource = this.eventSources.find(element => element.id === eventSourceId)
+				this.calendarApi.addEventSource(newEventSource)
 			}
 		}
 	},
 	computed: {
-
+		...mapGetters(['defaultColorSwatches', 'eventSourceColors']),
+		swatches() { return this.defaultColorSwatches },
+		eventSourceColors() { return this.eventSourceColors },
+	},
+	watch: {
+		
 	},
 	methods: {
+		...mapActions(['setLocalStorageEventSourceColors'])
 	},
 	mounted() {
 		this.$nextTick().then(() => {
-			let html = `<label for="toggle-sidebar">
+			let html = `<label class="toggle-sidebar-label" for="toggle-sidebar">
 						<a class="toggle-sidebar-btn">☰</a>
 					</label>`
 			const template = document.createElement('template');
@@ -58,6 +95,13 @@ export default {
 
 			const title = document.querySelector('.fc-toolbar-chunk .fc-toolbar-title')
 			title.parentNode.appendChild(template.content.firstChild)
+
+			document.addEventListener("click", function (event) {
+				let checkbox = document.querySelector('#toggle-sidebar')
+				if (!event.target.closest('.calendar-sidebar') && !event.target.matches('.toggle-sidebar-btn') && checkbox.checked) {
+					document.querySelector('.toggle-sidebar-btn').click()
+				}
+			})
 		})
 	}
 }
@@ -80,6 +124,11 @@ export default {
 .container {
 	position: absolute;
 	margin-top: 3rem;
+}
+
+section.calendars .calendar {
+	display: flex;
+	align-items: center;
 }
 
 .toggle-sidebar {
