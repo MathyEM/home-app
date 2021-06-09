@@ -1,6 +1,9 @@
 <template>
 	<div class="calendar-container">
-		<CalendarSidebar :eventSources="eventSources"/>
+		<button v-on:click="logEventSource">log eventSource</button>
+		<button v-on:click="removeEventSource">remove eventSource</button>
+		<button v-on:click="addEventSource">add eventSource</button>
+		<CalendarSidebar :eventSources="eventSources" :calendarApi="calendarApi" />
 		<FullCalendar ref="fullCalendar" :options="calendarOptions" />
 	</div>
 </template>
@@ -35,34 +38,44 @@ export default {
 					minute: '2-digit',
 					meridiem: false
 				},
-				// aspectRatio: 1.8,
 				height: "100%",
 			}
 		},
 	},
 	data() {
 		return {
-			
+			calendarApi: Object,
+			logEventSource: () => {
+				let personal = this.calendarApi.getEventSourceById('personal')
+				console.log(personal);
+			},
+			removeEventSource: () => {
+				let personal = this.calendarApi.getEventSourceById('personal')
+				personal.remove()
+			},
+			addEventSource: () => {
+				let personal = this.calendarApi.getEventSourceById('personal')
+				personal
+				this.calendarApi.refetchEvents()
+			}
 		}
 	},
 	methods: {
 		...mapActions(['setEventSources']),
 
 		handleDateClick: function(arg) {
-			console.log(arg.event.start.toISOString())
+			console.log(arg.event)
 		}
 	},
 	async created() {
-		await this.setEventSources()
+		// await this.setEventSources()
 
-		// let calendarApi = this.$refs.fullCalendar.getApi()
-
-		// let personal = calendarApi.getEventSourceById('personal')
-
+		
+		
 		// console.log(personal.internalEventSource._raw)
 	},
 	mounted() {
-
+		this.calendarApi = this.$refs.fullCalendar.getApi()
 	}
 }
 </script>

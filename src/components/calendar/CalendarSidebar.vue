@@ -3,9 +3,9 @@
 		<input type="checkbox" name="toggle-sidebar" id="toggle-sidebar" class="toggle-sidebar">
 		<div class="calendar-sidebar">
 			<section class="calendars">
-				<div class="calendar" v-for="eventSource in eventSources" :key="eventSource.id">
+				<div class="calendar" v-for="(eventSource, index) in eventSources" :key="index">
 					<label>
-						<input type="checkbox" class="checkbox"><p>{{ eventSource.name }}</p>
+						<input type="checkbox" class="checkbox" checked="true" v-bind:value="eventSource.id" v-on:change="toggleEventSources"><p>{{ eventSource.name }}</p>
 					</label>
 				</div>
 			</section>
@@ -21,9 +21,25 @@ export default {
 			type: Array,
 			required: true
 		},
+		calendarApi: {
+			type: undefined
+		}
 	},
 	data() {
 		return {
+			toggleEventSources: (event) => {
+				let checked = event.target.checked
+				let value = event.target.value
+				let calendarApi = this.calendarApi
+
+				if (checked) { //add event source
+					let newEventSource = this.eventSources.find(element => element.id = value)
+					calendarApi.addEventSource(newEventSource)
+				} else { //remove event source
+					let eventSource = calendarApi.getEventSourceById(value)
+					eventSource.remove()
+				}
+			}
 		}
 	},
 	computed: {
