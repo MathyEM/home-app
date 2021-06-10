@@ -7,8 +7,8 @@ const calendars = caldav.calendars
 
 exports.getTodosBySlug = function (req, res) {
     const calendar = filterBySlug(req)
-    const tasks = calendar.tasks
-    res.json(tasks)
+    const todos = calendar.todos
+    res.json(todos)
 }
 
 exports.createTodo = function (req, res) {

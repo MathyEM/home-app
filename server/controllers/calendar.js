@@ -14,7 +14,7 @@ exports.getCalendars = function (req, res) {
             displayName: calendar.displayName,
             id: calendar.slug,
             hasEvents: calendar.events.length > 0 ? true : false,
-            hasTodos: calendar.tasks.length > 0 ? true : false
+            hasTodos: calendar.todos.length > 0 ? true : false
         }
         calendarsData.push(cal)
     })

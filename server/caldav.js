@@ -1,4 +1,5 @@
 const dav = require('dav')
+const { todo } = require('vobject')
 const vobject = require('vobject')
 
 
@@ -73,12 +74,12 @@ account.then(function(account) {
 
         
         cal.events = []
-        cal.tasks = []
+        cal.todos = []
 
         calendar.objects.forEach((object, index) => {
             let calendarData = object.calendarData.split('\n')
             let event = {}
-            let task = {}
+            let todo = {}
 
             if (!getEventData(calendarData, "begin:vtodo")) { //Add VEVENT
                 event.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
@@ -90,9 +91,14 @@ account.then(function(account) {
                 
                 cal.events.push(event)
             } else { // Add VTODO
-                task.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
-                task.props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
-                cal.tasks.push(task)
+                todo.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
+                let props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
+                todo.id = props.UID[0].value
+                todo.summary = props.SUMMARY[0].value
+                todo.categories = props.CATEGORIES != null ? props.CATEGORIES[0].value : ""
+                todo.completed = props.STATUS != null ? (props.STATUS[0].value == "COMPLETED" ? true : false) : false
+
+                cal.todos.push(todo)
             }
 
         });
