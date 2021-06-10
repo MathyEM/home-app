@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const caldavAPI = "http://localhost:3000"
+const caldavAPI = "http://192.168.87.100:3000"
 const calendars = caldavAPI+'/calendars'
 
 const createEventSourceURL = slug => `${caldavAPI}/calendar/${slug}/events`
