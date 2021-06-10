@@ -40,13 +40,8 @@ const getters = {
     flattenedColorSwatch: state => [].concat(...state.defaultColorSwatches),
 }
 const mutations = {
-    ADD_EVENT_SOURCE(state, payload) {
-        state.eventSources.push({
-            id: payload.id,
-            url: createEventSourceURL(payload.id),
-            color: payload.color,
-            name: payload.displayName
-        })
+    ADD_EVENT_SOURCES(state, payload) {
+        state.eventSources = payload
     },
     CHANGE_EVENT_SOURCE_COLOR(state, payload) {
         state.eventSources[payload.index].color = payload.color
@@ -60,16 +55,22 @@ const actions = {
         const eventSourceColors = JSON.parse(localStorage.getItem('eventSourceColors')) || null
         try {
             await axios.get(calendars).then((response) => {
+                let eventSources = []
                 response.data.forEach((data) => {
-                var newData = data
-                if (!data.hasEvents) return //skip event source it it has 0 events
+                    var newData = data
+                    if (!data.hasEvents) return //skip event source it it has 0 events
 
-                if (eventSourceColors) { // use localStorage colors if they are available
-                    newData.color = eventSourceColors[data.id]
-                }
-
-                return commit('ADD_EVENT_SOURCE', newData)
+                    if (eventSourceColors) { // use localStorage colors if they are available
+                        newData.color = eventSourceColors[data.id]
+                    }
+                    eventSources.push({
+                        id: newData.id,
+                        url: createEventSourceURL(newData.id),
+                        color: newData.color,
+                        name: newData.displayName
+                    })
                 })
+                return commit('ADD_EVENT_SOURCES', eventSources)
             })
         } catch (error) {
             console.log(error);
