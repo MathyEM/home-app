@@ -1,18 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
-const controllers = require('../controllers/controllers')
+const calendar = require('../controllers/calendar')
+const todolist = require('../controllers/todolist')
 
 router.get('/', (req, res) => res.send("Hello world!"))
 
-router.get('/calendars', controllers.getCalendars)
+router.get('/calendars', calendar.getCalendars)
 
-router.get('/calendars/sluglist', controllers.getSlugList)
+router.get('/calendars/sluglist', calendar.getSlugList)
 
-router.get('/calendar/:slug', controllers.getCalendarBySlug)
+router.get('/calendar/:slug', calendar.getCalendarBySlug)
 
-router.get('/calendar/:slug/events', controllers.getEventsBySlug)
+router.get('/calendar/:slug/events', calendar.getEventsBySlug)
 
-router.get('/calendar/:slug/tasks', controllers.getTasksBySlug)
+router.get('/calendar/:slug/todos', todolist.getTodosBySlug)
+
+
 
 module.exports = router
