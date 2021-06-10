@@ -6,7 +6,7 @@ const filterBySlug = helpers.filterBySlug
 const calendars = caldav.calendars
 
 exports.getTodosBySlug = function (req, res) {
-    const calendar = filterBySlug(req)
+    const calendar = filterBySlug(req.params.slug)
     const todos = calendar.todos
     res.json(todos)
 }
@@ -18,8 +18,8 @@ exports.createTodo = function (req, res) {
     
         let vCalendar = vobject.calendar()
         let todo = vobject.todo()
-        let DTStart = vobject.dateTimeValue(new Date('1994-11-13').toISOString())
-        let due = vobject.dateTimeValue(new Date('1995-02-15').toISOString())
+        // let DTStart = vobject.dateTimeValue(new Date('1994-11-13').toISOString())
+        // let due = vobject.dateTimeValue(new Date('1995-02-15').toISOString())
         let created =vobject.dateTimeValue(new Date().toISOString())
     
         todo.setDTStart(DTStart)

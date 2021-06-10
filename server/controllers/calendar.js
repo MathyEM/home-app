@@ -32,12 +32,12 @@ exports.getSlugList = function (req, res) {
 }
 
 exports.getCalendarBySlug = function (req, res) {
-    const calendar = filterBySlug(req)
+    const calendar = filterBySlug(req.params.slug)
     res.json(calendar)
 }
 
 exports.getEventsBySlug = function (req, res) {
-    const calendar = filterBySlug(req)
+    const calendar = filterBySlug(req.params.slug)
     var events = calendar.events
 
     if (req.query.start) { // if start date query parameter is set
