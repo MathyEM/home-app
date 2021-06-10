@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/kalender">Kalender</router-link>
+      <router-link to="/calendar">Kalender</router-link> |
+      <router-link to="/todolist">Huskeseddel</router-link>
     </div>
     <router-view/>
   </div>

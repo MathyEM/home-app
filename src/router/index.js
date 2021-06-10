@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import TodoList from '../views/TodoList.vue'
 
 Vue.use(VueRouter)
 
@@ -11,12 +12,17 @@ const routes = [
     component: Home
   },
   {
-    path: '/kalender',
+    path: '/calendar',
     name: 'Kalender',
     // route level code-splitting
     // this generates a separate chunk (calendar.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "calendar" */ '../views/Calendar.vue')
+  },
+  {
+    path: '/todolist',
+    name: 'Todo List',
+    component: TodoList
   }
 ]
 
