@@ -3,12 +3,11 @@ const vobject = require('vobject')
 const helpers = require('./helpers')
 
 const filterBySlug = helpers.filterBySlug
-const calendars = caldav.calendars
 
 exports.getCalendars = function (req, res) {
     const calendarsData = []
 
-    calendars.forEach(calendar => {
+    CALENDARS.forEach(calendar => {
         if (calendar.slug.includes('app-generated')) return // Filter out app-generated calendars
         cal = {
             displayName: calendar.displayName,
@@ -24,7 +23,7 @@ exports.getCalendars = function (req, res) {
 
 exports.getSlugList = function (req, res) {
     let slugs = []
-    calendars.forEach((calendar) => {
+    CALENDARS.forEach((calendar) => {
         if (calendar.slug.includes('app-generated')) return // Filter out app-generated calendars
         slugs.push(calendar.slug)
     })

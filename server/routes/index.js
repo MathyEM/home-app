@@ -16,6 +16,6 @@ router.get('/calendar/:slug/events', calendar.getEventsBySlug)
 
 router.get('/calendar/:slug/todos', todolist.getTodosBySlug)
 
-
+router.post('/calendar/:slug/todos', todolist.createTodo)
 
 module.exports = router

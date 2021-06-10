@@ -1,7 +1,6 @@
 const caldav = require('../caldav')
 
-const calendars = caldav.calendars
-
 exports.filterBySlug = function (slug) {
-    return calendars.find(calendar => calendar.href.includes(slug))
+    const calendars = caldav.getCalDavCalendars()
+    return CALENDARS.find(calendar => calendar.href.includes(slug))
 }
