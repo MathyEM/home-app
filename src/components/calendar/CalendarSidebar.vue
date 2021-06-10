@@ -16,7 +16,7 @@
 						v-model="eventSource.color"
 						v-on:input="changeEventSourceColor(index, eventSource.id, $event)"
 						:swatches="swatches"
-						row-length="5"
+						row-length="3"
 						popover-x="right"
 					></v-swatches>
 				</div>

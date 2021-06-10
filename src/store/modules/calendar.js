@@ -20,10 +20,10 @@ const state = {
     eventSources: [],
     eventSourceColors: {},
     defaultColorSwatches: [
-        ['#F64272', '#F6648B', '#F493A7', '#F891A6', '#FFCCD5' ],
-        ['#8b5aff', '#a27bff', '#b99cff', '#d0bdff', '#e8deff' ],
-        ['#51e5db', '#74ebe3', '#96f0ea', '#b9f5f1', '#dcfaf8' ],
-        ['#ffa51a', '#ffb748', '#ffc976', '#ffdba3', '#ffedd1' ]
+        ['#F64272', '#F493A7', '#FFCCD5' ],
+        ['#8b5aff', '#b99cff', '#e8deff' ],
+        ['#51e5db', '#96f0ea', '#dcfaf8' ],
+        ['#ffa51a', '#ffc976', '#ffedd1' ]
     ],
 }
 const getters = {
