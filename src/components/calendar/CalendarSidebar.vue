@@ -4,9 +4,14 @@
 		<div class="calendar-sidebar">
 			<section class="calendars">
 				<div class="calendar" v-for="(eventSource, index) in eventSources" :key="index">
-					<label>
-						<input type="checkbox" class="checkbox" checked="true" v-bind:value="eventSource.id" v-on:change="toggleEventSources"><p>{{ eventSource.name }}</p>
-					</label>
+					<div class="checkbox-title">
+						<label>
+							<input :id="eventSource.id + index" type="checkbox" class="checkbox" checked="true" v-bind:value="eventSource.id" v-on:change="toggleEventSources">
+						</label>
+						<label :for="eventSource.id + index">
+							<p>{{ eventSource.name }}</p>
+						</label>
+					</div>
 					<v-swatches 
 						v-model="eventSource.color"
 						v-on:input="changeEventSourceColor(index, eventSource.id, $event)"
@@ -126,9 +131,13 @@ export default {
 	margin-top: 3rem;
 }
 
-section.calendars .calendar {
-	display: flex;
-	align-items: center;
+section.calendars {
+	.calendar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1em;
+	}
 }
 
 .toggle-sidebar {
@@ -153,10 +162,28 @@ section.calendars .calendar {
 	text-align: left;
 	display: none;
 
-	.checkbox, p {
-		display: inline;
-		padding: 5px;
+	.checkbox-title {
+		display: grid;
+		grid-template-columns: min-content auto;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		text-align: left;
 
+		.checkbox, p {
+			display: inline;
+		}
+
+		.checkbox {
+			height: 1.5em;
+			width: 1.5em;
+			vertical-align: middle;
+		}
+
+		label {
+			width: 100%;
+			padding-right: 10px;
+		}
 	}
 
 	section {

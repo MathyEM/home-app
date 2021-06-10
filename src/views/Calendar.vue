@@ -27,9 +27,10 @@ export default {
 				plugins: [ dayGridPlugin, interactionPlugin ],
 				initialView: 'dayGridMonth',
 				eventClick: this.handleDateClick,
-				//events: this.events,
 				eventSources: this.eventSources,
 				locale: daLocale,
+				weekNumbers: true,
+				weekNumberFormat: { week: 'numeric' },
 				eventTimeFormat: {
 					hour: '2-digit',
 					minute: '2-digit',
