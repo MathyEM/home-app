@@ -22,12 +22,8 @@ exports.createTodo = function (req, res) {
     
         let vCalendar = vobject.calendar()
         let todo = vobject.todo()
-        // let DTStart = vobject.dateTimeValue(new Date('1994-11-13').toISOString())
-        // let due = vobject.dateTimeValue(new Date('1995-02-15').toISOString())
         let created = vobject.dateTimeValue(new Date().toISOString())
     
-        // todo.setDTStart(DTStart)
-        // todo.setDue(due)
         todo.setCreated(created)
         todo.setSummary(reqTodo.summary)
         const uid = new Date().getTime() + '@home.mem-home'
@@ -46,7 +42,6 @@ exports.createTodo = function (req, res) {
         }).then((value) => {
             const account = caldav.client.createAccount(caldav.accountObject)
             caldav.fetchCalendars(account)
-            // setTimeout(() => { caldav.fetchCalendars() }, 10000)
         })
         res.json(todo)
     })
