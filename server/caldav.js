@@ -1,8 +1,5 @@
 const dav = require('dav')
-const { todo } = require('vobject')
 const vobject = require('vobject')
-const { getCalendars } = require('./controllers/calendar')
-
 
 var xhr = new dav.transport.Basic(
     new dav.Credentials({
@@ -119,10 +116,6 @@ function fetchCalendars(account) {
 const rawData = account.then(function(account) {
     return account.calendars
 })
-
-exports.getCalDavCalendars = function() {
-    return CALENDARS
-}
 
 module.exports = { 
     client,
