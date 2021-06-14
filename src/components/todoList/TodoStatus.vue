@@ -1,6 +1,6 @@
 <template>
     <div class="todo-status-container">
-        <p>todo status component</p>
+        <h3>todo status component</h3>
     </div>
 </template>
 

@@ -10,6 +10,8 @@ import AddTodo from "../components/todoList/AddTodo"
 import Todos from "../components/todoList/Todos"
 import TodoStatus from "../components/todoList/TodoStatus"
 
+import { mapActions } from "vuex";
+
 export default {
 	name: "TodoList",
 	components: {
@@ -25,13 +27,13 @@ export default {
 		}
 	},
 	methods: {
-
+		...mapActions(['getTodos'])
 	},
 	async created() {
 
 	},
 	mounted() {
-
+		this.getTodos()
 	},
 }
 </script>

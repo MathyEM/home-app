@@ -1,11 +1,20 @@
 <template>
     <div class="todos-container">
-        <p>Todos component</p>
+        <h3>Todos component</h3>
+        <ul class="todo-list">
+            <li class="todo-item" v-for="todo in todos" :key="todo.id">
+                <p
+                    class="todo-summary"
+                    :class="{ completed: todo.completed }"
+                    @click="completeTodo(todo)"
+                >{{ todo.summary }}</p>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
     name: "Todos",
     components: {
@@ -13,21 +22,26 @@ export default {
     },
     data() {
         return {
-
+            activeTodoSource: 'indkbsliste'
         }
     },
     computed: {
-        ...mapGetters(['todos'])
+        ...mapGetters(['todoSources']),
+        todos() {
+            let index = this.todoSources.findIndex((element) => element.id === this.activeTodoSource)
+            return this.$store.getters.todos[index]
+        }
     },
     methods: {
-        ...mapActions(['setTodoSources', 'getTodos'])
+        
     },
     mounted() {
-        this.getTodos()
     }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+    p.completed {
+        text-decoration: line-through;
+    }
 </style>

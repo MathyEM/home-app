@@ -19,7 +19,6 @@ const getters = {
 const mutations = {
     ADD_TODO_SOURCES(state, payload) {
         state.todoSources = payload
-        console.log(payload);
     },
     ADD_TODO(state, payload) {
         state.todos.push(payload)
@@ -66,7 +65,6 @@ const actions = {
         for (const source of sources) {
             await axios.get(source.url).then((response) => {
                 let todo = response.data
-                console.log(todo)
                 return commit('ADD_TODO', todo)
             })
         }
