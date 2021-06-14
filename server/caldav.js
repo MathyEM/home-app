@@ -91,6 +91,7 @@ function fetchCalendars(account) {
                     event.start = props.DTSTART[0].value
                     event.end = props.DTEND[0].value
                     event.title = props.SUMMARY[0].value
+                    event.rawData = object.calendarData
                     
                     cal.events.push(event)
                 } else { // Add VTODO
@@ -100,6 +101,7 @@ function fetchCalendars(account) {
                     todo.summary = props.SUMMARY[0].value
                     todo.categories = props.CATEGORIES != null ? props.CATEGORIES[0].value : ""
                     todo.completed = props.STATUS != null ? (props.STATUS[0].value == "COMPLETED" ? true : false) : false
+                    todo.rawData = object.calendarData
     
                     cal.todos.push(todo)
                 }
