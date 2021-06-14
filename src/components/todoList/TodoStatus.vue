@@ -1,5 +1,7 @@
 <template>
-    
+    <div class="todo-status-container">
+        <p>todo status component</p>
+    </div>
 </template>
 
 <script>

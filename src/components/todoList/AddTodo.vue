@@ -5,8 +5,9 @@
             name="new-todo"
             id="new-todo"
             placeholder="Tilføj en ting"
-			v-model="newTodo"
+			v-model="newTodoInput"
         >
+		<button class="add-todo-btn" @click="addTodo">+</button>
     </div>
 </template>
 
@@ -24,20 +25,22 @@ export default {
 		}
 	},
 	computed: {
+
+	},
+	methods: {
 		...mapMutations(['addTodo']),
-		newTodo: {
-			get () {
-				return this.newTodoInput
-			},
-			set () {
-				this.addTodo(newTodoInput)
-				return this.newTodoInput = ""
-			}
-		}
+
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-
+	#new-todo {
+		font-size: 2rem;
+	}
+	.add-todo-btn {
+		// font-weight: bold;
+		font-size: 2rem;
+		padding: 0 0.5em;
+	}
 </style>
