@@ -2,7 +2,7 @@
     <div class="todos-container">
         <h3>Todos component</h3>
         <ul class="todo-list">
-            <li class="todo-item" v-for="todo in todos" :key="todo.id">
+            <li class="todo-item" v-for="todo in activeTodos" :key="todo.id">
                 <p
                     class="todo-summary"
                     :class="{ completed: todo.completed }"
@@ -30,7 +30,15 @@ export default {
         todos() {
             let index = this.todoSources.findIndex((element) => element.id === this.activeTodoSource)
             return this.$store.getters.todos[index]
-        }
+        },
+        activeTodos() {
+            if (this.todos) return this.todos.filter(todo => !todo.completed)
+            return undefined
+        },
+        completedTodos() {
+            if (this.todos) return this.todos.filter(todo => todo.completed)
+            return undefined
+        },
     },
     methods: {
         
