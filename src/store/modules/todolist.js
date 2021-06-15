@@ -9,19 +9,33 @@ const state = {
     todos: [],
     todoSources: [],
     todoSourceColors: {},
+    activeTodoSource: {
+        id: 'indkbsliste',
+    },
 }
 
 const getters = {
     todos: state => state.todos,
-    todoSources: state => state.todoSources
+    todoSources: state => state.todoSources,
+    activeTodoSource: (state, getters) => {
+        let index = getters.todoSources.findIndex((element) => element.id === state.activeTodoSource.id)
+        return {
+            id: state.activeTodoSource.id,
+            index: index
+        }
+    }
 }
 
 const mutations = {
     ADD_TODO_SOURCES(state, payload) {
         state.todoSources = payload
     },
-    ADD_TODO(state, payload) {
+    ADD_TODO_ARRAY(state, payload) {
         state.todos.push(payload)
+    },
+    ADD_TODO(state, payload) {
+        console.log(payload);
+        state.todos[payload.sourceIndex].push(payload.todo)
     },
     DELETE_TODO(state, payload) { // TODO
         state
@@ -68,7 +82,7 @@ const actions = {
         for (const source of sources) {
             await axios.get(source.url).then((response) => {
                 let todo = response.data
-                return commit('ADD_TODO', todo)
+                return commit('ADD_TODO_ARRAY', todo)
             })
         }
     },
@@ -76,6 +90,22 @@ const actions = {
         let todoIndex = state.todos[payload.sourceIndex].findIndex(todo => todo.id === payload.id)
         payload.todoIndex = todoIndex
         return commit('TOGGLE_COMPLETE_TODO', payload)
+        // CALL API
+    },
+    addTodo({ commit, getters }, payload) {
+        let newTodo = {
+            summary: payload,
+            completed: false,
+            id: new Date().getTime() + "@home.mem-home",
+        }
+
+        let newPayload = {
+            sourceIndex: getters.activeTodoSource.index,
+            todo: newTodo
+        }
+
+        return commit('ADD_TODO', newPayload)
+
         // CALL API
     },
 }

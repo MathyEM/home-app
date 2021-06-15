@@ -34,17 +34,13 @@ export default {
     },
     data() {
         return {
-            activeTodoSource: {
-                id: 'indkbsliste',
-                index: () => this.todoSources.findIndex((element) => element.id === this.activeTodoSource.id),
-            },
             showCompleted: true,
         }
     },
     computed: {
-        ...mapGetters(['todoSources']),
+        ...mapGetters(['todoSources', 'activeTodoSource']),
         todos() {
-            let index = this.activeTodoSource.index()
+            let index = this.activeTodoSource.index
             return this.$store.getters.todos[index]
         },
         activeTodos() {
@@ -59,7 +55,7 @@ export default {
     methods: {
         ...mapActions(['toggleCompleteTodo']),
         completeTodo(todo) {
-            todo.sourceIndex = this.activeTodoSource.index()
+            todo.sourceIndex = this.activeTodoSource.index
             this.toggleCompleteTodo(todo)
         }
     },
@@ -83,6 +79,7 @@ export default {
 
         .todo-item {
             padding: 5px 1em;
+            cursor: pointer;
 
             &:nth-child(even) {
                 background: $todo-color

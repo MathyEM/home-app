@@ -6,13 +6,14 @@
             id="new-todo"
             placeholder="Tilføj en ting"
 			v-model="newTodoInput"
+			v-on:keydown.enter="createTodo(newTodoInput)"
         >
-		<button class="add-todo-btn" @click="addTodo">+</button>
+		<button class="add-todo-btn" @click="createTodo(newTodoInput)">+</button>
     </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
 	name: "AddTodo",
@@ -28,8 +29,14 @@ export default {
 
 	},
 	methods: {
-		...mapMutations(['addTodo']),
-
+		...mapActions(['addTodo']),
+		createTodo(todoInput) {
+			if (todoInput.trim() == "") {
+				return
+			}
+			this.addTodo(todoInput.trim())
+			this.newTodoInput = ""
+		}
 	}
 }
 </script>
