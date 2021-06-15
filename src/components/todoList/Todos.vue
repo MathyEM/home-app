@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: "Todos",
     components: {
@@ -22,13 +22,16 @@ export default {
     },
     data() {
         return {
-            activeTodoSource: 'indkbsliste'
+            activeTodoSource: {
+                id: 'indkbsliste',
+                index: () => this.todoSources.findIndex((element) => element.id === this.activeTodoSource.id),
+            },
         }
     },
     computed: {
         ...mapGetters(['todoSources']),
         todos() {
-            let index = this.todoSources.findIndex((element) => element.id === this.activeTodoSource)
+            let index = this.activeTodoSource.index()
             return this.$store.getters.todos[index]
         },
         activeTodos() {
@@ -41,7 +44,11 @@ export default {
         },
     },
     methods: {
-        
+        ...mapActions(['toggleCompleteTodo']),
+        completeTodo(todo) {
+            todo.sourceIndex = this.activeTodoSource.index()
+            this.toggleCompleteTodo(todo)
+        }
     },
     mounted() {
     }

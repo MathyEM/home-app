@@ -23,9 +23,12 @@ const mutations = {
     ADD_TODO(state, payload) {
         state.todos.push(payload)
     },
-    DELETE_TODO(state, payload) {
+    DELETE_TODO(state, payload) { // TODO
         state
         payload
+    },
+    TOGGLE_COMPLETE_TODO(state, payload) {
+        state.todos[payload.sourceIndex][payload.todoIndex].completed = !state.todos[payload.sourceIndex][payload.todoIndex].completed
     }
 }
 
@@ -68,7 +71,13 @@ const actions = {
                 return commit('ADD_TODO', todo)
             })
         }
-    }
+    },
+    toggleCompleteTodo({ commit }, payload) {
+        let todoIndex = state.todos[payload.sourceIndex].findIndex(todo => todo.id === payload.id)
+        payload.todoIndex = todoIndex
+        console.log(payload);
+        return commit('TOGGLE_COMPLETE_TODO', payload)
+    },
 }
 
 export default {
