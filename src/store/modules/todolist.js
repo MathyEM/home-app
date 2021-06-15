@@ -75,8 +75,8 @@ const actions = {
     toggleCompleteTodo({ commit }, payload) {
         let todoIndex = state.todos[payload.sourceIndex].findIndex(todo => todo.id === payload.id)
         payload.todoIndex = todoIndex
-        console.log(payload);
         return commit('TOGGLE_COMPLETE_TODO', payload)
+        // CALL API
     },
 }
 

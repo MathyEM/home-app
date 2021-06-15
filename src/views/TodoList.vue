@@ -1,5 +1,5 @@
 <template>
-	<div class="todolist-container">
+	<div class="todo-list-container">
 		<AddTodo />
 		<Todos />
 		<TodoStatus />
@@ -39,5 +39,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+	.todo-list-container {
+		max-width: 500px;
+		margin: 0 auto;
+	}
 </style>
