@@ -43,6 +43,10 @@ const mutations = {
     },
     TOGGLE_COMPLETE_TODO(state, payload) {
         state.todos[payload.sourceIndex][payload.todoIndex].completed = !state.todos[payload.sourceIndex][payload.todoIndex].completed
+    },
+    UPDATE_TODO(state, payload) {
+        state
+        payload
     }
 }
 
