@@ -34,7 +34,6 @@ const mutations = {
         state.todos.push(payload)
     },
     ADD_TODO(state, payload) {
-        console.log(payload);
         state.todos[payload.sourceIndex].push(payload.todo)
     },
     DELETE_TODO(state, payload) { // TODO
