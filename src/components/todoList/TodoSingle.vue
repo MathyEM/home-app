@@ -1,8 +1,11 @@
 <template>
     <li class="todo-item" v-on:click.self="completeTodo" :class="{ edit: edit }">
         <div v-if="!edit" v-on:click.self="completeTodo">
-            <p class="todo-summary" :class="{ completed: todo.completed }">
-                {{ todo.summary }}
+            <p
+                v-on:click.self="completeTodo"
+                class="todo-summary"
+                :class="{ completed: todo.completed }"
+            >{{ todo.summary }}
             </p>
             <button v-on:click="edit = true">Edit</button>
         </div>
@@ -11,6 +14,7 @@
                 type="text"
                 name="updatedTodo"
                 id="updatedTodo"
+                maxlength="30"
                 :value="todo.summary"
                 v-on:keyup.enter.self="edit = false"
                 v-on:blur.self="updateTodo"
@@ -57,7 +61,7 @@ export default {
             this.edit = false
 
             let value = e.target.value
-            if (value === this.todo.summary) return
+            if (value.trim() === this.todo.summary.trim() || value.trim() == "") return
             this.todo.summary = value
 
             this.$store.dispatch('updateTodo', this.todo)
@@ -105,6 +109,12 @@ p.completed {
     input {
         font-size: 1em;
         outline: none;
+        width: 100%;
+        font: unset;
+    }
+
+    .todo-summary, input {
+        margin-right: 0.75em;
     }
 }
 </style>

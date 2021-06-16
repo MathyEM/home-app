@@ -25,7 +25,6 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -34,6 +33,10 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
+}
+
+#app, input#updatedTodo {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
 #nav {
