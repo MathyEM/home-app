@@ -1,6 +1,6 @@
 <template>
-    <li class="todo-item" v-on:click.self="completeTodo(todo)" :class="{ edit: edit }">
-        <div v-if="!edit" v-on:click.self="completeTodo(todo)">
+    <li class="todo-item" v-on:click.self="completeTodo" :class="{ edit: edit }">
+        <div v-if="!edit" v-on:click.self="completeTodo">
             <p class="todo-summary" :class="{ completed: todo.completed }">
                 {{ todo.summary }}
             </p>
@@ -12,8 +12,8 @@
                 name="updatedTodo"
                 id="updatedTodo"
                 :value="todo.summary"
-                v-on:keyup.enter.self="edit = false; "
-                v-on:blur.self="edit = false;"
+                v-on:keyup.enter.self="edit = false"
+                v-on:blur.self="updateTodo"
                 v-focus
             >
             <button>Edit</button>
@@ -45,13 +45,22 @@ export default {
     },
     methods: {
         ...mapActions(['toggleCompleteTodo']),
-        completeTodo(todo) {
-            todo.sourceIndex = this.activeTodoSource.index
-            this.toggleCompleteTodo(todo)
-            console.log("toggled complete");
+        completeTodo() {
+            this.todo.completed = !this.todo.completed
+
+            this.toggleCompleteTodo(this.todo)
         },
         toggleEdit() {
             this.edit = !this.edit
+        },
+        updateTodo(e) {
+            this.edit = false
+
+            let value = e.target.value
+            if (value === this.todo.summary) return
+            this.todo.summary = value
+
+            this.$store.dispatch('updateTodo', this.todo)
         }
     },
     directives: {

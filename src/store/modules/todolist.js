@@ -90,13 +90,15 @@ const actions = {
             })
         }
     },
-    toggleCompleteTodo({ commit }, payload) {
-        let todoIndex = state.todos[payload.sourceIndex].findIndex(todo => todo.id === payload.id)
-        payload.todoIndex = todoIndex
-        return commit('TOGGLE_COMPLETE_TODO', payload)
+    getTodoIndexById() {
+
+    },
+    async toggleCompleteTodo(context, payload) {
+        context
+        console.log("toggleCompleteTodo", payload)
         // CALL API
     },
-    addTodo({ commit, getters }, payload) {
+    async addTodo({ commit, getters }, payload) {
         let newTodo = {
             summary: payload,
             completed: false,
@@ -112,6 +114,11 @@ const actions = {
 
         // CALL API
     },
+    async updateTodo(context, payload) {
+        context
+        console.log("updateTodo", payload)
+        // CALL API
+    }
 }
 
 export default {
