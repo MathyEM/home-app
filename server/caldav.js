@@ -65,54 +65,53 @@ const account = client.createAccount(accountObject)
 
 fetchCalendars(account)
 
-function fetchCalendars(account) {
-    account.then((account) => {
-        let calendars = []
+async function fetchCalendars(account) {
+    const acc = await account
+    let calendars = []
     
-        account.calendars.forEach(calendar => {
-            cal = {}
-            cal.href = calendar.data.href
-            cal.slug = getCalSlug(cal.href)
-            cal.displayName = calendar.displayName
-    
-            
-            cal.events = []
-            cal.todos = []
-    
-            calendar.objects.forEach((object, index) => {
-                let calendarData = object.calendarData.split('\n')
-                let event = {}
-                let todo = {}
-    
-                if (!getEventData(calendarData, "begin:vtodo")) { //Add VEVENT
-                    event.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
-                    let props = vobject.parseICS(object.calendarData).components.VEVENT[0].properties
-                    event.id = props.UID[0].value
-                    event.start = props.DTSTART[0].value
-                    event.end = props.DTEND[0].value
-                    event.title = props.SUMMARY[0].value
-                    event.rawData = object.calendarData
-                    
-                    cal.events.push(event)
-                } else { // Add VTODO
-                    todo.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
-                    let props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
-                    todo.id = props.UID[0].value
-                    todo.summary = props.SUMMARY[0].value
-                    todo.categories = props.CATEGORIES != null ? props.CATEGORIES[0].value : ""
-                    todo.completed = props.STATUS != null ? (props.STATUS[0].value == "COMPLETED" ? true : false) : false
-                    todo.rawData = object.calendarData
-    
-                    cal.todos.push(todo)
-                }
-    
-            });
-    
-            calendars.push(cal)
+    acc.calendars.forEach(calendar => {
+        cal = {}
+        cal.href = calendar.data.href
+        cal.slug = getCalSlug(cal.href)
+        cal.displayName = calendar.displayName
+
+        
+        cal.events = []
+        cal.todos = []
+
+        calendar.objects.forEach((object, index) => {
+            let calendarData = object.calendarData.split('\n')
+            let event = {}
+            let todo = {}
+
+            if (!getEventData(calendarData, "begin:vtodo")) { //Add VEVENT
+                event.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
+                let props = vobject.parseICS(object.calendarData).components.VEVENT[0].properties
+                event.id = props.UID[0].value
+                event.start = props.DTSTART[0].value
+                event.end = props.DTEND[0].value
+                event.title = props.SUMMARY[0].value
+                event.rawData = object.calendarData
+                
+                cal.events.push(event)
+            } else { // Add VTODO
+                todo.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
+                let props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
+                todo.id = props.UID[0].value
+                todo.summary = props.SUMMARY[0].value
+                todo.categories = props.CATEGORIES != null ? props.CATEGORIES[0].value : ""
+                todo.completed = props.STATUS != null ? (props.STATUS[0].value == "COMPLETED" ? true : false) : false
+                todo.rawData = object.calendarData
+
+                cal.todos.push(todo)
+            }
+
         });
-        global.CALENDARS = calendars
-        console.log("Calendars fetched");
-    })
+
+        calendars.push(cal)
+    });
+    global.CALENDARS = calendars
+    console.log("Calendars fetched");
 }
 
 const rawData = account.then(function(account) {
