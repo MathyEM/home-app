@@ -32,8 +32,8 @@ const mutations = {
         state.todos.push(payload)
     },
     DELETE_TODO(state, payload) { // TODO
-        state
-        payload
+        const filteredTodos = state.todos.filter(todo => todo.id !== payload.id)
+        state.todos = filteredTodos
     },
     UPDATE_TODO(state, payload) {
         const todo = state.todos.find(todo => todo.id === payload.id)
@@ -99,6 +99,10 @@ const actions = {
     async updateTodo({ commit }, payload) {
         payload.todo.summary = payload.newSummary
         commit('UPDATE_TODO', payload.todo)
+        // CALL API
+    },
+    async deleteTodo({ commit }, payload) {
+        commit('DELETE_TODO', payload)
         // CALL API
     }
 }

@@ -1,26 +1,29 @@
 <template>
-    <li class="todo-item" v-on:click.self="toggleCompleteTodo(todo)" :class="{ edit: edit }">
-        <div v-if="!edit" v-on:click.self="toggleCompleteTodo(todo)">
-            <p
-                v-on:click.self="toggleCompleteTodo(todo)"
-                class="todo-summary"
-                :class="{ completed: todo.completed }"
-            >{{ todo.summary }}
-            </p>
-            <button v-on:click="edit = true">Edit</button>
-        </div>
-        <div v-else>
-            <input
-                type="text"
-                name="updatedTodo"
-                id="updatedTodo"
-                maxlength="30"
-                :value="todo.summary"
-                v-on:keyup.enter.self="edit = false"
-                v-on:blur.self="submitTodoUpdate"
-                v-focus
-            >
-            <button>Edit</button>
+    <li class="todo-item" v-on:click.self="toggleCompleteTodo(todo)" :class="{ editing: editing }">
+        <p
+            v-if="!editing"
+            v-on:click.self="toggleCompleteTodo(todo)"
+            class="todo-summary"
+            :class="{ completed: todo.completed }"
+        >{{ todo.summary }}
+        </p>
+        <input
+            v-else
+            type="text"
+            name="updatedTodo"
+            id="updatedTodo"
+            maxlength="30"
+            :value="todo.summary"
+            v-on:keyup.enter.self="editing = false"
+            v-on:blur.self="submitTodoUpdate"
+            v-focus
+        >
+
+        <div class="todo-btn-container">
+            <button v-if="!editing" v-on:click="editing = true" class="">Edit</button>
+            <button v-else>Edit</button>
+            <button v-if="!deleting" @click="deleteConfirmation">Delete1</button>
+            <button v-else @click="deleteTodo(todo)">Delete2</button>
         </div>
     </li>
 </template>
@@ -41,19 +44,20 @@ export default {
     },
     data() {
         return {
-            edit: false,
+            editing: false,
+            deleting: false,
         }
     },
     computed: {
         ...mapGetters(['activeTodoSource']),
     },
     methods: {
-        ...mapActions(['toggleCompleteTodo', 'updateTodo']),
+        ...mapActions(['toggleCompleteTodo', 'updateTodo', 'deleteTodo']),
         toggleEdit() {
-            this.edit = !this.edit
+            this.editing = !this.editing
         },
         submitTodoUpdate(e) {
-            this.edit = false
+            this.editing = false
 
             let value = e.target.value
             if (value.trim() === this.todo.summary.trim() || value.trim() == "") return
@@ -62,6 +66,10 @@ export default {
                 todo: this.todo
             }
             return this.updateTodo(payload)
+        },
+        deleteConfirmation() {
+            this.deleting = true
+            setTimeout(() => this.deleting = false, 5000)
         }
     },
     directives: {
@@ -84,6 +92,9 @@ p.completed {
 .todo-item {
     padding: 5px 1em;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: auto min-content;
+    gap: 0.5em;
 
     &.edit {
         padding: 3.5px 1em;
@@ -98,20 +109,15 @@ p.completed {
         color: $light-text-color;
     }
 
-    div {
-        display: flex;
-        justify-content: space-between;
-    }
-
     input {
         font-size: 1em;
         outline: none;
-        width: 100%;
         font: unset;
     }
 
-    .todo-summary, input {
-        margin-right: 0.75em;
+    .todo-btn-container {
+        display: flex;
+        gap: 5px
     }
 }
 </style>
