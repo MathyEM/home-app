@@ -1,8 +1,8 @@
 <template>
-    <li class="todo-item" v-on:click.self="completeTodo" :class="{ edit: edit }">
-        <div v-if="!edit" v-on:click.self="completeTodo">
+    <li class="todo-item" v-on:click.self="toggleCompleteTodo(todo)" :class="{ edit: edit }">
+        <div v-if="!edit" v-on:click.self="toggleCompleteTodo(todo)">
             <p
-                v-on:click.self="completeTodo"
+                v-on:click.self="toggleCompleteTodo(todo)"
                 class="todo-summary"
                 :class="{ completed: todo.completed }"
             >{{ todo.summary }}
@@ -17,7 +17,7 @@
                 maxlength="30"
                 :value="todo.summary"
                 v-on:keyup.enter.self="edit = false"
-                v-on:blur.self="updateTodo"
+                v-on:blur.self="submitTodoUpdate"
                 v-focus
             >
             <button>Edit</button>
@@ -48,23 +48,20 @@ export default {
         ...mapGetters(['activeTodoSource']),
     },
     methods: {
-        ...mapActions(['toggleCompleteTodo']),
-        completeTodo() {
-            this.todo.completed = !this.todo.completed
-
-            this.toggleCompleteTodo(this.todo)
-        },
+        ...mapActions(['toggleCompleteTodo', 'updateTodo']),
         toggleEdit() {
             this.edit = !this.edit
         },
-        updateTodo(e) {
+        submitTodoUpdate(e) {
             this.edit = false
 
             let value = e.target.value
             if (value.trim() === this.todo.summary.trim() || value.trim() == "") return
-            this.todo.summary = value
-
-            this.$store.dispatch('updateTodo', this.todo)
+            const payload = {
+                newSummary: value.trim(),
+                todo: this.todo
+            }
+            return this.updateTodo(payload)
         }
     },
     directives: {

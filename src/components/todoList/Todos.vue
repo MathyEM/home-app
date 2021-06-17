@@ -28,19 +28,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['todoSources', 'activeTodoSource']),
-        todos() {
-            let index = this.activeTodoSource.index
-            return this.$store.getters.todos[index]
-        },
-        activeTodos() {
-            if (this.todos) return this.todos.filter(todo => !todo.completed)
-            return undefined
-        },
-        completedTodos() {
-            if (this.todos) return this.todos.filter(todo => todo.completed)
-            return undefined
-        },
+        ...mapGetters(['todoSources', 'todos', 'activeTodos', 'completedTodos']),
     },
     methods: {
 

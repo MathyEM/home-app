@@ -17,13 +17,8 @@ const state = {
 const getters = {
     todos: state => state.todos,
     todoSources: state => state.todoSources,
-    activeTodoSource: (state, getters) => {
-        let index = getters.todoSources.findIndex((element) => element.id === state.activeTodoSource.id)
-        return {
-            id: state.activeTodoSource.id,
-            index: index
-        }
-    }
+    activeTodos: state => state.todos.filter(todo => !todo.completed),
+    completedTodos: state => state.todos.filter(todo => todo.completed)
 }
 
 const mutations = {
@@ -31,21 +26,18 @@ const mutations = {
         state.todoSources = payload
     },
     ADD_TODO_ARRAY(state, payload) {
-        state.todos.push(payload)
+        state.todos = payload
     },
     ADD_TODO(state, payload) {
-        state.todos[payload.sourceIndex].push(payload.todo)
+        state.todos.push(payload)
     },
     DELETE_TODO(state, payload) { // TODO
         state
         payload
     },
-    TOGGLE_COMPLETE_TODO(state, payload) {
-        state.todos[payload.sourceIndex][payload.todoIndex].completed = !state.todos[payload.sourceIndex][payload.todoIndex].completed
-    },
     UPDATE_TODO(state, payload) {
-        state
-        payload
+        const todo = state.todos.find(todo => todo.id === payload.id)
+        Object.assign(todo, payload)
     }
 }
 
@@ -80,42 +72,33 @@ const actions = {
         if (!state.todoSources) {
             return console.log("No Todo sources")
         }
-        let sources = state.todoSources
+        let source = state.todoSources.find((element) => element.id === state.activeTodoSource.id)
 
-        for (const source of sources) {
-            await axios.get(source.url).then((response) => {
-                let todo = response.data
-                return commit('ADD_TODO_ARRAY', todo)
-            })
-        }
+        await axios.get(source.url).then((response) => {
+            let todo = response.data
+            return commit('ADD_TODO_ARRAY', todo)
+        })
     },
     getTodoIndexById() {
 
     },
-    async toggleCompleteTodo(context, payload) {
-        context
-        console.log("toggleCompleteTodo", payload)
-        // CALL API
-    },
-    async addTodo({ commit, getters }, payload) {
+    async addTodo({ commit }, payload) {
         let newTodo = {
             summary: payload,
             completed: false,
             id: new Date().getTime() + "@home.mem-home",
         }
-
-        let newPayload = {
-            sourceIndex: getters.activeTodoSource.index,
-            todo: newTodo
-        }
-
-        return commit('ADD_TODO', newPayload)
-
+        return commit('ADD_TODO', newTodo)
         // CALL API
     },
-    async updateTodo(context, payload) {
-        context
-        console.log("updateTodo", payload)
+    async toggleCompleteTodo({ commit }, payload) {
+        payload.completed = !payload.completed
+        commit('UPDATE_TODO', payload)
+        // CALL API
+    },
+    async updateTodo({ commit }, payload) {
+        payload.todo.summary = payload.newSummary
+        commit('UPDATE_TODO', payload.todo)
         // CALL API
     }
 }
