@@ -15,16 +15,15 @@ exports.createTodo = async function (req, res) {
     const xhr = caldav.xhr
     const account = await caldav.client.createAccount(caldav.accountObject)
     //CREATE CALENDAROBJECT
-    let calendar = account.calendars.find(calendar => calendar.data.href.includes(req.params.slug))
-    let reqTodo = req.body
+    const calendar = account.calendars.find(calendar => calendar.data.href.includes(req.params.slug))
+    const reqTodo = req.body
 
     let vCalendar = vobject.calendar()
     let todo = vobject.todo()
-    let created = vobject.dateTimeValue(new Date().toISOString())
-
+    const created = vobject.dateTimeValue(new Date().toISOString())
+    const uid = reqTodo.id
     todo.setCreated(created)
     todo.setSummary(reqTodo.summary)
-    const uid = new Date().getTime() + '@home.mem-home'
     todo.setUID(uid)
     const categories = vobject.property('CATEGORIES', reqTodo.categories)
     todo.setProperty(categories)
