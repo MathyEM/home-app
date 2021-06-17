@@ -99,7 +99,8 @@ const actions = {
         // CALL API
         await axios.post(sourceURL, newTodo)
         .then((response) => {
-            console.log(response)
+            newTodo.rawData = response.data
+            commit('UPDATE_TODO', newTodo)
         })
     },
     async toggleCompleteTodo({ commit }, payload) {
