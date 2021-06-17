@@ -17,8 +17,16 @@ const state = {
 const getters = {
     todos: state => state.todos,
     todoSources: state => state.todoSources,
+    activeTodoSource: state => {
+        const id = state.activeTodoSource.id
+        const source = createTodoSourceURL(id)
+        return {
+            id: id,
+            url: source
+        }
+    },
     activeTodos: state => state.todos.filter(todo => !todo.completed),
-    completedTodos: state => state.todos.filter(todo => todo.completed)
+    completedTodos: state => state.todos.filter(todo => todo.completed),
 }
 
 const mutations = {
@@ -67,29 +75,32 @@ const actions = {
             console.log(error);
         }
     },
-    async getTodos({ state, commit, dispatch }) {
+    async getTodos({ state, commit, dispatch, getters }) {
         await dispatch('setTodoSources')
         if (!state.todoSources) {
             return console.log("No Todo sources")
         }
-        let source = state.todoSources.find((element) => element.id === state.activeTodoSource.id)
+        const source = getters.activeTodoSource.url
 
-        await axios.get(source.url).then((response) => {
+        await axios.get(source).then((response) => {
             let todo = response.data
             return commit('ADD_TODO_ARRAY', todo)
         })
     },
-    getTodoIndexById() {
-
-    },
-    async addTodo({ commit }, payload) {
+    async addTodo({ commit, getters }, payload) {
         let newTodo = {
             summary: payload,
             completed: false,
             id: new Date().getTime() + "@home.mem-home",
         }
-        return commit('ADD_TODO', newTodo)
+        commit('ADD_TODO', newTodo)
+
+        const sourceURL = getters.activeTodoSource.url
         // CALL API
+        await axios.post(sourceURL, newTodo)
+        .then((response) => {
+            console.log(response)
+        })
     },
     async toggleCompleteTodo({ commit }, payload) {
         payload.completed = !payload.completed
