@@ -24,4 +24,6 @@ router.get('/calendar/:slug/todos', todolist.getTodosBySlug)
 
 router.post('/calendar/:slug/todos', todolist.createTodo)
 
+router.delete('/calendar/:slug/todos', todolist.deleteTodo)
+
 module.exports = router

@@ -3,6 +3,9 @@ const caldav = require('../caldav')
 const vobject = require('vobject')
 const filterBySlug = require('./helpers').filterBySlug
 
+const syncCalendars = caldav.syncCalendars
+const xhr = caldav.xhr
+
 exports.getTodosBySlug = function (req, res) {
     const calendar = filterBySlug(req.params.slug)
     const todos = calendar.todos
@@ -10,7 +13,6 @@ exports.getTodosBySlug = function (req, res) {
 }
 
 exports.createTodo = async function (req, res) {
-    const xhr = caldav.xhr
     const calendar = CALENDARS_RAW.find(calendar => calendar.data.href.includes(req.params.slug))
     const reqTodo = req.body
     
@@ -39,12 +41,21 @@ exports.createTodo = async function (req, res) {
         if (response.status != 201) {
             console.error("Error creating calendarObject")
             console.log(response)
-            res.json(response)
+            res.status(response.status || 500)
         }
+        console.log("Todo calendarObject added")
     })
-
     // After creating and adding calendarObject, re-sync with server to fetch changes
-    await caldav.syncCalendars()
-    console.log("Todo calendarObject added")
+    await syncCalendars()
     res.json(data)
+}
+
+exports.deleteTodo = async function (req, res) {
+    const reqTodo = req.body
+    const object = reqTodo.rawData
+
+    console.log("Deleting todo calendarObject...")
+    await dav.deleteCalendarObject(object, { xhr: xhr })
+    console.log("Todo calendarObject deleted")
+    await syncCalendars()
 }
