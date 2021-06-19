@@ -103,19 +103,13 @@ const actions = {
             commit('UPDATE_TODO', newTodo)
         })
     },
-    async toggleCompleteTodo({ commit }, payload) {
-        payload.completed = !payload.completed
-        commit('UPDATE_TODO', payload)
-        // CALL API
-    },
     async updateTodo({ commit, getters }, payload) {
-        commit('UPDATE_TODO', payload)
-
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
-        await axios.put(sourceURL).then(response => {
+            var response = await axios.put(sourceURL, payload)
+            commit('UPDATE_TODO', payload)
             console.log(response)
-        })
+            return
     },
     async deleteTodo({ commit, getters }, payload) {
         commit('DELETE_TODO', payload)

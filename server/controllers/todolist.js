@@ -6,6 +6,7 @@ const helpers = require('./helpers')
 const filterBySlug = helpers.filterBySlug
 const filterBySlugRaw = helpers.filterBySlugRaw
 const findCalendarObjectById = helpers.findCalendarObjectById
+const parseUpdatedTodoObject = helpers.parseUpdatedTodoObject
 const syncCalendars = caldav.syncCalendars
 const xhr = caldav.xhr
 
@@ -42,13 +43,34 @@ exports.createTodo = async function (req, res) {
         if (response.status != 201) {
             console.error("Error creating calendarObject")
             console.log(response)
-            res.status(response.status || 500)
+            res.sendStatus(response.status || 500)
         }
-        console.log("Todo calendarObject added")
+        console.log("Success: Todo calendarObject added")
     })
     // After creating and adding calendarObject, re-sync with server to fetch changes
     await syncCalendars()
     res.json(data)
+}
+
+exports.updateTodo = async function (req, res) {
+    const calendar = filterBySlugRaw(req.params.slug)
+    const calendarObject = findCalendarObjectById(calendar, req.params.id)
+    const newCalendarData = parseUpdatedTodoObject(req.body, calendarObject.calendarData)
+
+    calendarObject.calendarData = newCalendarData
+    console.log("Updating todo calendarObject...")
+    try {
+        const response = await dav.updateCalendarObject(calendarObject, {
+            xhr: xhr
+        })
+        console.log("Success: Todo calendarObject updated")
+        await syncCalendars()
+        res.json({ success: true })
+    } catch (error) {
+        console.error("Error updating calendarObject")
+        console.log(error)
+        res.sendStatus(429)
+    }
 }
 
 exports.deleteTodo = async function (req, res) {
@@ -56,16 +78,17 @@ exports.deleteTodo = async function (req, res) {
     const calendarObject = findCalendarObjectById(calendar, req.params.id)
 
     console.log("Deleting todo calendarObject...")
-    await dav.deleteCalendarObject(calendarObject, {
-        xhr: xhr
-    }).then(response => {
-        if (response.status != 204) {
-            console.error("Error deleting calendarObject")
-            console.log(response)
-            res.status(response.status || 500)
-        }
-        console.log("Todo calendarObject deleted")
-    })
-    await syncCalendars()
-    res.json({ success: true })
+    try {
+        const response = await dav.deleteCalendarObject(calendarObject, {
+            xhr: xhr
+        })
+
+        console.log("Success: Todo calendarObject deleted")
+        await syncCalendars()
+        res.json({ success: true })
+    } catch (error) {
+        console.error("Error deleting calendarObject")
+        console.log(error)
+        res.json({ success: false })
+    }
 }

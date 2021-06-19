@@ -56,10 +56,10 @@ export default {
         toggleEdit() {
             this.editing = !this.editing
         },
-        toggleCompleted() {
+        async toggleCompleted() {
             const newTodo = this.todo
             newTodo.completed = !newTodo.completed
-            return this.updateTodo(newTodo)
+            await this.updateTodo(newTodo)
         },
         updateSummary(e) {
             this.editing = false
