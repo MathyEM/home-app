@@ -3,7 +3,7 @@ import axios from 'axios'
 const caldavAPI = "http://localhost:3000"
 const calendars = caldavAPI+'/calendars'
 
-const createTodoSourceURL = slug => `${caldavAPI}/calendar/${slug}/todos`
+const createTodoSourceURL = slug => `${caldavAPI}/calendar/${slug}`
 
 const state = {
     todos: [],
@@ -80,9 +80,9 @@ const actions = {
         if (!state.todoSources) {
             return console.log("No Todo sources")
         }
-        const source = getters.activeTodoSource.url
+        const sourceURL = `${getters.activeTodoSource.url}/todos`
 
-        await axios.get(source).then((response) => {
+        await axios.get(sourceURL).then((response) => {
             let todo = response.data
             return commit('ADD_TODO_ARRAY', todo)
         })
@@ -95,7 +95,7 @@ const actions = {
         }
         commit('ADD_TODO', newTodo)
 
-        const sourceURL = getters.activeTodoSource.url
+        const sourceURL = `${getters.activeTodoSource.url}/todos`
         // CALL API
         await axios.post(sourceURL, newTodo)
         .then((response) => {
@@ -116,10 +116,9 @@ const actions = {
     async deleteTodo({ commit, getters }, payload) {
         commit('DELETE_TODO', payload)
 
-        const sourceURL = getters.activeTodoSource.url
-        sourceURL
+        const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
         // CALL API
-        await axios.delete(sourceURL, payload).then(response => {
+        await axios.delete(sourceURL).then(response => {
             console.log(response)
         })
     }

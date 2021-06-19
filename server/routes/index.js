@@ -4,12 +4,13 @@ const caldav = require('../caldav')
 
 const calendar = require('../controllers/calendar')
 const todolist = require('../controllers/todolist')
+const helpers = require('../controllers/helpers');
+const { CalendarObject } = require('dav');
 
 router.get('/', (req, res) => res.send("Hello world!"))
 
 router.get('/calendars', calendar.getCalendars)
-router.get('/rawcalendars', (req, res) => res.json(CALENDARS))
-router.get('/sync', (req, res) => {
+router.get('calendars/sync', (req, res) => {
     caldav.syncCalendars()
     res.send('calendars synced')
 })
@@ -24,6 +25,14 @@ router.get('/calendar/:slug/todos', todolist.getTodosBySlug)
 
 router.post('/calendar/:slug/todos', todolist.createTodo)
 
-router.delete('/calendar/:slug/todos', todolist.deleteTodo)
+router.delete('/calendar/:slug/todo/:id', todolist.deleteTodo)
+
+router.get('/rawcalendars', (req, res) => console.log(CALENDARS_RAW[2]))
+router.get('/test', (req, res) => {
+    const calendar = helpers.filterBySlugRaw('indkbsliste')
+    const calendarObject = helpers.findCalendarObjectById(calendar, '00208dc28fa9482eb5fd9d49af5bc249')
+
+    console.log(calendarObject)
+})
 
 module.exports = router

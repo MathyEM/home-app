@@ -1,8 +1,11 @@
 const dav = require('dav')
 const caldav = require('../caldav')
 const vobject = require('vobject')
-const filterBySlug = require('./helpers').filterBySlug
+const helpers = require('./helpers')
 
+const filterBySlug = helpers.filterBySlug
+const filterBySlugRaw = helpers.filterBySlugRaw
+const findCalendarObjectById = helpers.findCalendarObjectById
 const syncCalendars = caldav.syncCalendars
 const xhr = caldav.xhr
 
@@ -13,7 +16,7 @@ exports.getTodosBySlug = function (req, res) {
 }
 
 exports.createTodo = async function (req, res) {
-    const calendar = CALENDARS_RAW.find(calendar => calendar.data.href.includes(req.params.slug))
+    const calendar = filterBySlugRaw(req.params.slug)
     const reqTodo = req.body
     
     //CREATE CALENDAROBJECT
@@ -27,9 +30,7 @@ exports.createTodo = async function (req, res) {
     todo.setSummary(reqTodo.summary)
     todo.setUID(uid)
     todo.setProperty(categories)
-
     vCalendar.pushComponent(todo)
-
     const data = vCalendar.toICS()
 
     console.log("Adding todo calendarObject...");
@@ -51,11 +52,20 @@ exports.createTodo = async function (req, res) {
 }
 
 exports.deleteTodo = async function (req, res) {
-    const reqTodo = req.body
-    const object = reqTodo.rawData
+    const calendar = filterBySlugRaw(req.params.slug)
+    const calendarObject = findCalendarObjectById(calendar, req.params.id)
 
     console.log("Deleting todo calendarObject...")
-    await dav.deleteCalendarObject(object, { xhr: xhr })
-    console.log("Todo calendarObject deleted")
+    await dav.deleteCalendarObject(calendarObject, {
+        xhr: xhr
+    }).then(response => {
+        if (response.status != 204) {
+            console.error("Error deleting calendarObject")
+            console.log(response)
+            res.status(response.status || 500)
+        }
+        console.log("Todo calendarObject deleted")
+    })
     await syncCalendars()
+    res.json({ success: true })
 }
