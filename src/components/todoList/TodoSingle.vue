@@ -1,8 +1,8 @@
 <template>
-    <li class="todo-item" v-on:click.self="toggleCompleteTodo(todo)" :class="{ editing: editing }">
+    <li class="todo-item" v-on:click.self="toggleCompleted" :class="{ editing: editing }">
         <p
             v-if="!editing"
-            v-on:click.self="toggleCompleteTodo(todo)"
+            v-on:click.self="toggleCompleted"
             class="todo-summary"
             :class="{ completed: todo.completed }"
         >{{ todo.summary }}
@@ -15,7 +15,7 @@
             maxlength="30"
             :value="todo.summary"
             v-on:keyup.enter.self="editing = false"
-            v-on:blur.self="submitTodoUpdate"
+            v-on:blur.self="updateSummary"
             v-focus
         >
 
@@ -52,20 +52,24 @@ export default {
         ...mapGetters(['activeTodoSource']),
     },
     methods: {
-        ...mapActions(['toggleCompleteTodo', 'updateTodo', 'deleteTodo']),
+        ...mapActions(['updateTodo', 'deleteTodo']),
         toggleEdit() {
             this.editing = !this.editing
         },
-        submitTodoUpdate(e) {
+        toggleCompleted() {
+            const newTodo = this.todo
+            newTodo.completed = !newTodo.completed
+            return this.updateTodo(newTodo)
+        },
+        updateSummary(e) {
             this.editing = false
 
             let value = e.target.value
             if (value.trim() === this.todo.summary.trim() || value.trim() == "") return
-            const payload = {
-                newSummary: value.trim(),
-                todo: this.todo
-            }
-            return this.updateTodo(payload)
+
+            const newTodo = this.todo
+            newTodo.summary = value.trim()
+            return this.updateTodo(newTodo)
         },
         deleteConfirmation() {
             this.deleting = true

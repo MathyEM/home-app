@@ -108,16 +108,20 @@ const actions = {
         commit('UPDATE_TODO', payload)
         // CALL API
     },
-    async updateTodo({ commit }, payload) {
-        payload.todo.summary = payload.newSummary
-        commit('UPDATE_TODO', payload.todo)
+    async updateTodo({ commit, getters }, payload) {
+        commit('UPDATE_TODO', payload)
+
         // CALL API
+        const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
+        await axios.put(sourceURL).then(response => {
+            console.log(response)
+        })
     },
     async deleteTodo({ commit, getters }, payload) {
         commit('DELETE_TODO', payload)
 
-        const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
         // CALL API
+        const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
         await axios.delete(sourceURL).then(response => {
             console.log(response)
         })
