@@ -113,9 +113,15 @@ const actions = {
         commit('UPDATE_TODO', payload.todo)
         // CALL API
     },
-    async deleteTodo({ commit }, payload) {
+    async deleteTodo({ commit, getters }, payload) {
         commit('DELETE_TODO', payload)
+
+        const sourceURL = getters.activeTodoSource.url
+        sourceURL
         // CALL API
+        await axios.delete(sourceURL, payload).then(response => {
+            console.log(response)
+        })
     }
 }
 
