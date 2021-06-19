@@ -1,6 +1,7 @@
 const dav = require('dav')
 const vobject = require('vobject')
 
+// Set up Basic auth for CalDav server
 var xhr = new dav.transport.Basic(
     new dav.Credentials({
         username: 'mem',
@@ -30,54 +31,34 @@ function getEventData(calendarData, dataField) {
     return str.trim()
 }
 
-function parseIcsDate(icsDate) {
-    if (!icsDate) {
-        return
-    }
-    var year   = icsDate.substr(0, 4);
-    var month  = icsDate.substr(4, 2);
-    var day    = icsDate.substr(6, 2);
-    
-    if (icsDate.search("T")) {
-        var hour   = icsDate.substr(9, 2);
-        var minute = icsDate.substr(11, 2);
-        var second = icsDate.substr(13, 2);
-    }
-    
-    return new Date(Date.UTC(year, month - 1, day, hour, minute, second));
-}
-
+// Request used to fetch vCalendars
 const accountObject = {
     server: 'https://cloud.mem-home.tk/remote.php/dav',
     accountType: 'caldav',
     loadObjects: true,
     filters: [{
         type: 'comp-filter',
-        attrs: { name: 'VCALENDAR' },
-        // children: [{
-        //     type: 'time-rage',
-        //     attrs: { name: 'VTODO' },
-        // }]
+        attrs: { name: 'VCALENDAR' }
     }]
 }
 
-const account = client.createAccount(accountObject)
+global.ACCOUNT = client.createAccount(accountObject)
 
-fetchCalendars(account)
+parseCalendars(ACCOUNT)
 
-async function fetchCalendars(account) {
+async function parseCalendars(account) {
     const acc = await account
+    global.CALENDARS_RAW = acc.calendars
     let calendars = []
     
-    acc.calendars.forEach(calendar => {
+    CALENDARS_RAW.forEach(calendar => {
         cal = {}
+        cal.events = []
+        cal.todos = []
+
         cal.href = calendar.data.href
         cal.slug = getCalSlug(cal.href)
         cal.displayName = calendar.displayName
-
-        
-        cal.events = []
-        cal.todos = []
 
         calendar.objects.forEach((object, index) => {
             let calendarData = object.calendarData.split('\n')
@@ -86,7 +67,7 @@ async function fetchCalendars(account) {
 
             if (!getEventData(calendarData, "begin:vtodo")) { //Add VEVENT
                 event.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
-                let props = vobject.parseICS(object.calendarData).components.VEVENT[0].properties
+                const props = vobject.parseICS(object.calendarData).components.VEVENT[0].properties
                 event.id = props.UID[0].value
                 event.start = props.DTSTART[0].value
                 event.end = props.DTEND[0].value
@@ -96,7 +77,7 @@ async function fetchCalendars(account) {
                 cal.events.push(event)
             } else { // Add VTODO
                 todo.etag = object.etag.substr(1, object.etag.length-2) // trim escaped quotes
-                let props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
+                const props = vobject.parseICS(object.calendarData).components.VTODO[0].properties
                 todo.id = props.UID[0].value
                 todo.summary = props.SUMMARY[0].value
                 todo.categories = props.CATEGORIES != null ? props.CATEGORIES[0].value : ""
@@ -105,7 +86,6 @@ async function fetchCalendars(account) {
 
                 cal.todos.push(todo)
             }
-
         });
 
         calendars.push(cal)
@@ -114,14 +94,16 @@ async function fetchCalendars(account) {
     console.log("Calendars fetched");
 }
 
-const rawData = account.then(function(account) {
-    return account.calendars
-})
+async function syncCalendars() {
+    ACCOUNT = client.createAccount(accountObject)
+    await parseCalendars(await ACCOUNT)
+    console.log("Calendars synced");
+}
 
 module.exports = { 
     client,
     accountObject,
-    rawData,
     xhr,
-    fetchCalendars
+    parseCalendars,
+    syncCalendars,
 }

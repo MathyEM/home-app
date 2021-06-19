@@ -1,9 +1,7 @@
 const dav = require('dav')
 const caldav = require('../caldav')
 const vobject = require('vobject')
-const helpers = require('./helpers')
-
-const filterBySlug = helpers.filterBySlug
+const filterBySlug = require('./helpers').filterBySlug
 
 exports.getTodosBySlug = function (req, res) {
     const calendar = filterBySlug(req.params.slug)
@@ -13,32 +11,40 @@ exports.getTodosBySlug = function (req, res) {
 
 exports.createTodo = async function (req, res) {
     const xhr = caldav.xhr
-    const account = await caldav.client.createAccount(caldav.accountObject)
-    //CREATE CALENDAROBJECT
-    const calendar = account.calendars.find(calendar => calendar.data.href.includes(req.params.slug))
+    const calendar = CALENDARS_RAW.find(calendar => calendar.data.href.includes(req.params.slug))
     const reqTodo = req.body
-
+    
+    //CREATE CALENDAROBJECT
     let vCalendar = vobject.calendar()
     let todo = vobject.todo()
+
     const created = vobject.dateTimeValue(new Date().toISOString())
     const uid = reqTodo.id
+    const categories = vobject.property('CATEGORIES', reqTodo.categories)
     todo.setCreated(created)
     todo.setSummary(reqTodo.summary)
     todo.setUID(uid)
-    const categories = vobject.property('CATEGORIES', reqTodo.categories)
     todo.setProperty(categories)
 
     vCalendar.pushComponent(todo)
 
-    let data = vCalendar.toICS()
+    const data = vCalendar.toICS()
 
+    console.log("Adding todo calendarObject...");
     await dav.createCalendarObject(calendar, {
         filename: `${uid}.ics`,
         data: data,
         xhr: xhr
+    }).then(response => {
+        if (response.status != 201) {
+            console.error("Error creating calendarObject")
+            console.log(response)
+            res.json(response)
+        }
     })
-    const newAccount = caldav.client.createAccount(caldav.accountObject)
-    await caldav.fetchCalendars(newAccount)
-    console.log("todo created")
+
+    // After creating and adding calendarObject, re-sync with server to fetch changes
+    await caldav.syncCalendars()
+    console.log("Todo calendarObject added")
     res.json(data)
 }
