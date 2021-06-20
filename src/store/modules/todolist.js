@@ -49,25 +49,24 @@ const actions = {
         const todoSourceColors = JSON.parse(localStorage.getItem('todoSourceColors')) || null
         const calendarsSource = getters.getSourcesURL
         try {
-            await axios.get(calendarsSource).then((response) => {
-                let todoSources = []
-                response.data.forEach((data) => {
-                    var newData = data
-                    if (!data.hasTodos) return //skip event source it it has 0 todos
+            const response = await axios.get(calendarsSource)
+            let todoSources = []
+            response.data.forEach((data) => {
+                var newData = data
+                if (!data.hasTodos) return //skip event source it it has 0 todos
 
-                    if (todoSourceColors) { // use localStorage colors if they are available
-                        newData.color = todoSourceColors[data.id]
-                    }
-                    const url = `${getters.getSingleSourceURL(newData.id)}/todos`
-                    todoSources.push({
-                        id: newData.id,
-                        url: url,
-                        color: newData.color,
-                        name: newData.displayName
-                    })
+                if (todoSourceColors) { // use localStorage colors if they are available
+                    newData.color = todoSourceColors[data.id]
+                }
+                const url = `${getters.getSingleSourceURL(newData.id)}/todos`
+                todoSources.push({
+                    id: newData.id,
+                    url: url,
+                    color: newData.color,
+                    name: newData.displayName
                 })
-                return commit('ADD_TODO_SOURCES', todoSources)
             })
+            return commit('ADD_TODO_SOURCES', todoSources)
         } catch (error) {
             console.log(error);
         }
@@ -77,14 +76,14 @@ const actions = {
         if (!state.todoSources) {
             return console.log("No Todo sources")
         }
-        const sourceURL = `${getters.activeTodoSource.url}/todos`
 
+        const sourceURL = `${getters.activeTodoSource.url}/todos`
         await axios.get(sourceURL).then((response) => {
             let todo = response.data
             return commit('ADD_TODO_ARRAY', todo)
         })
     },
-    async addTodo({ commit, getters }, payload) {
+    async addTodo({ commit, getters, dispatch }, payload) {
         let newTodo = {
             summary: payload,
             completed: false,
@@ -94,11 +93,11 @@ const actions = {
 
         const sourceURL = `${getters.activeTodoSource.url}/todos`
         // CALL API
-        await axios.post(sourceURL, newTodo)
-        .then((response) => {
-            newTodo.rawData = response.data
-            commit('UPDATE_TODO', newTodo)
-        })
+        const response = await axios.post(sourceURL, newTodo)
+        newTodo.rawData = response.data
+        commit('UPDATE_TODO', newTodo)
+        const sync = await dispatch('syncCalendars')
+        console.log("sync completed:", sync);
     },
     async updateTodo({ commit, getters, dispatch }, payload) {
         commit('UPDATE_TODO', payload)

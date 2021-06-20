@@ -48,7 +48,6 @@ exports.createTodo = async function (req, res) {
         console.log("Success: Todo calendarObject added")
     })
     // After creating and adding calendarObject, re-sync with server to fetch changes
-    await syncCalendars()
     res.json(data)
 }
 
