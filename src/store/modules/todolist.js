@@ -7,6 +7,7 @@ const state = {
     activeTodoSource: {
         id: 'indkbsliste',
     },
+    syncList: [],
 }
 
 const getters = {
@@ -22,6 +23,7 @@ const getters = {
     },
     activeTodos: state => state.todos.filter(todo => !todo.completed),
     completedTodos: state => state.todos.filter(todo => todo.completed),
+    syncList: state => state.syncList,
 }
 
 const mutations = {
@@ -41,6 +43,13 @@ const mutations = {
     UPDATE_TODO(state, payload) {
         const todo = state.todos.find(todo => todo.id === payload.id)
         Object.assign(todo, payload)
+    },
+    ADD_TO_SYNC_LIST(state, payload) {
+        state.syncList.push(payload)
+    },
+    DELETE_FROM_SYNC_LIST(state, payload) {
+        const filteredSyncList = state.syncList.filter(item => item !== payload)
+        state.syncList = filteredSyncList
     }
 }
 
@@ -68,7 +77,7 @@ const actions = {
             })
             return commit('ADD_TODO_SOURCES', todoSources)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
     },
     async getTodos({ state, commit, dispatch, getters }) {
@@ -93,28 +102,36 @@ const actions = {
 
         const sourceURL = `${getters.activeTodoSource.url}/todos`
         // CALL API
+        commit('ADD_TO_SYNC_LIST', newTodo.id)
         const response = await axios.post(sourceURL, newTodo)
         newTodo.rawData = response.data
         commit('UPDATE_TODO', newTodo)
         const sync = await dispatch('syncCalendars')
-        console.log("sync completed:", sync);
+        commit('DELETE_FROM_SYNC_LIST', newTodo.id)
+        console.log("sync completed:", sync)
     },
     async updateTodo({ commit, getters, dispatch }, payload) {
         commit('UPDATE_TODO', payload)
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
+
+        commit('ADD_TO_SYNC_LIST', payload.id)
         const response = await axios.put(sourceURL, payload)
         console.log("update completed:", response)
+
         const sync = await dispatch('syncCalendars')
-        console.log("sync completed:", sync);
+        commit('DELETE_FROM_SYNC_LIST', payload.id)
+        console.log("sync completed:", sync)
     },
-    async deleteTodo({ commit, getters }, payload) {
+    async deleteTodo({ commit, getters, dispatch }, payload) {
         commit('DELETE_TODO', payload)
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
         await axios.delete(sourceURL).then(response => {
             console.log(response)
         })
+        const sync = await dispatch('syncCalendars')
+        console.log("sync completed:", sync)
     }
 }
 

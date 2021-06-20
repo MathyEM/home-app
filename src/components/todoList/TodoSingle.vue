@@ -1,11 +1,11 @@
 <template>
-    <li class="todo-item" v-on:click.self="toggleCompleted" :class="{ editing: editing }">
+    <li class="todo-item" v-on:click.self="toggleCompleted" :class="{ editing: editing, syncing: syncing }">
         <p
             v-if="!editing"
             v-on:click.self="toggleCompleted"
             class="todo-summary"
             :class="{ completed: todo.completed }"
-        >{{ todo.summary }}
+        ><span class="sync-msg">{{ syncing ? "Syncing...  ": "" }}</span>{{ todo.summary }}
         </p>
         <input
             v-else
@@ -20,10 +20,10 @@
         >
 
         <div class="todo-btn-container">
-            <button v-if="!editing" v-on:click="editing = true" class="">Edit</button>
-            <button v-else>Edit</button>
-            <button v-if="!deleting" @click="deleteConfirmation">Delete1</button>
-            <button v-else @click="deleteTodo(todo)">Delete2</button>
+            <button v-if="!editing" v-on:click="editing = true" class="" :disabled="syncing">Edit</button>
+            <button v-else :disabled="syncing">Edit</button>
+            <button v-if="!deleting" @click="deleteConfirmation" :disabled="syncing">Delete1</button>
+            <button v-else @click="deleteTodo(todo)" :disabled="syncing">Delete2</button>
         </div>
     </li>
 </template>
@@ -49,7 +49,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['activeTodoSource']),
+        ...mapGetters(['activeTodoSource', 'syncList']),
+        syncing() {
+            return (this.syncList.includes(this.todo.id))
+        }
     },
     methods: {
         ...mapActions(['updateTodo', 'deleteTodo']),
@@ -122,6 +125,17 @@ p.completed {
     .todo-btn-container {
         display: flex;
         gap: 5px
+    }
+
+    &.syncing {
+        pointer-events: none !important;
+        background: lightgrey !important;
+        color: darkgrey !important;
+
+        .sync-msg {
+            font-size: 0.65em;
+            vertical-align: middle;
+        }
     }
 }
 </style>
