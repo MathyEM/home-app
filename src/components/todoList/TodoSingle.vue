@@ -12,18 +12,18 @@
             type="text"
             name="updatedTodo"
             id="updatedTodo"
-            maxlength="30"
+            maxlength="25"
             :value="todo.summary"
             v-on:keyup.enter.self="editing = false"
-            v-on:blur.self="updateSummary"
+            v-on:blur="updateSummary"
             v-focus
         >
 
         <div class="todo-btn-container">
-            <button v-if="!editing" v-on:click="editing = true" class="" :disabled="syncing">Edit</button>
-            <button v-else :disabled="syncing">Edit</button>
-            <button v-if="!deleting" @click="deleteConfirmation" :disabled="syncing">Delete1</button>
-            <button v-else @click="deleteTodo(todo)" :disabled="syncing">Delete2</button>
+            <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="syncing || disabled">✎</button>
+            <button v-else class="edit-btn todo-btn" :disabled="syncing">✎</button>
+            <button v-if="!deleting" @click="deleteConfirmation" :disabled="syncing" class="delete-btn todo-btn">🗑</button>
+            <button v-else @click="deleteTodo(todo)" :disabled="syncing" class="delete-btn confirm-del-btn todo-btn">🗑</button>
         </div>
     </li>
 </template>
@@ -46,6 +46,7 @@ export default {
         return {
             editing: false,
             deleting: false,
+            disabled: false
         }
     },
     computed: {
@@ -65,14 +66,16 @@ export default {
             await this.updateTodo(newTodo)
         },
         updateSummary(e) {
+            this.disabled = true
             this.editing = false
-
+            setTimeout(() => this.disabled = false, 300)
             let value = e.target.value
             if (value.trim() === this.todo.summary.trim() || value.trim() == "") return
 
             const newTodo = this.todo
             newTodo.summary = value.trim()
-            return this.updateTodo(newTodo)
+            this.updateTodo(newTodo)
+            console.log("done");
         },
         deleteConfirmation() {
             this.deleting = true
@@ -100,11 +103,12 @@ p.completed {
     padding: 5px 1em;
     cursor: pointer;
     display: grid;
-    grid-template-columns: auto min-content;
+    grid-template-columns: minmax(auto, 80%) auto;
     gap: 0.5em;
+    align-items: center;
 
-    &.edit {
-        padding: 3.5px 1em;
+    .todo-summary {
+        font-size: 1.5em;
     }
 
     &:nth-child(even) {
@@ -117,14 +121,39 @@ p.completed {
     }
 
     input {
-        font-size: 1em;
-        outline: none;
         font: unset;
+        outline: none;
+        font-size: 1.5em;
     }
 
     .todo-btn-container {
-        display: flex;
-        gap: 5px
+        display: grid;
+        gap: 5px;
+        grid-template-columns: 50% 50%;
+
+        .todo-btn {
+            border: 1px lightgray solid;
+            padding: 2px 6px;
+            font-size: 1.5em;
+            width: 100%;
+        }
+
+        .edit-btn {
+            color: darken(grey, 30%);
+        }
+
+        .confirm-del-btn {
+            background: lighten(red, 25%);
+            border-color: lighten(red, 20%);
+        }
+    }
+
+    &.editing {
+
+        .edit-btn {
+            background: darken(lightgreen, 10%);
+            border-color: darken(lightgreen, 20%);
+        }
     }
 
     &.syncing {
