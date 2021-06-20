@@ -1,10 +1,5 @@
 import axios from 'axios'
 
-const caldavAPI = "http://192.168.87.100:3000"
-const calendars = caldavAPI+'/calendars'
-
-const createEventSourceURL = slug => `${caldavAPI}/calendar/${slug}/events`
-
 const state = {
     events: [
         {
@@ -51,10 +46,11 @@ const mutations = {
     }
 }
 const actions = {
-    async setEventSources({ commit }) {
+    async setEventSources({ commit, getters }) {
         const eventSourceColors = JSON.parse(localStorage.getItem('eventSourceColors')) || null
+        const calendarsSource = getters.getSourcesURL
         try {
-            await axios.get(calendars).then((response) => {
+            await axios.get(calendarsSource).then((response) => {
                 let eventSources = []
                 response.data.forEach((data) => {
                     var newData = data
@@ -63,9 +59,11 @@ const actions = {
                     if (eventSourceColors) { // use localStorage colors if they are available
                         newData.color = eventSourceColors[data.id]
                     }
+                    
+                    const url = `${getters.getSingleSourceURL(newData.id)}/events`
                     eventSources.push({
                         id: newData.id,
-                        url: createEventSourceURL(newData.id),
+                        url: url,
                         color: newData.color,
                         name: newData.displayName
                     })

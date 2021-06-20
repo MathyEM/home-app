@@ -1,10 +1,5 @@
 import axios from 'axios'
 
-const caldavAPI = "http://localhost:3000"
-const calendars = caldavAPI+'/calendars'
-
-const createTodoSourceURL = slug => `${caldavAPI}/calendar/${slug}`
-
 const state = {
     todos: [],
     todoSources: [],
@@ -17,9 +12,9 @@ const state = {
 const getters = {
     todos: state => state.todos,
     todoSources: state => state.todoSources,
-    activeTodoSource: state => {
+    activeTodoSource: (state, getters) => {
         const id = state.activeTodoSource.id
-        const source = createTodoSourceURL(id)
+        const source = getters.getSingleSourceURL(id)
         return {
             id: id,
             url: source
@@ -50,10 +45,11 @@ const mutations = {
 }
 
 const actions = {
-    async setTodoSources({ commit }) {
+    async setTodoSources({ commit, getters }) {
         const todoSourceColors = JSON.parse(localStorage.getItem('todoSourceColors')) || null
+        const calendarsSource = getters.getSourcesURL
         try {
-            await axios.get(calendars).then((response) => {
+            await axios.get(calendarsSource).then((response) => {
                 let todoSources = []
                 response.data.forEach((data) => {
                     var newData = data
@@ -62,9 +58,10 @@ const actions = {
                     if (todoSourceColors) { // use localStorage colors if they are available
                         newData.color = todoSourceColors[data.id]
                     }
+                    const url = `${getters.getSingleSourceURL(newData.id)}/todos`
                     todoSources.push({
                         id: newData.id,
-                        url: createTodoSourceURL(newData.id),
+                        url: url,
                         color: newData.color,
                         name: newData.displayName
                     })
