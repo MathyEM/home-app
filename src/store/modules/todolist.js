@@ -100,17 +100,17 @@ const actions = {
             commit('UPDATE_TODO', newTodo)
         })
     },
-    async updateTodo({ commit, getters }, payload) {
+    async updateTodo({ commit, getters, dispatch }, payload) {
+        commit('UPDATE_TODO', payload)
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
-            var response = await axios.put(sourceURL, payload)
-            commit('UPDATE_TODO', payload)
-            console.log(response)
-            return
+        const response = await axios.put(sourceURL, payload)
+        console.log("update completed:", response)
+        const sync = await dispatch('syncCalendars')
+        console.log("sync completed:", sync);
     },
     async deleteTodo({ commit, getters }, payload) {
         commit('DELETE_TODO', payload)
-
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
         await axios.delete(sourceURL).then(response => {

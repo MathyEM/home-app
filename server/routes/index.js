@@ -11,8 +11,8 @@ const helpers = require('../controllers/helpers')
 router.get('/', (req, res) => res.send("Hello world!"))
 
 router.get('/calendars', calendar.getCalendars)
-router.get('calendars/sync', (req, res) => {
-    caldav.syncCalendars()
+router.get('/calendars/sync', async (req, res) => {
+    await caldav.syncCalendars()
     res.send('calendars synced')
 })
 
@@ -30,7 +30,7 @@ router.put('/calendar/:slug/todo/:id', todolist.updateTodo)
 
 router.delete('/calendar/:slug/todo/:id', todolist.deleteTodo)
 
-router.get('/rawcalendars', (req, res) => res.json(vobject.parseICS(CALENDARS_RAW[2].objects[13].calendarData)))
+router.get('/rawcalendars', (req, res) => console.log(CALENDARS_RAW[2].objects))
 router.get('/test', (req, res) => {
     res.send('test endpoint')
 })

@@ -18,8 +18,11 @@ export default new Vuex.Store({
 		getSourcesURL: state => `${state.caldavAPI}/calendars`
 	},
 	actions: {
-		async syncCalendars() {
-			await axios.get()
+		async syncCalendars({ getters, dispatch }) {
+			const url = `${getters.getSourcesURL}/sync`
+			const response = await axios.get(url)
+			await dispatch('getTodos')
+			return response
 		}
 	},
 	modules: {

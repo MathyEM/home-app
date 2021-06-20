@@ -19,10 +19,12 @@ exports.findCalendarObjectById = function (calendar, id) {
 exports.parseUpdatedTodoObject = function (newTodoObject, oldTodoObject) {
     // //CREATE CALENDAROBJECT
     const oldTodoParsed = vobject.parseICS(oldTodoObject)
-
+    const modifiedDate = vobject.dateTimeValue(new Date().toISOString()).toICS()
     const modified = vobject.dateTimeValue(new Date().toISOString())
     const categories = vobject.property('CATEGORIES', newTodoObject.categories)
     const status = newTodoObject.completed
+    const percentComplete = vobject.property('PERCENT-COMPLETE', (status ? '100' : ''))
+    const completed = vobject.property('COMPLETED', (status ? modifiedDate : ''))
     const summary = newTodoObject.summary
     const uid = newTodoObject.id
 
@@ -32,8 +34,14 @@ exports.parseUpdatedTodoObject = function (newTodoObject, oldTodoObject) {
     newTodo.setLastModified(modified)
     newTodo.setSummary(summary)
     newTodo.setUID(uid)
-    newTodo.setProperty(categories)
-    if (status) newTodo.setStatus('COMPLETED') // if the todo is completed set its status to completed, else omit
+    if (newTodoObject.categories != '') newTodo.setProperty(categories)
+    if (status) {
+        newTodo.setStatus('COMPLETED') // if the todo is completed set its status to completed, else omit
+        newTodo.setProperty(percentComplete)
+        newTodo.setProperty(completed)
+    } else {
+        newTodo.setStatus('')
+    }
     vCalendar.pushComponent(newTodo)
     
     const newTodoObjectMerged = {...oldTodoParsed, ...vCalendar}

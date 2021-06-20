@@ -30,7 +30,7 @@ exports.createTodo = async function (req, res) {
     todo.setCreated(created)
     todo.setSummary(reqTodo.summary)
     todo.setUID(uid)
-    todo.setProperty(categories)
+    if (reqTodo.categories != '') todo.setProperty(categories)
     vCalendar.pushComponent(todo)
     const data = vCalendar.toICS()
 
@@ -64,7 +64,6 @@ exports.updateTodo = async function (req, res) {
             xhr: xhr
         })
         console.log("Success: Todo calendarObject updated")
-        await syncCalendars()
         res.json({ success: true })
     } catch (error) {
         console.error("Error updating calendarObject")
@@ -84,7 +83,6 @@ exports.deleteTodo = async function (req, res) {
         })
 
         console.log("Success: Todo calendarObject deleted")
-        await syncCalendars()
         res.json({ success: true })
     } catch (error) {
         console.error("Error deleting calendarObject")
