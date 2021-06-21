@@ -42,6 +42,8 @@ const accountObject = {
     }]
 }
 
+global.SYNC_LIST = []
+global.SYNC_STATUS = false
 global.ACCOUNT = client.createAccount(accountObject)
 
 parseCalendars(ACCOUNT)
@@ -95,9 +97,10 @@ async function parseCalendars(account) {
 }
 
 async function syncCalendars() {
-    ACCOUNT = client.createAccount(accountObject)
-    await parseCalendars(await ACCOUNT)
-    console.log("Calendars synced");
+    console.log("Calendar sync started")
+    ACCOUNT = await client.createAccount(accountObject)
+    await parseCalendars(ACCOUNT)
+    console.log("Calendars synced")
 }
 
 module.exports = { 

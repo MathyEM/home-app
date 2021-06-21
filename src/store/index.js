@@ -26,7 +26,7 @@ export default new Vuex.Store({
 	},
 	actions: {
 		async syncCalendars({ state, getters, commit, dispatch }) {
-			if (state.syncStatus) return 'Sync already in progress - skipped'
+			if (state.syncStatus) return 'Sync already in progress... skipping'
 			const url = `${getters.getSourcesURL}/sync`
 			commit('TOGGLE_SYNC_STATUS', true)
 			const response = await axios.get(url)
