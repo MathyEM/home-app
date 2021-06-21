@@ -96,6 +96,7 @@ const actions = {
         let newTodo = {
             summary: payload,
             completed: false,
+            categories: payload.categories || '',
             id: new Date().getTime() + "@home.mem-home",
         }
         commit('ADD_TODO', newTodo)
