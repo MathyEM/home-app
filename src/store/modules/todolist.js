@@ -89,6 +89,7 @@ const actions = {
         const sourceURL = `${getters.activeTodoSource.url}/todos`
         await axios.get(sourceURL).then((response) => {
             let todo = response.data
+            console.log("Todos fetched")
             return commit('ADD_TODO_ARRAY', todo)
         })
     },
@@ -111,18 +112,19 @@ const actions = {
         commit('DELETE_FROM_SYNC_LIST', newTodo.id)
         console.log("sync completed:", sync)
     },
-    async updateTodo({ commit, getters, dispatch }, payload) {
+    async updateTodo({ state, commit, getters, dispatch }, payload) {
         commit('UPDATE_TODO', payload)
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
-
         commit('ADD_TO_SYNC_LIST', payload.id)
         const response = await axios.put(sourceURL, payload)
+        commit('DELETE_FROM_SYNC_LIST', payload.id)
         console.log("update completed:", response)
 
-        const sync = await dispatch('syncCalendars')
-        commit('DELETE_FROM_SYNC_LIST', payload.id)
-        console.log("sync completed:", sync)
+        if (state.syncList.length <= 1) {
+            const postsync = await dispatch('syncCalendars')
+            console.log("postsync completed:", postsync)
+        }
     },
     async deleteTodo({ commit, getters, dispatch }, payload) {
         commit('DELETE_TODO', payload)

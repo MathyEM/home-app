@@ -10,6 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		caldavAPI: "http://localhost:3000",
+		syncStatus: false,
 	},
 	getters: {
 		getSingleSourceURL: (state) => (slug) => {
@@ -17,11 +18,20 @@ export default new Vuex.Store({
 		},
 		getSourcesURL: state => `${state.caldavAPI}/calendars`
 	},
+	mutations: {
+		TOGGLE_SYNC_STATUS(state, payload) {
+			state.syncStatus = payload
+			console.log(`syncStatus was ${!state.syncStatus}, now ${state.syncStatus}`)
+		},
+	},
 	actions: {
-		async syncCalendars({ getters, dispatch }) {
+		async syncCalendars({ state, getters, commit, dispatch }) {
+			if (state.syncStatus) return 'Sync already in progress - skipped'
 			const url = `${getters.getSourcesURL}/sync`
+			commit('TOGGLE_SYNC_STATUS', true)
 			const response = await axios.get(url)
-			await dispatch('getTodos')
+			commit('TOGGLE_SYNC_STATUS', false)
+			if (todolist.state.syncList <= 1) await dispatch('getTodos')
 			return response
 		}
 	},

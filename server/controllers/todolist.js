@@ -52,6 +52,7 @@ exports.createTodo = async function (req, res) {
 }
 
 exports.updateTodo = async function (req, res) {
+    await syncCalendars()
     const calendar = filterBySlugRaw(req.params.slug)
     const calendarObject = findCalendarObjectById(calendar, req.params.id)
     const newCalendarData = parseUpdatedTodoObject(req.body, calendarObject.calendarData)
