@@ -24,11 +24,11 @@ router.get('/calendar/:slug/events', calendar.getEventsBySlug)
 
 router.get('/calendar/:slug/todos', todolist.getTodosBySlug)
 
-router.post('/calendar/:slug/todos', todolist.createTodo)
+router.post('/calendar/:slug/todos', todolist.addToQueue)
 
-router.put('/calendar/:slug/todo/:id', todolist.addToUpdateQueue)
+router.put('/calendar/:slug/todo/:id', todolist.addToQueue)
 
-router.delete('/calendar/:slug/todo/:id', todolist.deleteTodo)
+router.delete('/calendar/:slug/todo/:id', todolist.addToQueue)
 
 router.get('/rawcalendars', (req, res) => console.log(CALENDARS_RAW[2].objects))
 router.get('/test', (req, res) => {

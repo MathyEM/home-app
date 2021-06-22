@@ -23,7 +23,7 @@
             <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="disabled">✎</button>
             <button v-else class="edit-btn todo-btn">✎</button>
             <button v-if="!deleting" @click="deleteConfirmation" class="delete-btn todo-btn">🗑</button>
-            <button v-else @click="deleteTodo(todo)" class="delete-btn confirm-del-btn todo-btn">🗑</button>
+            <button v-else @click="doDelete" class="delete-btn confirm-del-btn todo-btn">🗑</button>
         </div>
     </li>
 </template>
@@ -80,6 +80,10 @@ export default {
         deleteConfirmation() {
             this.deleting = true
             setTimeout(() => this.deleting = false, 5000)
+        },
+        async doDelete() {
+            await this.deleteTodo(this.todo)
+            console.log(this.todo);
         }
     },
     directives: {

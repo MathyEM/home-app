@@ -17,45 +17,14 @@ exports.getTodosBySlug = function (req, res) {
     res.json(todos)
 }
 
-exports.createTodo = async function (req, res) {
-    const calendar = filterBySlugRaw(req.params.slug)
-    const reqTodo = req.body
-    
-    //CREATE CALENDAROBJECT
-    let vCalendar = vobject.calendar()
-    let todo = vobject.todo()
-
-    const created = vobject.dateTimeValue(new Date().toISOString())
-    const uid = reqTodo.id
-    const categories = vobject.property('CATEGORIES', reqTodo.categories)
-    todo.setCreated(created)
-    todo.setSummary(reqTodo.summary)
-    todo.setUID(uid)
-    if (reqTodo.categories != '') todo.setProperty(categories)
-    vCalendar.pushComponent(todo)
-    const data = vCalendar.toICS()
-
-    console.log("Adding todo calendarObject...");
-    const response = await dav.createCalendarObject(calendar, {
-        filename: `${uid}.ics`,
-        data: data,
-        xhr: xhr
-    })
-    if (response.status != 201) {
-        console.error("Error creating calendarObject")
-        console.log(response)
-        res.sendStatus(response.status || 500)
-    }
-    console.log("Success: Todo calendarObject added")
-    // After creating and adding calendarObject, re-sync with server to fetch changes
-    res.json(data)
-}
-
-exports.addToUpdateQueue = async function (req, res) {
+exports.addToQueue = async function (req, res) {
+    const newTodo = req.body
     const todoId = req.params.id
-	const newTodo = req.body
     newTodo.slug = req.params.slug
+    newTodo.method = req.method
     newTodo.res = res
+    if (newTodo.id == undefined) newTodo.id = todoId
+
 	let queue = UPDATE_TODO_QUEUE.find((item) => item.id == todoId)
 
     // Create a queue for this todo id if one doesn't exist
@@ -70,34 +39,41 @@ exports.addToUpdateQueue = async function (req, res) {
 		return //if a queue is already running, stop here
 	}
     // Start the queue
-    queue.running = true
-	while (queue.length() != 0) {
-        const todo = queue.peek()
-		const response = await updateTodo(todo)
-        todo.res.json(response)
-        queue.dequeue()
-        if (queue.length() == 0) {
-            queue.running = false
-        }
-	}
+    runQueue(queue)
 }
 
-exports.deleteTodo = async function (req, res) {
-    const calendar = filterBySlugRaw(req.params.slug)
-    const calendarObject = findCalendarObjectById(calendar, req.params.id)
+createTodo = async function (todo) {
+    const slug = todo.slug
+    const calendar = filterBySlugRaw(slug)
+    
+    //CREATE CALENDAROBJECT
+    let vCalendar = vobject.calendar()
+    let todoObject = vobject.todo()
 
-    console.log("Deleting todo calendarObject...")
+    const created = vobject.dateTimeValue(new Date().toISOString())
+    const uid = todo.id
+    const categories = vobject.property('CATEGORIES', todo.categories)
+    todoObject.setCreated(created)
+    todoObject.setSummary(todo.summary)
+    todoObject.setUID(uid)
+    if (todo.categories != '') todoObject.setProperty(categories)
+    vCalendar.pushComponent(todoObject)
+    const data = vCalendar.toICS()
+
+    
+    console.log("Adding todo calendarObject...")
     try {
-        const response = await dav.deleteCalendarObject(calendarObject, {
+        const response = await dav.createCalendarObject(calendar, {
+            filename: `${uid}.ics`,
+            data: data,
             xhr: xhr
         })
-
-        console.log("Success: Todo calendarObject deleted")
-        res.json({ success: true })
+        console.log("Success: Todo calendarObject added")
+        return data
     } catch (error) {
-        console.error("Error deleting calendarObject")
+        console.error("Error adding todo calendarObject")
         console.log(error)
-        res.json({ success: false })
+        return error
     }
 }
 
@@ -122,5 +98,52 @@ updateTodo = async function (todo) {
         console.error("Error updating calendarObject")
         console.log(error)
         return error
+    }
+}
+
+deleteTodo = async function (todo) {
+    // First get the most updated version of the calendar
+    await syncCalendars()
+
+    const calendar = filterBySlugRaw(todo.slug)
+    const calendarObject = findCalendarObjectById(calendar, todo.id)
+
+    console.log("Deleting todo calendarObject...")
+    try {
+        const response = await dav.deleteCalendarObject(calendarObject, {
+            xhr: xhr
+        })
+        console.log("Success: Todo calendarObject deleted")
+        return response
+    } catch (error) {
+        console.error("Error deleting calendarObject")
+        console.log(error)
+        return error
+    }
+}
+
+runQueue = async function (queue) {
+    queue.running = true
+    while (queue.length() != 0) {
+        const todo = queue.peek()
+        console.log("pre- queue is: ", queue.length())
+        if (todo.method == "POST") {
+            const response = await createTodo(todo)
+            todo.res.json(response)
+        } else if (todo.method == "PUT") {
+            const response = await updateTodo(todo)
+            todo.res.json(response)
+        } else if (todo.method == "DELETE") {
+            const response = await deleteTodo(todo)
+            todo.res.json(response)
+        } else {
+            todo.res.sendStatus(405)
+        }
+        queue.dequeue()
+        console.log("post- queue is: ", queue.length())
+        if (queue.length() == 0) {
+            console.log("queue ended")
+            queue.running = false
+        }
     }
 }
