@@ -36,18 +36,17 @@ exports.createTodo = async function (req, res) {
     const data = vCalendar.toICS()
 
     console.log("Adding todo calendarObject...");
-    await dav.createCalendarObject(calendar, {
+    const response = await dav.createCalendarObject(calendar, {
         filename: `${uid}.ics`,
         data: data,
         xhr: xhr
-    }).then(response => {
-        if (response.status != 201) {
-            console.error("Error creating calendarObject")
-            console.log(response)
-            res.sendStatus(response.status || 500)
-        }
-        console.log("Success: Todo calendarObject added")
     })
+    if (response.status != 201) {
+        console.error("Error creating calendarObject")
+        console.log(response)
+        res.sendStatus(response.status || 500)
+    }
+    console.log("Success: Todo calendarObject added")
     // After creating and adding calendarObject, re-sync with server to fetch changes
     res.json(data)
 }
