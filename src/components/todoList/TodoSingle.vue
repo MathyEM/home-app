@@ -1,11 +1,11 @@
 <template>
-    <li class="todo-item" v-on:click.self="toggleCompleted" :class="{ editing: editing, syncing: syncing }">
+    <li class="todo-item" v-on:click.self="toggleCompleted" :class="{ editing: editing }">
         <p
             v-if="!editing"
             v-on:click.self="toggleCompleted"
             class="todo-summary"
             :class="{ completed: todo.completed }"
-        ><span class="sync-msg">{{ syncing ? "Syncing...  ": "" }}</span>{{ todo.summary }}
+        >{{ todo.summary }}
         </p>
         <input
             v-else
@@ -20,10 +20,10 @@
         >
 
         <div class="todo-btn-container">
-            <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="syncing || disabled">✎</button>
-            <button v-else class="edit-btn todo-btn" :disabled="syncing">✎</button>
-            <button v-if="!deleting" @click="deleteConfirmation" :disabled="syncing" class="delete-btn todo-btn">🗑</button>
-            <button v-else @click="deleteTodo(todo)" :disabled="syncing" class="delete-btn confirm-del-btn todo-btn">🗑</button>
+            <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="disabled">✎</button>
+            <button v-else class="edit-btn todo-btn">✎</button>
+            <button v-if="!deleting" @click="deleteConfirmation" class="delete-btn todo-btn">🗑</button>
+            <button v-else @click="deleteTodo(todo)" class="delete-btn confirm-del-btn todo-btn">🗑</button>
         </div>
     </li>
 </template>
@@ -52,7 +52,7 @@ export default {
     computed: {
         ...mapGetters(['activeTodoSource', 'syncList']),
         syncing() {
-            return (this.syncList.includes(this.todo.id))
+            return false //(this.syncList.includes(this.todo.id))
         }
     },
     methods: {
