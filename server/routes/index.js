@@ -26,7 +26,7 @@ router.get('/calendar/:slug/todos', todolist.getTodosBySlug)
 
 router.post('/calendar/:slug/todos', todolist.createTodo)
 
-router.put('/calendar/:slug/todo/:id', todolist.updateTodo)
+router.put('/calendar/:slug/todo/:id', todolist.addToUpdateQueue)
 
 router.delete('/calendar/:slug/todo/:id', todolist.deleteTodo)
 

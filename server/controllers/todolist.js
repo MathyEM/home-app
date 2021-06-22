@@ -1,5 +1,6 @@
 const dav = require('dav')
 const caldav = require('../custom-modules/caldav')
+const Queue = require('../custom-modules/queue.js').Queue
 const vobject = require('vobject')
 const helpers = require('./helpers')
 
@@ -51,25 +52,35 @@ exports.createTodo = async function (req, res) {
     res.json(data)
 }
 
-exports.updateTodo = async function (req, res) {
-    await syncCalendars()
-    const calendar = filterBySlugRaw(req.params.slug)
-    const calendarObject = findCalendarObjectById(calendar, req.params.id)
-    const newCalendarData = parseUpdatedTodoObject(req.body, calendarObject.calendarData)
+exports.addToUpdateQueue = async function (req, res) {
+    const todoId = req.params.id
+	const newTodo = req.body
+    newTodo.slug = req.params.slug
+    newTodo.res = res
+	let queue = UPDATE_TODO_QUEUE.find((item) => item.id == todoId)
 
-    calendarObject.calendarData = newCalendarData
-    console.log("Updating todo calendarObject...")
-    try {
-        const response = await dav.updateCalendarObject(calendarObject, {
-            xhr: xhr
-        })
-        console.log("Success: Todo calendarObject updated")
-        res.json({ success: true })
-    } catch (error) {
-        console.error("Error updating calendarObject")
-        console.log(error)
-        res.sendStatus(429)
-    }
+    // Create a queue for this todo id if one doesn't exist
+	if (queue == undefined) {
+		const index = UPDATE_TODO_QUEUE.push(new Queue(todoId))-1
+		queue = UPDATE_TODO_QUEUE[index]
+	}
+    // Add the new todo to the queue
+	queue.enqueue(newTodo)
+
+	if (queue.running) {
+		return //if a queue is already running, stop here
+	}
+    // Start the queue
+    queue.running = true
+	while (queue.length() != 0) {
+        const todo = queue.peek()
+		const response = await updateTodo(todo)
+        todo.res.json(response)
+        queue.dequeue()
+        if (queue.length() == 0) {
+            queue.running = false
+        }
+	}
 }
 
 exports.deleteTodo = async function (req, res) {
@@ -88,5 +99,29 @@ exports.deleteTodo = async function (req, res) {
         console.error("Error deleting calendarObject")
         console.log(error)
         res.json({ success: false })
+    }
+}
+
+updateTodo = async function (todo) {
+    // First get the most updated version of the calendar
+    await syncCalendars()
+
+    const calendar = filterBySlugRaw(todo.slug)
+    const calendarObject = findCalendarObjectById(calendar, todo.id)
+    const newCalendarData = parseUpdatedTodoObject(todo, calendarObject.calendarData)
+
+    // Reaplace the old calendarData with the merged updated one 
+    calendarObject.calendarData = newCalendarData
+    console.log("Updating todo calendarObject...")
+    try {
+        const response = await dav.updateCalendarObject(calendarObject, {
+            xhr: xhr
+        })
+        console.log("Success: Todo calendarObject updated")
+        return response
+    } catch (error) {
+        console.error("Error updating calendarObject")
+        console.log(error)
+        return error
     }
 }

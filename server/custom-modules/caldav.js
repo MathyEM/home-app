@@ -42,8 +42,7 @@ const accountObject = {
     }]
 }
 
-global.SYNC_LIST = []
-global.SYNC_STATUS = false
+global.UPDATE_TODO_QUEUE = []
 global.ACCOUNT = client.createAccount(accountObject)
 
 parseCalendars(ACCOUNT)
@@ -100,7 +99,7 @@ async function syncCalendars() {
     console.log("Calendar sync started")
     ACCOUNT = await client.createAccount(accountObject)
     await parseCalendars(ACCOUNT)
-    console.log("Calendars synced")
+    console.log("Calendar synced completed")
 }
 
 module.exports = { 
