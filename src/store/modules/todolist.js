@@ -104,38 +104,50 @@ const actions = {
 
         const sourceURL = `${getters.activeTodoSource.url}/todos`
         // CALL API
-        commit('ADD_TO_SYNC_LIST', newTodo.id)
+        const syncId = new Date().getTime()
+        commit('ADD_TO_SYNC_LIST', syncId)
         const response = await axios.post(sourceURL, newTodo)
         newTodo.rawData = response.data
         commit('UPDATE_TODO', newTodo)
-        commit('DELETE_FROM_SYNC_LIST', newTodo.id)
-        if (state.syncList.length < 1) { //don't sync (and fetch) calendars until all updates are complete 
-            await dispatch('syncCalendars')
-        }
+        commit('DELETE_FROM_SYNC_LIST', syncId)
+        setTimeout(async () => { //don't sync (and fetch) calendars until all updates are complete. Wait 5 sec before checking
+            if (state.syncList.length < 1) {
+                await dispatch('syncCalendars')
+            }
+        }, 5000)
     },
     async updateTodo({ state, commit, getters, dispatch }, payload) {
         commit('UPDATE_TODO', payload)
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
-        commit('ADD_TO_SYNC_LIST', payload.id)
+        const syncId = new Date().getTime()
+        commit('ADD_TO_SYNC_LIST', syncId)
         const response = await axios.put(sourceURL, payload)
-        commit('DELETE_FROM_SYNC_LIST', payload.id)
+        commit('DELETE_FROM_SYNC_LIST', syncId)
         console.log("update completed:", response)
 
-        if (state.syncList.length < 1) { //don't sync (and fetch) calendars until all updates are complete 
-            await dispatch('syncCalendars')
-        }
+        setTimeout(async () => { //don't sync (and fetch) calendars until all updates are complete. Wait 5 sec before checking
+            if (state.syncList.length < 1) {
+                await dispatch('syncCalendars')
+            }
+        }, 5000)
     },
     async deleteTodo({ commit, getters, dispatch }, payload) {
         commit('DELETE_TODO', payload)
         // CALL API
         const sourceURL = `${getters.activeTodoSource.url}/todo/${payload.id}`
-        await axios.delete(sourceURL).then(response => {
-            console.log(response)
-        })
-        if (state.syncList.length < 1) { //don't sync (and fetch) calendars until all updates are complete 
-            await dispatch('syncCalendars')
-        }
+
+        const syncId = new Date().getTime()
+        commit('ADD_TO_SYNC_LIST', syncId)
+        const response = await axios.delete(sourceURL)
+        commit('DELETE_FROM_SYNC_LIST', syncId)
+        console.log(response)
+
+        setTimeout(async () => { //don't sync (and fetch) calendars until all updates are complete. Wait 5 sec before checking
+            if (state.syncList.length < 1) {
+                await dispatch('syncCalendars')
+            }
+        }, 5000)
     }
 }
 

@@ -52,7 +52,7 @@ export default {
     computed: {
         ...mapGetters(['activeTodoSource', 'syncList']),
         syncing() {
-            return false //(this.syncList.includes(this.todo.id))
+            return (this.syncList.includes(this.todo.id))
         }
     },
     methods: {
@@ -63,7 +63,7 @@ export default {
         async toggleCompleted() {
             const newTodo = this.todo
             newTodo.completed = !newTodo.completed
-            await this.updateTodo(newTodo)
+            this.updateTodo(newTodo)
         },
         updateSummary(e) {
             this.disabled = true
