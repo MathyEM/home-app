@@ -108,9 +108,10 @@ const actions = {
         const response = await axios.post(sourceURL, newTodo)
         newTodo.rawData = response.data
         commit('UPDATE_TODO', newTodo)
-        const sync = await dispatch('syncCalendars')
         commit('DELETE_FROM_SYNC_LIST', newTodo.id)
-        console.log("sync completed:", sync)
+        if (state.syncList.length < 1) { //don't sync (and fetch) calendars until all updates are complete 
+            await dispatch('syncCalendars')
+        }
     },
     async updateTodo({ state, commit, getters, dispatch }, payload) {
         commit('UPDATE_TODO', payload)
@@ -121,9 +122,8 @@ const actions = {
         commit('DELETE_FROM_SYNC_LIST', payload.id)
         console.log("update completed:", response)
 
-        if (state.syncList.length <= 1) {
-            const postsync = await dispatch('syncCalendars')
-            console.log("postsync completed:", postsync)
+        if (state.syncList.length < 1) { //don't sync (and fetch) calendars until all updates are complete 
+            await dispatch('syncCalendars')
         }
     },
     async deleteTodo({ commit, getters, dispatch }, payload) {
@@ -133,8 +133,9 @@ const actions = {
         await axios.delete(sourceURL).then(response => {
             console.log(response)
         })
-        const sync = await dispatch('syncCalendars')
-        console.log("sync completed:", sync)
+        if (state.syncList.length < 1) { //don't sync (and fetch) calendars until all updates are complete 
+            await dispatch('syncCalendars')
+        }
     }
 }
 
