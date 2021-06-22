@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-const caldav = require('../caldav')
+const caldav = require('../custom-modules/caldav')
 const vobject = require('vobject')
 
 

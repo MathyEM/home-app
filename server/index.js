@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
-const caldav = require('./caldav')
+const caldav = require('./custom-modules/caldav')
 const routes = require('./routes')
 
 const app = express();

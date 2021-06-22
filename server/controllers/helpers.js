@@ -1,4 +1,4 @@
-const caldav = require('../caldav')
+const caldav = require('../custom-modules/caldav')
 const vobject = require('vobject')
 
 exports.filterBySlug = function (slug) {
