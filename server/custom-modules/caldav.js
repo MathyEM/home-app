@@ -83,6 +83,11 @@ async function parseCalendars(account) {
                 todo.summary = props.SUMMARY[0].value
                 todo.categories = props.CATEGORIES != null ? props.CATEGORIES[0].value : ""
                 todo.completed = props.STATUS != null ? (props.STATUS[0].value == "COMPLETED" ? true : false) : false
+                if (props.CREATED != null || props['LAST-MODIFIED'] != null) {
+                    const date = props['LAST-MODIFIED'] == null ? props.CREATED[0].value : props['LAST-MODIFIED'][0].value
+                    const sortByTime = new Date(vobject.dateTimeValue().parseICS(date).toDateTime()).getTime()
+                    todo.sortByTime = sortByTime
+                }
                 todo.rawData = object.calendarData
 
                 cal.todos.push(todo)
@@ -92,7 +97,7 @@ async function parseCalendars(account) {
         calendars.push(cal)
     });
     global.CALENDARS = calendars
-    console.log("Calendars fetched");
+    console.log("Calendars fetched")
 }
 
 async function syncCalendars() {

@@ -30,7 +30,7 @@ router.put('/calendar/:slug/todo/:id', todolist.addToQueue)
 
 router.delete('/calendar/:slug/todo/:id', todolist.addToQueue)
 
-router.get('/rawcalendars', (req, res) => console.log(CALENDARS_RAW[2].objects))
+router.get('/rawcalendars', (req, res) => console.log(vobject.parseICS(CALENDARS_RAW[2].objects[0].calendarData).components.VTODO[0].properties))
 router.get('/test', (req, res) => {
     res.send('test endpoint')
 })
