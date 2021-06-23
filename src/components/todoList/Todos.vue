@@ -31,7 +31,6 @@ export default {
         ...mapGetters(['todoSources', 'todos', 'activeTodos', 'completedTodos']),
     },
     methods: {
-
     },
     mounted() {
     }

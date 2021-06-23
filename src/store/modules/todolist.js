@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+function sortTodos(todos) {
+    todos.sort((a, b) => {
+        return b.sortByTime - a.sortByTime
+    })
+    return todos
+}
+
 const state = {
     todos: [],
     todoSources: [],
@@ -34,15 +41,16 @@ const mutations = {
         state.todos = payload
     },
     ADD_TODO(state, payload) {
-        state.todos.push(payload)
+        state.todos.unshift(payload)
     },
-    DELETE_TODO(state, payload) { // TODO
+    DELETE_TODO(state, payload) {
         const filteredTodos = state.todos.filter(todo => todo.id !== payload.id)
         state.todos = filteredTodos
     },
     UPDATE_TODO(state, payload) {
-        const todo = state.todos.find(todo => todo.id === payload.id)
-        Object.assign(todo, payload)
+        const filteredTodos = state.todos.filter(todo => todo.id !== payload.id)
+        state.todos = filteredTodos
+        state.todos.unshift(payload)
     },
     ADD_TO_SYNC_LIST(state, payload) {
         state.syncList.push(payload)
@@ -88,9 +96,10 @@ const actions = {
 
         const sourceURL = `${getters.activeTodoSource.url}/todos`
         await axios.get(sourceURL).then((response) => {
-            let todo = response.data
+            let todos = response.data
             console.log("Todos fetched")
-            return commit('ADD_TODO_ARRAY', todo)
+            todos = sortTodos(todos)
+            return commit('ADD_TODO_ARRAY', todos)
         })
     },
     async addTodo({ commit, getters, dispatch }, payload) {
