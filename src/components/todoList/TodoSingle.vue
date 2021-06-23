@@ -1,23 +1,31 @@
 <template>
     <li class="todo-item" v-on:click.self="toggleCompleted" :class="{ editing: editing }">
-        <p
-            v-if="!editing"
-            v-on:click.self="toggleCompleted"
-            class="todo-summary"
-            :class="{ completed: todo.completed }"
-        >{{ todo.summary }}
-        </p>
-        <input
-            v-else
-            type="text"
-            name="updatedTodo"
-            id="updatedTodo"
-            maxlength="25"
-            :value="todo.summary"
-            v-on:keyup.enter.self="editing = false"
-            v-on:blur="updateSummary"
-            v-focus
-        >
+        <div v-if="!editing" class="todo-info">
+            <p
+                v-on:click.self="toggleCompleted"
+                class="todo-summary"
+                :class="{ completed: todo.completed }"
+            >{{ todo.summary }}
+            </p>
+            <ul class="categories-list">
+                <li v-for="(category, index) in categories" class="category-item" :key="index">
+                    <span>{{category}}</span>
+                </li>
+            </ul>
+        </div>
+        <div v-else class="inputs">
+            <input
+                
+                type="text"
+                name="updatedTodo"
+                id="updatedTodo"
+                maxlength="25"
+                :value="todo.summary"
+                v-on:keyup.enter.self="editing = false"
+                v-on:blur="updateSummary"
+                v-focus
+            >
+        </div>
 
         <div class="todo-btn-container">
             <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="disabled">✎</button>
@@ -53,6 +61,13 @@ export default {
         ...mapGetters(['activeTodoSource', 'syncList']),
         syncing() {
             return (this.syncList.includes(this.todo.id))
+        },
+        categories() {
+            const categories = this.todo.categories
+            if (categories == '') {
+                return []
+            }
+            return categories.split(',')
         }
     },
     methods: {
@@ -75,7 +90,6 @@ export default {
             const newTodo = this.todo
             newTodo.summary = value.trim()
             this.updateTodo(newTodo)
-            console.log("done");
         },
         deleteConfirmation() {
             this.deleting = true
@@ -83,7 +97,6 @@ export default {
         },
         async doDelete() {
             await this.deleteTodo(this.todo)
-            console.log(this.todo);
         }
     },
     directives: {
@@ -98,7 +111,7 @@ export default {
 
 <style lang="scss" scoped>
 $todo-color: whitesmoke;
-$light-text-color: #d2d2d2;
+$light-text-color: rgb(235, 235, 235);
 
 p.completed {
     text-decoration: line-through;
@@ -111,17 +124,16 @@ p.completed {
     gap: 0.5em;
     align-items: center;
 
+    .todo-info {
+        align-self: baseline;
+    }
+
     .todo-summary {
         font-size: 1.5em;
     }
 
-    &:nth-child(even) {
+    &:nth-child(odd) {
         background: $todo-color
-    }
-
-    &:hover {
-        background: darken($todo-color, 50);
-        color: $light-text-color;
     }
 
     input {
@@ -168,6 +180,35 @@ p.completed {
         .sync-msg {
             font-size: 0.65em;
             vertical-align: middle;
+        }
+    }
+
+    .categories-list {
+        list-style: none;
+        display: flex;
+        gap: 5px;
+
+        .category-item {
+            display: inline;
+            padding: 0.125em 0.25em;
+            border-radius: 3px;
+            background: darken($todo-color, 10);
+        }
+    }
+
+    &:hover {
+        $new-color: darken($todo-color, 30);
+        background: $new-color;
+        color: lighten($new-color, 30);
+
+        .category-item {
+            $new-color2: darken($new-color, 15);
+            background: $new-color2;
+
+            &:hover {
+                background: lighten($new-color2, 2);
+                color: lighten($new-color, 35);
+            }
         }
     }
 }

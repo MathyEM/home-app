@@ -42,10 +42,12 @@ export default {
     padding: 0 0 0.5em;
     text-align: left;
     list-style: none;
+    display: grid;
+    grid-auto-rows: 1fr;
 }
 
 h4, h3 {
-    margin-top: 0.5em;
+    margin: 0.5em 0 0.25em;
     text-align: left;
 }
 </style>
