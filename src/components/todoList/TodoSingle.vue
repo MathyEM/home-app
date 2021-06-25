@@ -7,7 +7,7 @@
                 :class="{ completed: todo.completed }"
             >{{ todo.summary }}
             </p>
-            <ul class="categories-list">
+            <ul class="categories-list" v-on:click="toggleCompleted">
                 <li v-for="(category, index) in categories" class="category-item" :key="index">
                     <span>{{category}}</span>
                 </li>
@@ -20,27 +20,48 @@
                 id="updatedTodo"
                 maxlength="25"
                 :value="todo.summary"
-                v-on:keyup.enter.self="editing = false"
-                v-on:blur="updateSummary"
+                v-on:keyup.enter.self="setUpdatedTodoSummary($event); editTodo()"
+                v-on:blur="setUpdatedTodoSummary"
                 v-focus
             >
+            <CustomInputTag :value="categories" v-on:input="setUpdatedTodoCategories" />
         </div>
         <div class="todo-btn-container">
-            <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="disabled">✎</button>
-            <button v-else class="edit-btn todo-btn">✎</button>
-            <button v-if="!deleting" @click="deleteConfirmation" class="delete-btn todo-btn">🗑</button>
-            <button v-else @click="doDelete" class="delete-btn confirm-del-btn todo-btn">🗑</button>
+            <button
+                v-if="!editing"
+                v-on:click="editing = true"
+                class="edit-btn todo-btn"
+                :disabled="disabled"
+            >✎</button>
+            <button
+                v-else
+                class="edit-btn todo-btn editing"
+                v-on:click="editTodo"
+            >✎</button>
+
+            <button
+                v-if="!deleting"
+                @click="deleteConfirmation"
+                class="delete-btn todo-btn"
+            >🗑</button>
+            <button
+                v-else
+                @click="doDelete"
+                class="delete-btn confirm-del-btn todo-btn"
+            >🗑</button>
         </div>
     </li>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import CustomInputTag from './CustomInputTag.vue';
+
 
 export default {
     name: 'TodoSingle',
     components: {
-
+        CustomInputTag,
     },
     props: {
         todo: {
@@ -52,7 +73,9 @@ export default {
         return {
             editing: false,
             deleting: false,
-            disabled: false
+            disabled: false,
+            updatedTodoSummary: '',
+            updatedTodoCategories: this.todo.categories ? this.todo.categories.split(',') : []
         }
     },
     computed: {
@@ -66,7 +89,7 @@ export default {
                 return []
             }
             return categories.split(',')
-        }
+        },
     },
     methods: {
         ...mapActions(['updateTodo', 'deleteTodo']),
@@ -78,15 +101,26 @@ export default {
             newTodo.completed = !newTodo.completed
             this.updateTodo(newTodo)
         },
-        updateSummary(e) {
+        setUpdatedTodoCategories(e) {
+			this.updatedTodoCategories = e
+		},
+        setUpdatedTodoSummary(e) {
+            this.updatedTodoSummary = e.target.value.trim().replace(/\s+/g, ' ')
+        },
+        editTodo() {
             this.disabled = true
             this.editing = false
             setTimeout(() => this.disabled = false, 300)
-            let value = e.target.value
-            if (value.trim() === this.todo.summary.trim() || value.trim() == "") return
+
+            const oldSummary = this.todo.summary
+            const oldCategories = this.todo.categories
+            const summary = this.updatedTodoSummary
+            const categories = this.updatedTodoCategories.join(",")
+            if (summary == '' || (oldSummary == summary && oldCategories == categories)) return
 
             const newTodo = this.todo
-            newTodo.summary = value.trim()
+            newTodo.summary = summary
+            newTodo.categories = categories
             this.updateTodo(newTodo)
         },
         deleteConfirmation() {
@@ -107,7 +141,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $todo-color: whitesmoke;
 $light-text-color: rgb(235, 235, 235);
 
@@ -138,6 +172,7 @@ p.completed {
         font: unset;
         outline: none;
         font-size: 1.5em;
+        width: 100%;
     }
 
     .todo-btn-container {
@@ -209,5 +244,23 @@ p.completed {
             }
         }
     }
+
+    .new-todo-category {
+		$font-size: 1rem;
+		.input-tag {
+			font-size: $font-size;
+            padding-right: 1.2em;
+
+            a.remove {
+                font-size: $font-size*1.2;
+            }
+		}
+		.new-tag {
+			font-size: $font-size;
+		}
+        input {
+            width: auto;
+        }
+	}
 }
 </style>
