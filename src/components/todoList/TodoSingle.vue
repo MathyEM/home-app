@@ -15,7 +15,6 @@
         </div>
         <div v-else class="inputs">
             <input
-                
                 type="text"
                 name="updatedTodo"
                 id="updatedTodo"
@@ -26,7 +25,6 @@
                 v-focus
             >
         </div>
-
         <div class="todo-btn-container">
             <button v-if="!editing" v-on:click="editing = true" class="edit-btn todo-btn" :disabled="disabled">✎</button>
             <button v-else class="edit-btn todo-btn">✎</button>

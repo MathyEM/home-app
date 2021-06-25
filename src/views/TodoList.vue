@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 	.todo-list-container {
-		max-width: 500px;
+		width: 500px;
 		margin: 0 auto;
 	}
 </style>
