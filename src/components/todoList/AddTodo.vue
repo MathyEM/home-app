@@ -59,9 +59,11 @@ export default {
 	}
 	.new-todo-category {
 		.input-tag {
+			display: flex;
+			align-items: center;
 			font-size: 1.5rem;
 			position: relative;
-			padding-right: 1em;
+			padding-right: 0.875em;
 
 			.remove {
 				position: absolute;
@@ -72,11 +74,12 @@ export default {
 				height: 100%;
 
 				&::before {
-					padding: 3px;
+					padding: 0 4px;
 					width: 100%;
 					height: 100%;
 					display: flex;
 					flex-direction: row-reverse;
+					align-items: center;
 				}
 			}
 		}
