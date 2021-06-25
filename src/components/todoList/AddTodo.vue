@@ -6,27 +6,28 @@
 				name="new-todo"
 				id="new-todo"
 				placeholder="Tilføj en ting"
-						v-model="newTodoInput"
-						v-on:keydown.enter="createTodo(newTodoInput)"
+						v-model="newTodoSummary"
+						v-on:keydown.enter="createTodo"
 			>
-			<InputTag :add-tag-on-blur="true" class="new-todo-category" placeholder="Tilføj kategori" />
+			<CustomInputTag :value="newTodoCategories" v-on:input="setNewTodoCategories" />
 		</div>
-		<button class="add-todo-btn" @click="createTodo(newTodoInput)">+</button>
+		<button class="add-todo-btn" @click="createTodo">+</button>
     </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import InputTag from 'vue-input-tag'
+import CustomInputTag from './CustomInputTag.vue';
 
 export default {
 	name: "AddTodo",
 	components: {
-		InputTag,
+		CustomInputTag,
 	},
 	data() {
 		return {
-			newTodoInput: "",
+			newTodoSummary: "",
+			newTodoCategories: [],
 		}
 	},
 	computed: {
@@ -34,22 +35,33 @@ export default {
 	},
 	methods: {
 		...mapActions(['addTodo']),
-		createTodo(todoInput) {
-			if (todoInput.trim() == "") {
+		setNewTodoCategories(e) {
+			this.newTodoCategories = e
+		},
+		createTodo() {
+			const summary = this.newTodoSummary.trim()
+			const categories = this.newTodoCategories.join(",")
+			if (summary == "") {
 				return
 			}
-			this.addTodo(todoInput.trim())
-			this.newTodoInput = ""
+			let payload = {}
+			payload.summary = summary
+			payload.categories = categories
+			this.addTodo(payload)
+
+			// Reset inputs
+			this.newTodoSummary = ""
+			this.newTodoCategories = []
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-	div.new-todo {
-		display: grid;
-		grid-template-columns: minmax(auto, 80%) auto;
-	}
+div.new-todo {
+	display: grid;
+	grid-template-columns: minmax(auto, 80%) auto;
+
 	#new-todo {
 		width: 100%;
 		font-size: 2rem;
@@ -58,34 +70,12 @@ export default {
 		outline: none;
 	}
 	.new-todo-category {
+		$font-size: 1.5rem;
 		.input-tag {
-			display: flex;
-			align-items: center;
-			font-size: 1.5rem;
-			position: relative;
-			padding-right: 0.875em;
-
-			.remove {
-				position: absolute;
-				right: 0;
-				top: 0;
-				display: flex;
-				width: 100%;
-				height: 100%;
-
-				&::before {
-					padding: 0 4px;
-					width: 100%;
-					height: 100%;
-					display: flex;
-					flex-direction: row-reverse;
-					align-items: center;
-				}
-			}
+			font-size: $font-size;
 		}
-	
 		.new-tag {
-			font-size: 1.5rem;
+			font-size: $font-size;
 		}
 	}
 	.add-todo-btn {
@@ -93,4 +83,6 @@ export default {
 		font-size: 2rem;
 		padding: 0 0.5em;
 	}
+}
+
 </style>

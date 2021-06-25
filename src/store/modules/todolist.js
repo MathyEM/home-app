@@ -104,7 +104,7 @@ const actions = {
     },
     async addTodo({ commit, getters, dispatch }, payload) {
         let newTodo = {
-            summary: payload,
+            summary: payload.summary,
             completed: false,
             categories: payload.categories || '',
             id: new Date().getTime() + "@home.mem-home",
