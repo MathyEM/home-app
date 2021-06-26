@@ -40,29 +40,38 @@ export default {
 
 <style lang="scss">
 .new-todo-category {
+    padding-bottom: 4px;
+    gap: 4px;
+
     .input-tag {
         display: flex;
         align-items: center;
         position: relative;
+        padding: 0 3px;
         padding-right: 0.875em;
+        margin: 0;
+        height: fit-content;
 
         .remove {
             position: absolute;
+            display: inline-flex;
             right: 0;
-            top: 0;
-            display: flex;
             width: 100%;
-            height: 100%;
 
             &::before {
                 padding: 0 4px;
                 width: 100%;
-                height: 100%;
                 display: flex;
                 flex-direction: row-reverse;
-                align-items: center;
             }
         }
+    }
+
+    .new-tag {
+        margin: 0;
+        padding: 0;
+        padding-right: 4px;
+        flex-grow: 0;
     }
 }
 </style>

@@ -1,17 +1,15 @@
 <template>
 	<div class="new-todo">
-        <div class="add-todo-inputs">
-			<input
-				type="text"
-				name="new-todo"
-				id="new-todo"
-				placeholder="Tilføj en ting"
-						v-model="newTodoSummary"
-						v-on:keydown.enter="createTodo"
-			>
-			<CustomInputTag :value="newTodoCategories" v-on:input="setNewTodoCategories" />
-		</div>
+		<input
+			type="text"
+			name="new-todo"
+			id="new-todo"
+			placeholder="Tilføj en ting"
+					v-model="newTodoSummary"
+					v-on:keydown.enter="createTodo"
+		>
 		<button class="add-todo-btn" @click="createTodo">+</button>
+		<CustomInputTag :value="newTodoCategories" v-on:input="setNewTodoCategories" />
     </div>
 </template>
 
@@ -60,7 +58,10 @@ export default {
 <style lang="scss">
 div.new-todo {
 	display: grid;
-	grid-template-columns: minmax(auto, 80%) auto;
+	grid-template-columns: 9fr 1fr;
+	grid-template-areas:
+		'summary add_btn'
+		'categories categories';
 
 	#new-todo {
 		width: 100%;
@@ -68,9 +69,12 @@ div.new-todo {
 		padding: 2px;
 		margin: 0;
 		outline: none;
+		grid-area: summary;
 	}
 	.new-todo-category {
+		grid-area: categories;
 		$font-size: 1.5rem;
+
 		.input-tag {
 			font-size: $font-size;
 		}
@@ -79,10 +83,10 @@ div.new-todo {
 		}
 	}
 	.add-todo-btn {
+		grid-area: add_btn;
 		// font-weight: bold;
 		font-size: 2rem;
 		padding: 0 0.5em;
 	}
 }
-
 </style>
