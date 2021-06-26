@@ -37,6 +37,10 @@ const mutations = {
     ADD_TODO_SOURCES(state, payload) {
         state.todoSources = payload
     },
+    CHANGE_TODO_SOURCE(state, payload) {
+        console.log('changing to:', payload);
+        state.activeTodoSource.id = payload
+    },
     ADD_TODO_ARRAY(state, payload) {
         state.todos = payload
     },
@@ -70,7 +74,7 @@ const actions = {
             let todoSources = []
             response.data.forEach((data) => {
                 var newData = data
-                if (!data.hasTodos) return //skip event source it it has 0 todos
+                if (!data.hasTodos) return //skip event source if it has 0 todos
 
                 if (todoSourceColors) { // use localStorage colors if they are available
                     newData.color = todoSourceColors[data.id]
@@ -93,7 +97,7 @@ const actions = {
         if (!state.todoSources) {
             return console.log("No Todo sources")
         }
-
+        console.log(state.activeTodoSource)
         const sourceURL = `${getters.activeTodoSource.url}/todos`
         await axios.get(sourceURL).then((response) => {
             let todos = response.data

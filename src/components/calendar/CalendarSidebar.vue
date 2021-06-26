@@ -143,7 +143,7 @@ section.calendars {
 .toggle-sidebar {
 	visibility: hidden;
 	height: 0;
-	widows: 0;
+	width: 0;
 
 	&:checked {
 		& ~ .calendar-sidebar {
