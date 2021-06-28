@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import TodoList from '../views/TodoList.vue'
+import HueApp from '../views/HueApp.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/todolist',
     name: 'Todo List',
     component: TodoList
+  },
+  {
+    path: '/hueapp',
+    name: 'Hue App',
+    component: HueApp
   }
 ]
 

@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/calendar">Kalender</router-link> |
-      <router-link to="/todolist">Huskeseddel</router-link>
+      <router-link to="/todolist">Huskeseddel</router-link> |
+      <router-link to="/hueapp">Hue App</router-link>
     </div>
     <router-view/>
   </div>
