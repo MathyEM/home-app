@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-.new-todo-category {
+.vue-input-tag-wrapper.new-todo-category {
     padding-bottom: 4px;
     gap: 4px;
 

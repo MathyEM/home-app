@@ -1,15 +1,20 @@
 ---
   version: "2"
   services:
-    hue-app:
+    home-app:
       image: kallakukku/home-app:latest
       container_name: home-app
       restart: unless-stopped
       environment:
         - VUE_APP_POLLING_RATE=10000
-        - VUE_APP_HUE_BRIDGE_IP=
-        - VUE_APP_HUE_USERNAME=
-        - VUE_APP_CALENDAR_API=
+        - VUE_APP_HUE_BRIDGE_IP=192.168.87.161
+        - VUE_APP_HUE_USERNAME=thKWqA-XrWM3yDocuuh3BurWImRDOZuUnL3cgCKa
+        - VUE_APP_CALENDAR_API=http://192.168.87.117:9988
       ports:
         - 8899:80
+    home-app-api:
+      image: kallakukku/home-app-api:latest
+      container_name: home-app-api
+      restart: unless-stopped
+      ports:
         - 9988:3000
