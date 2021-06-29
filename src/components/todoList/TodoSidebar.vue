@@ -106,8 +106,7 @@ export default {
 </style>
 <style lang="scss" scoped>
 .todo-sidebar-container {
-	position: absolute;
-	margin-top: 2.5rem;
+	position: relative;
 }
 
 section.todos {
@@ -116,6 +115,7 @@ section.todos {
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 1em;
+		gap: 2rem;
 	}
 }
 
@@ -134,13 +134,12 @@ section.todos {
 .todo-sidebar {
 	position: absolute;
 	z-index: 10;
-	width: 300px;
+	max-width: 280px;
 	line-height: 1.5;
 	background: #eaf9ff6b;
 	border: 1px solid #d3e2e8;
-	text-align: left;
 	display: none;
-    transform: translateX(-89%);
+	right: 0;
 
 	.checkbox-title {
 		display: grid;
