@@ -27,13 +27,14 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['getTodos'])
+		...mapActions(['getTodos', 'syncCalendars'])
 	},
 	async created() {
 
 	},
 	mounted() {
 		this.getTodos()
+		this.syncCalendars()
 	},
 }
 </script>
