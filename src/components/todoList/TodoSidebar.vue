@@ -3,7 +3,7 @@
     <label class="toggle-sidebar-label" for="toggle-sidebar">
         <a class="toggle-sidebar-btn">☰</a>
     </label>
-    <input type="checkbox" name="toggle-sidebar" id="toggle-sidebar" class="toggle-sidebar" @change="test">
+    <input type="checkbox" name="toggle-sidebar" id="toggle-sidebar" class="toggle-sidebar">
     <div class="todo-sidebar">
         <section class="todos">
             <div class="todo" v-for="(todoSource, index) in todoSources" :key="index">
@@ -69,9 +69,6 @@ export default {
         changeTodoSourceColor(index, id, event) {
             return console.log("changeTodoSourceColor", index, id, event);
         },
-		test(e) {
-			console.log(e.target.value);
-		},
         changeSource(e) {
             const id = e.target.value
             console.log(id)
@@ -80,9 +77,7 @@ export default {
         },
 		handleClick(event) {
             let checkbox = document.querySelector('#toggle-sidebar')
-			console.log(event.target.closest('.todo-sidebar'), "and", event.target.matches('.toggle-sidebar-btn'), "and", checkbox.checked)
             if (!event.target.closest('.todo-sidebar') && !event.target.matches('.toggle-sidebar-btn') && checkbox.checked) {
-				console.log("clicked!");
                 document.querySelector('.toggle-sidebar-label').click()
             }
         }
