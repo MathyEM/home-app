@@ -52,6 +52,9 @@ export default {
 			console.log(arg.event)
 		}
 	},
+	async beforeCreate() {
+		this.$store.dispatch('setEventSources')
+	},
 	async created() {
 
 	},

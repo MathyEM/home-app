@@ -87,13 +87,19 @@ export default {
 		
 	},
 	methods: {
-		...mapActions(['setLocalStorageEventSourceColors'])
+		...mapActions(['setLocalStorageEventSourceColors']),
+		handleClick (event) {
+			let checkbox = document.querySelector('#toggle-sidebar')
+			if (!event.target.closest('.calendar-sidebar') && !event.target.matches('.toggle-sidebar-btn') && checkbox.checked) {
+				document.querySelector('.toggle-sidebar-btn').click()
+			}
+		}
 	},
 	mounted() {
 		this.$nextTick().then(() => {
 			let html = `<label class="toggle-sidebar-label" for="toggle-sidebar">
-						<a class="toggle-sidebar-btn">☰</a>
-					</label>`
+							<a class="toggle-sidebar-btn">☰</a>
+						</label>`
 			const template = document.createElement('template');
 			html = html.trim(); // Never return a text node of whitespace as the result
 			template.innerHTML = html;
@@ -101,14 +107,12 @@ export default {
 			const title = document.querySelector('.fc-toolbar-chunk .fc-toolbar-title')
 			title.parentNode.appendChild(template.content.firstChild)
 
-			document.addEventListener("click", function (event) {
-				let checkbox = document.querySelector('#toggle-sidebar')
-				if (!event.target.closest('.calendar-sidebar') && !event.target.matches('.toggle-sidebar-btn') && checkbox.checked) {
-					document.querySelector('.toggle-sidebar-btn').click()
-				}
-			})
+			document.addEventListener("click", this.handleClick)
 		})
-	}
+	},
+	beforeDestroy() {
+		document.removeEventListener("click", this.handleClick)
+	},
 }
 </script>
 
