@@ -54,6 +54,7 @@ export default {
 	},
 	async beforeCreate() {
 		this.$store.dispatch('setEventSources')
+		this.$store.dispatch('syncCalendars')
 	},
 	async created() {
 
