@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="calendar-sidebar-container">
 		<input type="checkbox" name="toggle-sidebar" id="toggle-sidebar" class="toggle-sidebar">
 		<div class="calendar-sidebar">
 			<section class="calendars">
@@ -130,9 +130,9 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-.container {
+.calendar-sidebar-container {
 	position: absolute;
-	margin-top: 3rem;
+	margin-top: calc(3rem + 1px);
 }
 
 section.calendars {
