@@ -10,17 +10,20 @@
 		>
 		<button class="add-todo-btn" @click="createTodo">+</button>
 		<CustomInputTag :value="newTodoCategories" v-on:input="setNewTodoCategories" />
+		<TodoSidebar id="todo-sidebar" />
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import CustomInputTag from './CustomInputTag.vue';
+import { mapActions } from 'vuex'
+import CustomInputTag from './CustomInputTag.vue'
+import TodoSidebar from "./TodoSidebar"
 
 export default {
 	name: "AddTodo",
 	components: {
 		CustomInputTag,
+		TodoSidebar,
 	},
 	data() {
 		return {
@@ -61,7 +64,7 @@ div.new-todo {
 	grid-template-columns: 9fr 1fr;
 	grid-template-areas:
 		'summary add_btn'
-		'categories categories';
+		'categories sidebar';
 
 	#new-todo {
 		width: 100%;
@@ -87,6 +90,9 @@ div.new-todo {
 		// font-weight: bold;
 		font-size: 2rem;
 		padding: 0 0.5em;
+	}
+	#todo-sidebar {
+		grid-area: sidebar;
 	}
 }
 </style>
