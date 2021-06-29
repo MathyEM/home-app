@@ -7,6 +7,7 @@ export default class ConfigProvider {
       hueBridgeIP: "$VUE_APP_HUE_BRIDGE_IP",
       hueUsername: "$VUE_APP_HUE_USERNAME",
       pollingRate: "$VUE_APP_POLLING_RATE",
+      calendarAPI: "$VUE_APP_CALENDAR_API"
     };
   }
 

@@ -3,13 +3,15 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import calendar from './modules/calendar'
 import todolist from './modules/todolist'
+import ConfigProvider from '../ConfigProvider'
 
+const calendarAPI = ConfigProvider.value('calendarAPI')
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		caldavAPI: "http://localhost:3000",
+		caldavAPI: calendarAPI,
 		syncStatus: false,
 	},
 	getters: {

@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~hue-app/hue-app.css';
+@import '~local-hue-app/local-hue-app.css';
 
 :root {
 	scroll-behavior: smooth;
