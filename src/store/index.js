@@ -34,6 +34,7 @@ export default new Vuex.Store({
 			const response = await axios.get(url)
 			commit('TOGGLE_SYNC_STATUS', false)
 			if (todolist.state.syncList <= 1) await dispatch('getTodos')
+			await dispatch('setEventSources')
 			console.log("sync completed:", response)
 			return response
 		}
