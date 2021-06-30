@@ -2,7 +2,7 @@
 	<div class="calendar-container">
 		<CalendarSidebar :eventSources="eventSources" :calendarApi="calendarApi" />
 		<FullCalendar ref="fullCalendar" :options="calendarOptions" />
-		<SimpleModal v-model="showModal" :title="focusedEventSource.name">
+		<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + focusedEventSource.color">
 			<template slot="body">
 				<h4>{{ focusedEvent.title }}</h4>
 				<p v-if="focusedEventDates.start">
@@ -100,8 +100,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .calendar-container {
+	--modal-header-color: #f7f7f7;
 	h4 {
 		margin-bottom: 0.25em;
 	}
@@ -111,6 +112,18 @@ export default {
 
 		&::first-letter {
 			text-transform: uppercase;
+		}
+	}
+	.vsm-modal {
+		.btn-close {
+			color: white;
+		}
+		.vsm-modal-header {
+			background: var(--modal-header-color);
+
+			.title {
+				color: white;
+			}
 		}
 	}
 }
