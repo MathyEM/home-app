@@ -2,11 +2,21 @@
 	<div class="calendar-container">
 		<CalendarSidebar :eventSources="eventSources" :calendarApi="calendarApi" />
 		<FullCalendar ref="fullCalendar" :options="calendarOptions" />
+		<SimpleModal v-model="showModal" :title="focusedEventSource.name">
+			<template slot="body">
+				<h4>{{ focusedEvent.title }}</h4>
+				<p v-if="focusedEventDates.start">
+					<span class="focused-event-date">{{ focusedEventDates.start }}</span> - 
+					<span class="focused-event-date">{{ focusedEventDates.end }}</span>
+				</p>
+			</template>
+		</SimpleModal>
 	</div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CalendarSidebar from '../components/calendar/CalendarSidebar'
+import SimpleModal from 'simple-modal-vue';
 
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -16,11 +26,20 @@ import daLocale from '@fullcalendar/core/locales/da';
 export default {
 	name: "Calendar",
 	components: {
-		FullCalendar, // make the <FullCalendar> tag available
+		FullCalendar,
 		CalendarSidebar,
+		SimpleModal
+	},
+	data() {
+		return {
+			calendarApi: Object,
+			showModal: false,
+			focusedEvent: {},
+			focusedEventSource: {},
+		}
 	},
 	computed: {
-		...mapGetters(['events', 'eventSources']),
+		...mapGetters(['events', 'eventSources', 'eventSourceById']),
 
 		calendarOptions() {
 			return {
@@ -39,17 +58,33 @@ export default {
 				height: "100%",
 			}
 		},
-	},
-	data() {
-		return {
-			calendarApi: Object,
-		}
+		focusedEventDates() {
+			const event = this.focusedEvent
+			const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
+			const startDate = new Date(event.startStr)
+			const endDate = new Date(event.endStr)
+
+			if (event.allDay) return {}
+
+			if (startDate.getDate() !== endDate.getDate()) {
+				const start = startDate.toLocaleString('da-DK', options)
+				const end = endDate.toLocaleString('da-DK', options)
+				return { start, end }
+			}
+
+			const start = startDate.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' })
+			const end = endDate.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' })
+			return { start, end }
+		},
 	},
 	methods: {
 		...mapActions(['setEventSources']),
 
 		handleDateClick: function(arg) {
-			console.log(arg.event)
+			this.focusedEvent = arg.event
+			this.focusedEventSource = this.eventSourceById(this.focusedEvent.source.id)
+			this.showModal = true
+			console.log(this.focusedEvent)
 		}
 	},
 	async beforeCreate() {
@@ -64,3 +99,19 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+.calendar-container {
+	h4 {
+		margin-bottom: 0.25em;
+	}
+
+	span.focused-event-date {
+		display: inline-block;
+
+		&::first-letter {
+			text-transform: uppercase;
+		}
+	}
+}
+</style>

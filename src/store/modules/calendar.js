@@ -24,6 +24,9 @@ const state = {
 const getters = {
     events: state => state.events,
     eventSources: state => state.eventSources,
+    eventSourceById: (state) => (id) => {
+        return state.eventSources.find(eventSource => eventSource.id == id)
+    },
     eventSourceColors: state => {
         let obj = {}
         state.eventSources.forEach((eventSource) => {
