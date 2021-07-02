@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import calendar from './modules/calendar'
 import todolist from './modules/todolist'
+import weather from './modules/weather'
 import ConfigProvider from '../ConfigProvider'
 
 const calendarAPI = ConfigProvider.value('calendarAPI')
@@ -41,6 +42,7 @@ export default new Vuex.Store({
 	},
 	modules: {
 		calendar,
-		todolist
+		todolist,
+		weather,
 	}
 })
