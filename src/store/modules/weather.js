@@ -1,16 +1,18 @@
 import { getWeather } from "../../services/weatherapi";
 
 const state = {
-    weatherCache: null,
-    weatherCacheForecast: null,
+    weatherCache: {},
 }
 
 const getters = {
     weatherCache: state => state.weatherCache,
+    currentWeather: state => state.weatherCache.current,
+    hourlyWeather: state => state.weatherCache.hourly,
+    dailyWeather: state => state.weatherCache.daily,
 }
 
 const mutations = {
-    SET_WEATHER_CACHE: (state, payload) => {
+    SET_WEATHER_CACHE: async (state, payload) => {
         state.weatherCache = payload
     },
 }
