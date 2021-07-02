@@ -5,7 +5,7 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import WeatherWidget from '@/components/home/WeatherWidget.vue'
 
