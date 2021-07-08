@@ -1,16 +1,16 @@
 <template>
-    <div v-if="currentWeather && dailyWeather" class="current-weather">
+    <div v-if="current && daily" class="current-weather">
         <div class="current-weather-container">
             <div class="current-weather-wrapper">
                 <h5 class="location">Kolding</h5>
                 <div class="icon-temp-row">
-                    <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`" alt="">
+                    <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`" alt="">
                     <div class="temperature-container">
-                        <h4 class="temperature">{{ currentWeather.temp.toFixed(0) }}°</h4>
-                        <p class="min-max">{{ dailyWeather[0].temp.max.toFixed(0) + "°" + "/" + dailyWeather[0].temp.min.toFixed(0) + "°" /*convertUnixDate(currentWeather.dt)*/ }}</p>
+                        <h4 class="temperature">{{ current.temp.toFixed(0) }}°</h4>
+                        <p class="min-max">{{ daily[0].temp.max.toFixed(0) + "°" + "/" + daily[0].temp.min.toFixed(0) + "°" }}</p>
                     </div>
                 </div>
-                <p class="weather-description">{{ currentWeather.weather[0].description }}</p>
+                <p class="weather-description">{{ current.weather[0].description }}</p>
             </div>
             <span
                 class="expand-hourly-weather"
@@ -37,7 +37,14 @@ export default {
         HourWeather
     },
     props: {
-
+        current: {
+            type: Object,
+            required: true,
+        },
+        daily: {
+            type: Array,
+            required: true,
+        }
     },
     data() {
         return {
@@ -45,7 +52,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['currentWeather', 'dailyWeather', 'hourlyWeather']),
+        ...mapGetters(['hourlyWeather']),
     }
 }
 </script>
@@ -103,10 +110,6 @@ export default {
     height: 0;
     opacity: 0;
 }
-.weather-icon {
-    margin: -10% -8%;
-    padding: 5px;
-}
 .weather-description {
     margin-top: 10px;
 
@@ -126,6 +129,10 @@ export default {
 </style>
 
 <style lang="scss">
+.weather-icon {
+    margin: -10% -8%;
+    padding: 5px;
+}
 .icon-shadow {
     filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));
 }
