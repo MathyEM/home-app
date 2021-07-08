@@ -7,7 +7,7 @@
         <img
             :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
             :alt="'vejrikon med ' + hour.weather[0].description"
-            class="icon"
+            class="icon icon-shadow"
         >
         <div class="temp-rain">
             <p class="temp">{{ hour.temp.toFixed(0) + "°" }}</p>

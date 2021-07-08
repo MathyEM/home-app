@@ -4,7 +4,7 @@
             <div class="current-weather-wrapper">
                 <h5 class="location">Kolding</h5>
                 <div class="icon-temp-row">
-                    <img class="weather-icon" :src="`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`" alt="">
+                    <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`" alt="">
                     <div class="temperature-container">
                         <h4 class="temperature">{{ currentWeather.temp.toFixed(0) }}°</h4>
                         <p class="min-max">{{ dailyWeather[0].temp.max.toFixed(0) + "°" + "/" + dailyWeather[0].temp.min.toFixed(0) + "°" /*convertUnixDate(currentWeather.dt)*/ }}</p>
@@ -77,6 +77,21 @@ export default {
 }
 .hourly-weather {
     overflow-y: auto;
+
+    &::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+        width: 10px;
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: gray;
+    }
 }
 .slide-fade-enter-active, .slide-fade-leave-active {
     transition: all .3s ease;
@@ -89,7 +104,6 @@ export default {
     opacity: 0;
 }
 .weather-icon {
-    filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));
     margin: -10% -8%;
     padding: 5px;
 }
@@ -108,5 +122,11 @@ export default {
 }
 .min-max {
     margin-top: 2px;
+}
+</style>
+
+<style lang="scss">
+.icon-shadow {
+    filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));
 }
 </style>
