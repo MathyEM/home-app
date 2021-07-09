@@ -12,15 +12,18 @@
                 </div>
                 <p class="weather-description">{{ current.weather[0].description }}</p>
             </div>
+        </div>
+        <div class="expand-hourly-weather-wrapper" @click="showHourly = !showHourly">
             <span
                 class="expand-hourly-weather"
                 :class="{ 'show-hourly': showHourly }"
-                @click="showHourly = !showHourly"
-            >ᐳ</span>
+            ></span>
         </div>
         <transition name="slide-fade">
             <div v-if="showHourly" class="hourly-weather">
-                <HourWeather v-for="(hour, index) in hourlyWeather" :key="index" :hour="hour" />
+                <div class="hourly-weather-wrapper">
+                    <HourWeather v-for="(hour, index) in hourlyWeather" :key="index" :hour="hour" />
+                </div>
             </div>
         </transition>
     </div>
@@ -58,6 +61,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.current-weather {
+    position: relative;
+}
 .current-weather-container {
     display: flex;
     flex-direction: column;
@@ -69,22 +75,39 @@ export default {
 .current-weather-wrapper {
     margin-right: 5px;
 }
-.expand-hourly-weather {
-    font-size: 1.75rem;
-    line-height: 1.75em;
-    width: 1.75em;
+.expand-hourly-weather-wrapper {
     position: absolute;
+    top: 0;
     right: 0;
     cursor: pointer;
     user-select: none;
+    width: 2em;
+    height: 2em;
+}
+.expand-hourly-weather {
+    font-size: 1.75rem;
+    writing-mode: vertical-rl;
+
+    &::before {
+        content: '+';
+    }
 
     &.show-hourly {
         transform: rotateZ(90deg);
+        &::before {
+            content: '\2212';
+        }
     }
 }
 .hourly-weather {
+    position: absolute;
+    z-index: 10;
     overflow-y: auto;
-
+    background: white;
+    border: 1px solid darkgray;
+    padding: 0.25em;
+    width: 100%;
+    
     &::-webkit-scrollbar-track {
         border-radius: 10px;
         background-color: transparent;
@@ -104,7 +127,7 @@ export default {
     transition: all .3s ease;
 }
 .slide-fade-enter-to, .slide-fade-leave, .hourly-weather {
-    height: 200px;
+    height: 435px;
 }
 .slide-fade-enter, .slide-fade-leave-to {
     height: 0;
@@ -118,9 +141,10 @@ export default {
     }
 }
 .icon-temp-row {
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 .min-max {

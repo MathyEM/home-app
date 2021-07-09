@@ -2,7 +2,7 @@
     <div class="weather-hour">
         <div class="date-time">
             <h5 class="date">{{ date }}</h5>
-            <h5 class="time">{{ time }}</h5>
+            <p class="time">{{ time }}</p>
         </div>
         <img
             :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
@@ -47,17 +47,24 @@ export default {
 <style lang="scss" scoped>
 .weather-hour {
     margin-bottom: 5px;
+    padding: 0.25em;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    border-bottom: 1px solid darkgray;
+    
+    &:not(:last-child) {
+        border-bottom: 1px solid darkgray;
+    }
 }
 .date-time {
     justify-self: flex-start;
 }
+.time {
+    font-size: 0.9em;
+}
 .icon {
     height: 50px;
-    justify-self: flex-start;
+    justify-self: center;
 }
 .temp-rain {
     justify-self: center;

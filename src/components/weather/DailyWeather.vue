@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .daily-weather {
-    margin-bottom: 0.25em;
+    margin-top: 0.25em;
     
     &:not(:last-child) {
         border-bottom: 1px solid darkgray;
