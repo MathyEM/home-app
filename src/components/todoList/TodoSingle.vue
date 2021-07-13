@@ -156,6 +156,11 @@ p.completed {
     gap: 0.5em;
     align-items: center;
 
+    &.editing {
+        padding-left: calc(1em - 8px);
+        padding-right: calc(1em - 8px);
+    }
+
     .todo-info {
         align-self: baseline;
     }

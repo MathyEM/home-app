@@ -6,11 +6,9 @@
 	</div>
 </template>
 <script>
-import AddTodo from "../components/todoList/AddTodo"
-import Todos from "../components/todoList/Todos"
-import TodoStatus from "../components/todoList/TodoStatus"
-
-import { mapActions } from "vuex";
+import AddTodo from "@/components/todoList/AddTodo"
+import Todos from "@/components/todoList/Todos"
+import TodoStatus from "@/components/todoList/TodoStatus"
 
 export default {
 	name: "TodoList",
@@ -27,14 +25,13 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['getTodos', 'syncCalendars'])
+		
 	},
 	async created() {
 
 	},
 	mounted() {
-		this.getTodos()
-		this.syncCalendars()
+		
 	},
 }
 </script>
