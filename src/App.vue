@@ -55,8 +55,7 @@ body {
 }
 
 .header-weather {
-	display: inline-block;
-	vertical-align: middle;
+	position: absolute;
 }
 
 #nav {
@@ -71,5 +70,17 @@ body {
 			color: #42b983;
 		}
 	}
+}
+
+@media screen and (max-width: $sm-scrn) {
+	.header-weather {
+		position: relative;
+		margin-bottom: -45px;
+		pointer-events: none;
+	}
+	.current-weather-small-container {
+		display: inline-block;
+	}
+
 }
 </style>
