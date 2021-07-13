@@ -107,21 +107,6 @@ export default {
     border: 1px solid darkgray;
     padding: 0.25em;
     width: 100%;
-    
-    &::-webkit-scrollbar-track {
-        border-radius: 10px;
-        background-color: transparent;
-    }
-
-    &::-webkit-scrollbar {
-        width: 10px;
-        background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background-color: gray;
-    }
 }
 .slide-fade-enter-active, .slide-fade-leave-active {
     transition: all .3s ease;

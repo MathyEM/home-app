@@ -1,5 +1,5 @@
 <template>
-    <div class="current-weather-small-container">
+    <div v-if="currentWeather && dailyWeather" class="current-weather-small-container">
             <div class="current-weather-small-wrapper">
                 <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`" alt="">
                 <div class="temperature-container">

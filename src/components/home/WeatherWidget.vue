@@ -50,9 +50,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .weather-widget {
-        h3 {
-            margin-bottom: 0.5rem;
-        }
-    }
 </style>
