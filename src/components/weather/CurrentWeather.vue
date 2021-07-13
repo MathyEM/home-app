@@ -143,9 +143,7 @@ export default {
 .icon-temp-row {
     display: grid;
     align-items: center;
-    justify-content: center;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
 }
 .min-max {
     margin-top: 2px;
@@ -156,6 +154,11 @@ export default {
 .weather-icon {
     margin: -10% -8%;
     padding: 5px;
+    justify-self: right;
+}
+.temperature-container {
+    justify-self: left;
+    padding: 1em;
 }
 .icon-shadow {
     filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));
