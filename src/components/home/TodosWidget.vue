@@ -1,5 +1,6 @@
 <template>
     <div class="todos-widget-container widget">
+        <h3>Huskeseddel</h3>
         <Todos :showCompleted="false" />
     </div>
 </template>
