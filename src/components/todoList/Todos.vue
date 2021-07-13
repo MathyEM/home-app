@@ -1,11 +1,10 @@
 <template>
     <div class="todos-container">
-        <h3>Todos component</h3>
         <ul class="todo-list">
             <TodoSingle v-for="todo in activeTodos" :key="todo.id" :todo="todo"></TodoSingle>
         </ul>
+
         <template v-if="showCompleted">
-            <h4>Completed Todos</h4>
             <ul class="todo-list todo-list-completed">
                 <TodoSingle v-for="todo in completedTodos" :key="todo.id" :todo="todo"></TodoSingle>
             </ul>
@@ -53,6 +52,14 @@ export default {
     list-style: none;
     display: grid;
     grid-auto-rows: 1fr;
+
+    &:not(:last-child) {
+        margin-bottom: 1em;
+        border-bottom: 1px solid gray;
+    }
+    &:not(:first-child) {
+        border-top: 1px solid gray;
+    }
 }
 
 h4, h3 {
