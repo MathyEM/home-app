@@ -106,6 +106,7 @@ export default {
 	padding-bottom: 2.4rem;
 }
 .calendar-widget-wrapper {
+	--modal-header-color: #f7f7f7;
 	height: 100%;
 
 	.fc-header-toolbar.fc-toolbar {
@@ -121,6 +122,26 @@ export default {
 	.fc-button {
 		//padding: 0.3em;
 		font-size: 1em;
+	}
+
+	span.focused-event-date {
+		display: inline-block;
+
+		&::first-letter {
+			text-transform: uppercase;
+		}
+	}
+	.vsm-modal {
+		.btn-close {
+			color: white;
+		}
+		.vsm-modal-header {
+			background: var(--modal-header-color);
+
+			.title {
+				color: white;
+			}
+		}
 	}
 }
 </style>
