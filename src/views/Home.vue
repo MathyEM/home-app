@@ -44,6 +44,9 @@ export default Vue.extend({
 .widget {
 	border: 1px solid darkgray;
 	padding: 0.5rem;
+	min-height: 400px;
+	max-height: 630px;
+	overflow-y: auto;
 }
 
 @media screen and (max-width: $lg-scrn) {
