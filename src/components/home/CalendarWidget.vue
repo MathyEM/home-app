@@ -1,33 +1,33 @@
 <template>
-	<div class="calendar-container">
-		<CalendarSidebar :eventSources="eventSources" :calendarApi="calendarApi" />
-		<FullCalendar ref="fullCalendar" :options="calendarOptions" />
-		<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + focusedEventSource.color">
-			<template slot="body">
-				<h4>{{ focusedEvent.title }}</h4>
-				<p v-if="focusedEventDates.start">
-					<span class="focused-event-date">{{ focusedEventDates.start }}</span> - 
-					<span class="focused-event-date">{{ focusedEventDates.end }}</span>
-				</p>
-			</template>
-		</SimpleModal>
+	<div class="calendar-widget-container widget">
+        <h3>Kalender</h3>
+		<div class="calendar-widget-wrapper">
+			<FullCalendar ref="fullCalendar" :options="calendarOptions" />
+			<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + focusedEventSource.color">
+				<template slot="body">
+					<h4>{{ focusedEvent.title }}</h4>
+					<p v-if="focusedEventDates.start">
+						<span class="focused-event-date">{{ focusedEventDates.start }}</span> -
+						<span class="focused-event-date">{{ focusedEventDates.end }}</span>
+					</p>
+				</template>
+			</SimpleModal>
+		</div>
 	</div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import CalendarSidebar from '@/components/calendar/CalendarSidebar'
 import SimpleModal from 'simple-modal-vue';
 
 import FullCalendar from '@fullcalendar/vue'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import listPlugin  from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import daLocale from '@fullcalendar/core/locales/da';
 
 export default {
-	name: "Calendar",
+	name: 'CalendarWidget',
 	components: {
 		FullCalendar,
-		CalendarSidebar,
 		SimpleModal
 	},
 	data() {
@@ -43,8 +43,8 @@ export default {
 
 		calendarOptions() {
 			return {
-				plugins: [ dayGridPlugin, interactionPlugin ],
-				initialView: 'dayGridMonth',
+				plugins: [ listPlugin, interactionPlugin ],
+				initialView: 'listMonth',
 				eventClick: this.handleDateClick,
 				eventSources: this.eventSources,
 				locale: daLocale,
@@ -101,30 +101,26 @@ export default {
 </script>
 
 <style lang="scss">
-.calendar-container {
-	--modal-header-color: #f7f7f7;
-	h4 {
-		margin-bottom: 0.25em;
+.widget-container .calendar-widget-container.widget {
+	overflow: hidden;
+	padding-bottom: 2.4rem;
+}
+.calendar-widget-wrapper {
+	height: 100%;
+
+	.fc-header-toolbar.fc-toolbar {
+		flex-direction: column;
+		gap: 0.25em;
 	}
-
-	span.focused-event-date {
-		display: inline-block;
-
-		&::first-letter {
-			text-transform: uppercase;
-		}
+	h2.fc-toolbar-title {
+		font-size: 1.4em;
 	}
-	.vsm-modal {
-		.btn-close {
-			color: white;
-		}
-		.vsm-modal-header {
-			background: var(--modal-header-color);
-
-			.title {
-				color: white;
-			}
-		}
+	.fc-toolbar-chunk .fc-button-group {
+		margin-left: 0.5em;
+	}
+	.fc-button {
+		//padding: 0.3em;
+		font-size: 1em;
 	}
 }
 </style>
