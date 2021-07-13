@@ -2,9 +2,7 @@
 	<div class="home">
 		<div class="widget-container">
 			<WeatherWidget />
-			<div class="calendar-widget widget">
-				<h3>Kalender</h3>
-			</div>
+			<CalendarWidget />
 			<div class="todo-widget widget">
 				<h3>Huskeseddel</h3>
 			</div>
@@ -18,11 +16,13 @@
 <script>
 import Vue from 'vue'
 import WeatherWidget from '@/components/home/WeatherWidget.vue'
+import CalendarWidget from '@/components/home/CalendarWidget.vue'
 
 export default Vue.extend({
 	name: 'Home',
 	components: {
 		WeatherWidget,
+		CalendarWidget,
 	},
 	computed: {
 	},
@@ -59,6 +59,14 @@ export default Vue.extend({
 @media screen and (max-width: $xs-scrn) {
 	.widget-container {
 		grid-template-columns: repeat(1, 1fr);
+	}
+}
+</style>
+
+<style lang="scss">
+.widget {
+	h3 {
+		margin-bottom: 0.5rem;
 	}
 }
 </style>
