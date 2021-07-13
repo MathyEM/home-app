@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import TodoSingle from './TodoSingle.vue'
 
 export default {
@@ -22,18 +22,27 @@ export default {
     components: {
         TodoSingle
     },
+    props: {
+        showCompleted: {
+            required: false,
+            type: Boolean,
+            default: true,
+        }
+    },
     data() {
         return {
-            showCompleted: true,
         }
     },
     computed: {
         ...mapGetters(['todoSources', 'todos', 'activeTodos', 'completedTodos']),
     },
     methods: {
+        ...mapActions(['getTodos', 'syncCalendars'])
     },
-    mounted() {
-    }
+    created() {
+        this.getTodos()
+		this.syncCalendars()
+    },
 }
 </script>
 

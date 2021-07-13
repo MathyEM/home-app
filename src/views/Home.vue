@@ -3,9 +3,7 @@
 		<div class="widget-container">
 			<WeatherWidget />
 			<CalendarWidget />
-			<div class="todo-widget widget">
-				<h3>Huskeseddel</h3>
-			</div>
+			<TodosWidget />
 			<div class="hue-widget widget">
 				<h3>Hue</h3>
 			</div>
@@ -17,12 +15,14 @@
 import Vue from 'vue'
 import WeatherWidget from '@/components/home/WeatherWidget.vue'
 import CalendarWidget from '@/components/home/CalendarWidget.vue'
+import TodosWidget from '@/components/home/TodosWidget.vue'
 
 export default Vue.extend({
 	name: 'Home',
 	components: {
 		WeatherWidget,
 		CalendarWidget,
+		TodosWidget,
 	},
 	computed: {
 	},
