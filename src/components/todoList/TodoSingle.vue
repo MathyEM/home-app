@@ -156,9 +156,8 @@ p.completed {
     gap: 0.5em;
     align-items: center;
 
-    &.editing {
-        padding-left: calc(1em - 8px);
-        padding-right: calc(1em - 8px);
+    &.editing .inputs {
+        width: calc(100% - 8px);
     }
 
     .todo-info {
@@ -183,13 +182,15 @@ p.completed {
     .todo-btn-container {
         display: grid;
         gap: 5px;
-        grid-template-columns: 50% 50%;
+        grid-template-columns: 1fr 1fr;
+        align-self: flex-start;
 
         .todo-btn {
             border: 1px lightgray solid;
             padding: 2px 6px;
             font-size: 1.5em;
-            width: 100%;
+            width: 1.75em;
+            height: 1.75em;
         }
 
         .edit-btn {
@@ -264,7 +265,7 @@ p.completed {
 			font-size: $font-size;
 		}
         input {
-            width: auto;
+            width: 100%;
         }
 	}
 }
