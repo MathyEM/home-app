@@ -1,6 +1,5 @@
 <template>
 	<div class="home">
-		<img alt="Vue logo" src="../assets/logo.png">
 		<div class="widget-container">
 			<WeatherWidget />
 			<div class="calendar-widget widget">
@@ -36,16 +35,30 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-	.home {
-		.widget-container {
-			display: grid;
-			padding: 1rem 2rem;
-			grid-template-columns: repeat(4, 1fr);
-			gap: 1rem;
-		}
-		.widget {
-			border: 1px solid darkgray;
-			padding: 0.5rem;
-		}
+.widget-container {
+	display: grid;
+	padding: 1rem 2rem;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1rem;
+}
+.widget {
+	border: 1px solid darkgray;
+	padding: 0.5rem;
+}
+
+@media screen and (max-width: $lg-scrn) {
+	.widget-container {
+		grid-template-columns: repeat(3, 1fr);
 	}
+}
+@media screen and (max-width: $md-scrn) {
+	.widget-container {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media screen and (max-width: $xs-scrn) {
+	.widget-container {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
 </style>
