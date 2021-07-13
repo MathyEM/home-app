@@ -11,5 +11,8 @@ Vue.use(HueApp, { store })
 new Vue({
   router,
   store,
+  beforeCreate: () => {
+    store.dispatch('searchLocation', { })
+  },
   render: h => h(App)
 }).$mount('#app')
