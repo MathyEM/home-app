@@ -108,6 +108,7 @@ export default {
 .calendar-widget-wrapper {
 	--modal-header-color: #f7f7f7;
 	height: 100%;
+    min-height: 400px;
 
 	.fc-header-toolbar.fc-toolbar {
 		flex-direction: column;
