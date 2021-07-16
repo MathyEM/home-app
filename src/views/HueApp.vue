@@ -8,11 +8,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ConfigProvider from '../ConfigProvider'
-
-const hueBridgeIP = ConfigProvider.value('hueBridgeIP')
-const hueUsername = ConfigProvider.value('hueUsername')
 
 export default {
 	name: 'App',
@@ -30,15 +27,12 @@ export default {
 	},
 	methods: {
 		...mapActions(['updateLocalLights']),
-		...mapMutations(['SET_HUE_BRIDGE_INFO']),
 	},
 	async mounted() {
 
 	},
 	async created() {
-		this.SET_HUE_BRIDGE_INFO({ ip: hueBridgeIP, username: hueUsername })
 		var self = this;
-		self;
 
 		this.$data.updateHueStateInterval = setInterval(() => {
 			console.log("interval call");
