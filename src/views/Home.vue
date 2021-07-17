@@ -37,7 +37,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .widget-container {
 	display: grid;
-	padding: 1rem 2rem;
+	padding: 1rem 0.5rem;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 1rem;
 }

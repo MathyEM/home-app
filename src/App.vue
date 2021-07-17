@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
 		<div class="header">
-			<div class="header-weather">
-				<WeatherWidgetSmall />
-			</div>
 			<div id="nav">
+				<div class="header-weather">
+					<WeatherWidgetSmall />
+				</div>
 				<router-link to="/">Home</router-link> |
 				<router-link to="/calendar">Kalender</router-link> |
 				<router-link to="/todolist">Huskeseddel</router-link> |
@@ -71,11 +71,16 @@ body {
 
 .header-weather {
 	position: absolute;
+	left: 0;
+	top: 0;
+	transform: translateX(-100%);
+	pointer-events: none;
 }
 
 #nav {
 	display: inline-block;
-	padding: 30px;
+	position: relative;
+	padding: 30px 0;
 
 	a {
 		font-weight: bold;
@@ -90,8 +95,7 @@ body {
 @media screen and (max-width: $sm-scrn) {
 	.header-weather {
 		position: relative;
-		margin-bottom: -45px;
-		pointer-events: none;
+		transform: none;
 	}
 	.current-weather-small-container {
 		display: inline-block;
