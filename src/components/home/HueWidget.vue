@@ -1,5 +1,6 @@
 <template>
     <div class="calendar-widget-container widget">
+        <h3>Lys</h3>
         <template v-for="group, g_index in groups">
             <HueEntitySmall :key="g_index" :isGroup="true" :id="g_index" />
         </template>
@@ -47,6 +48,25 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+    .calendar-widget-container {
+        .small-entity-wrapper {
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            box-shadow: none;
+            background: initial;
+            width: 100%;
+            border-bottom: 1px solid $dark-gray;
+            margin: 0;
 
+            h3 {
+                margin: 0;
+            }
+
+            .control-wrapper .on-off-switch {
+                margin: 30px 0;
+            }
+        }
+    }
+    
 </style>
