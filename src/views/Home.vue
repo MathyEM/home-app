@@ -45,7 +45,7 @@ export default Vue.extend({
 	border: 1px solid darkgray;
 	padding: 0.5rem;
 	min-height: 400px;
-	max-height: 630px;
+	max-height: 665px;
 	overflow-y: auto;
 }
 
