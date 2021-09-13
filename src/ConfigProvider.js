@@ -8,6 +8,8 @@ export default class ConfigProvider {
       hueUsername: "$VUE_APP_HUE_USERNAME",
       pollingRate: "$VUE_APP_POLLING_RATE",
       calendarAPI: "$VUE_APP_CALENDAR_API",
+      calendarUNAME: "$VUE_APP_CALENDAR_UNAME",
+      calendarPASS: "$VUE_APP_CALENDAR_PASS",
       weatherApiKey: "$VUE_APP_WEATHER_API_KEY"
     };
   }
