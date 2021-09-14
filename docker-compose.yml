@@ -7,9 +7,11 @@
       restart: unless-stopped
       environment:
         - VUE_APP_POLLING_RATE=10000
-        - VUE_APP_HUE_BRIDGE_IP=192.168.87.161
+        - VUE_APP_HUE_BRIDGE_IP=api.hue.mem-home.tk
         - VUE_APP_HUE_USERNAME=thKWqA-XrWM3yDocuuh3BurWImRDOZuUnL3cgCKa
-        - VUE_APP_CALENDAR_API=http://192.168.87.117:9988
+        - VUE_APP_CALENDAR_API=https://api.caldav.mem-home.tk
+        - VUE_APP_CALENDAR_UNAME=mem
+        - VUE_APP_CALENDAR_PASS=kagemand
         - VUE_APP_WEATHER_API_KEY=ebe7fd78d568268d7e708e1cd4afebf6
       ports:
         - 8899:80
