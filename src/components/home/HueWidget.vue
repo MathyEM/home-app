@@ -1,9 +1,11 @@
 <template>
     <div class="hue-widget-container widget">
-        <h3>Lys</h3>
-        <template v-for="group, g_index in groups">
-            <HueEntitySmall :colorTemperatureStep="34.7" :brightnessStep="15.8125" :key="g_index" :isGroup="true" :id="g_index" />
-        </template>
+        <h2>Lys</h2>
+        <div class="widget-content-container">
+			<template v-for="group, g_index in groups">
+				<HueEntitySmall :colorTemperatureStep="34.7" :brightnessStep="15.8125" :key="g_index" :isGroup="true" :id="g_index" />
+			</template>
+		</div>
     </div>
 </template>
 
@@ -54,6 +56,12 @@ export default {
             box-shadow: none;
             background: initial;
             width: 100%;
+			margin: 0;
+
+			&:not(:first-child) {
+				border-top: 1px solid $border-color;
+				border-radius: 0;
+			}
 
             h3 {
                 margin: 0;

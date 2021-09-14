@@ -1,10 +1,10 @@
 <template>
 	<div class="home">
 		<div class="widget-container">
+			<HueWidget />
 			<WeatherWidget />
 			<CalendarWidget />
 			<TodosWidget />
-			<HueWidget />
 		</div>
 	</div>
 </template>
@@ -38,38 +38,46 @@ export default Vue.extend({
 .widget-container {
 	display: grid;
 	padding: 1rem 0.5rem;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	gap: 1rem;
 }
 .widget {
-	border: 1px solid darkgray;
+	border: 1px solid #E4E4E4;
+	border-radius: 15px;
+	background: rgba(245, 245, 245, 0.99);
 	padding: 0.5rem;
-	min-height: 400px;
+	min-height: 665px;
 	max-height: 665px;
 	overflow-y: auto;
+	display: grid;
+	grid-template-rows: min-content auto;
 }
 
-@media screen and (max-width: $lg-scrn) {
-	.widget-container {
-		grid-template-columns: repeat(3, 1fr);
-	}
-}
-@media screen and (max-width: $md-scrn) {
-	.widget-container {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-@media screen and (max-width: $xs-scrn) {
-	.widget-container {
-		grid-template-columns: repeat(1, 1fr);
-	}
-}
+// @media screen and (max-width: $lg-scrn) {
+// 	.widget-container {
+// 		grid-template-columns: repeat(3, 1fr);
+// 	}
+// }
+// @media screen and (max-width: $md-scrn) {
+// 	.widget-container {
+// 		grid-template-columns: repeat(2, 1fr);
+// 	}
+// }
+// @media screen and (max-width: $xs-scrn) {
+// 	.widget-container {
+// 		grid-template-columns: repeat(1, 1fr);
+// 	}
+// }
 </style>
 
 <style lang="scss">
 .widget {
-	h3 {
-		margin-bottom: 0.5rem;
+	& > h2 {
+		padding: 1rem 0;
+		font-size: 2.2rem;
+		font-weight: normal;
+		border-bottom: 1px solid $border-color;
 	}
+
 }
 </style>

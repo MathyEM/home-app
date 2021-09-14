@@ -53,7 +53,7 @@ export default {
     align-items: center;
     
     &:not(:last-child) {
-        border-bottom: 1px solid darkgray;
+        border-bottom: 1px solid $border-color;
     }
 }
 .date-time {

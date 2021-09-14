@@ -166,6 +166,7 @@ p.completed {
 
     .todo-summary {
         font-size: 1.5em;
+        margin-bottom: 0.3rem;
     }
 
     &:nth-child(odd) {
@@ -176,7 +177,10 @@ p.completed {
         font: unset;
         outline: none;
         font-size: 1.5em;
+        color: darken($base-font-color, 4%);
         width: 100%;
+        border: none;
+        padding: 0.3rem;
     }
 
     .todo-btn-container {
@@ -252,7 +256,7 @@ p.completed {
     }
 
     .new-todo-category {
-		$font-size: 1rem;
+		$font-size: 1.3rem;
 		.input-tag {
 			font-size: $font-size;
             padding-right: 1.2em;

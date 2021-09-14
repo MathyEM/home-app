@@ -1,20 +1,22 @@
 <template>
 	<div class="weather-widget widget">
-        <h3>Vejr</h3>
-		<template v-if="currentWeather && dailyWeather">
-            <CurrentWeather
-                    
-                        :current="currentWeather"
-                        :daily="dailyWeather"
-                    />
-        </template>
-        <template v-if="dailyWeather">
-            <DailyWeather
-                v-for="(daily, index) in dailyWeather"
-                :daily="daily"
-                :key="index"
-            />
-        </template>
+        <h2>Vejr</h2>
+        <div class="widget-content-container">
+            <template v-if="currentWeather && dailyWeather">
+                <CurrentWeather
+                        
+                            :current="currentWeather"
+                            :daily="dailyWeather"
+                        />
+            </template>
+            <template v-if="dailyWeather">
+                <DailyWeather
+                    v-for="(daily, index) in dailyWeather"
+                    :daily="daily"
+                    :key="index"
+                />
+            </template>
+        </div>
 	</div>
 </template>
 
@@ -42,4 +44,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .weather-widget {
+        .widget-content-container {
+            padding-top: 1rem;
+        }
+    }
 </style>

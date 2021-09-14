@@ -1,17 +1,19 @@
 <template>
 	<div class="calendar-widget-container widget">
-        <h3>Kalender</h3>
-		<div class="calendar-widget-wrapper">
-			<FullCalendar ref="fullCalendar" :options="calendarOptions" />
-			<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + focusedEventSource.color">
-				<template slot="body">
-					<h4>{{ focusedEvent.title }}</h4>
-					<p v-if="focusedEventDates.start">
-						<span class="focused-event-date">{{ focusedEventDates.start }}</span> -
-						<span class="focused-event-date">{{ focusedEventDates.end }}</span>
-					</p>
-				</template>
-			</SimpleModal>
+        <h2>Kalender</h2>
+		<div class="widget-content-container">
+			<div class="calendar-widget-wrapper">
+				<FullCalendar ref="fullCalendar" :options="calendarOptions" />
+				<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + focusedEventSource.color">
+					<template slot="body">
+						<h4>{{ focusedEvent.title }}</h4>
+						<p v-if="focusedEventDates.start">
+							<span class="focused-event-date">{{ focusedEventDates.start }}</span> -
+							<span class="focused-event-date">{{ focusedEventDates.end }}</span>
+						</p>
+					</template>
+				</SimpleModal>
+			</div>
 		</div>
 	</div>
 </template>
@@ -107,6 +109,7 @@ export default {
 }
 .calendar-widget-wrapper {
 	--modal-header-color: #f7f7f7;
+	padding-top: 1rem;
 	height: 100%;
     min-height: 400px;
 
