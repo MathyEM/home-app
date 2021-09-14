@@ -51,6 +51,7 @@ export default {
     text-align: left;
     list-style: none;
     display: grid;
+    grid-auto-rows: 1fr;
 
     &:not(:last-child) {
         margin-bottom: 1em;

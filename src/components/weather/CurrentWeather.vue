@@ -69,8 +69,7 @@ export default {
     flex-direction: column;
     position: relative;
     padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid darkgrey;
+    border-bottom: 1px solid $border-color;
 }
 .current-weather-wrapper {
     margin-right: 5px;
@@ -102,9 +101,10 @@ export default {
 .hourly-weather {
     position: absolute;
     z-index: 10;
+    margin-top: -1px;
     overflow-y: auto;
     background: white;
-    border: 1px solid darkgray;
+    border: 1px solid $border-color;
     padding: 0.25em;
     width: 100%;
 }

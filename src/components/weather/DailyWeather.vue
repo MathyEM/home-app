@@ -41,7 +41,7 @@ export default {
     margin-top: 0.25em;
     
     &:not(:last-child) {
-        border-bottom: 1px solid darkgray;
+        border-bottom: 1px solid $border-color;
     }
 }
 .weather-daily {

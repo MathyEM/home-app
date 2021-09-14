@@ -59,7 +59,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	padding: 0.2rem 0.5rem;
-	color: #2c3e50;
+	color: $base-font-color;
 	display: grid;
 	grid-template-rows: auto 1fr;
 	height: 100%;
