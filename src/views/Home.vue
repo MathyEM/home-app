@@ -43,7 +43,7 @@ export default Vue.extend({
 }
 .widget {
 	border: 1px solid #E4E4E4;
-	border-radius: 15px;
+	border-radius: $widget-border-radius;
 	background: rgba(245, 245, 245, 0.99);
 	padding: 0.5rem;
 	height: 95vh;

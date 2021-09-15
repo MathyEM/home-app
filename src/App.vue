@@ -83,8 +83,9 @@ body {
 #nav {
 	display: flex;
 	flex-direction: column;
-	position: relative;
+	position: sticky;
 	margin-top: -0.6rem;
+	top: 0;
 
 	a {
 		font-weight: bold;

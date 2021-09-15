@@ -122,15 +122,17 @@ export default {
     transition: all .3s ease;
 }
 .slide-fade-enter-to, .slide-fade-leave, .hourly-weather {
-    height: 435px;
+    height: 63vh;
+    border-bottom-left-radius: $widget-border-radius;
+    border-bottom-right-radius: $widget-border-radius;
 }
 .slide-fade-enter, .slide-fade-leave-to {
     height: 0;
     opacity: 0;
 }
 .weather-description {
-    margin-top: 10px;
-
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
     &::first-letter {
         text-transform: uppercase;
     }
