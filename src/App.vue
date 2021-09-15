@@ -91,6 +91,8 @@ body {
 	order: 1;
 	background: rgb(245, 245, 245);
 	height: 100%;
+	padding: 0 1rem;
+	border-left: 1px solid $border-color;
 
 	.header-content {
 		position: sticky;
@@ -100,6 +102,10 @@ body {
 		grid-template-rows: min-content auto;
 	}
 }
+
+// .icon-wrapper i {
+// 	color: #55616d;
+// }
 
 .header-weather {
 	pointer-events: none;
@@ -119,6 +125,15 @@ body {
 
 		img {
 			width: 50%;
+			filter: contrast(0.5);
+		}
+
+		&.router-link-exact-active.router-link-active img {
+				filter: contrast(1);
+			}
+
+		p {
+			font-size: 1.4rem;
 		}
 
 		&.router-link-exact-active {
