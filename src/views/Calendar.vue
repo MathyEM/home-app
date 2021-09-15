@@ -101,8 +101,16 @@ export default {
 </script>
 
 <style lang="scss">
-.calendar-container {
+div#app > div.calendar-container {
 	--modal-header-color: #f7f7f7;
+	height: 100%;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+
+	.fc-toolbar-chunk {
+		margin-left: 1rem;
+	}
 	h4 {
 		margin-bottom: 0.25em;
 	}
