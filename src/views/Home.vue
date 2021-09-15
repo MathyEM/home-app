@@ -45,7 +45,7 @@ export default Vue.extend({
 .widget {
 	border: 1px solid $border-color;
 	border-radius: $widget-border-radius;
-	background: rgba(245, 245, 245, 0.99);
+	background: rgb(245, 245, 245);
 	padding: 0.5rem;
 	height: 95vh;
 	overflow-y: auto;
