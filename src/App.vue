@@ -5,9 +5,9 @@
 				<div class="header-weather">
 					<WeatherWidgetSmall />
 				</div>
-				<router-link to="/">Home</router-link> |
-				<router-link to="/calendar">Kalender</router-link> |
-				<router-link to="/todolist">Huskeseddel</router-link> |
+				<router-link to="/">Home</router-link>
+				<router-link to="/calendar">Kalender</router-link>
+				<router-link to="/todolist">Huskeseddel</router-link>
 				<router-link to="/hueapp">Hue App</router-link>
 			</div>
 		</div>
@@ -58,10 +58,9 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	padding: 0.2rem 0.5rem;
 	color: $base-font-color;
 	display: grid;
-	grid-template-rows: auto 1fr;
+	grid-template-columns: auto min-content;
 	height: 100%;
 }
 
@@ -69,37 +68,32 @@ body {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
+.header {
+	grid-column: 2;
+	order: 1;
+	background: rgba(245, 245, 245, 0.99);
+	padding: 0 1.4rem;
+}
+
 .header-weather {
-	position: absolute;
-	left: 0;
-	top: 0;
-	transform: translateX(-100%);
 	pointer-events: none;
+	margin-bottom: 2rem;
 }
 
 #nav {
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
 	position: relative;
-	padding: 30px 0;
+	margin-top: -0.6rem;
 
 	a {
 		font-weight: bold;
 		color: #2c3e50;
+		margin-bottom: 2rem;
 
 		&.router-link-exact-active {
 			color: #42b983;
 		}
 	}
-}
-
-@media screen and (max-width: $sm-scrn) {
-	.header-weather {
-		position: relative;
-		transform: none;
-	}
-	.current-weather-small-container {
-		display: inline-block;
-	}
-
 }
 </style>

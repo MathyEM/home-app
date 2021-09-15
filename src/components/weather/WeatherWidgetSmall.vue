@@ -28,8 +28,12 @@ export default {
 
 <style lang="scss" scoped>
 .current-weather-small-wrapper {
+    position: relative;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     justify-content: center;
+}
+.temperature-container {
+    margin-top: -1.4rem;
 }
 </style>

@@ -46,8 +46,7 @@ export default Vue.extend({
 	border-radius: 15px;
 	background: rgba(245, 245, 245, 0.99);
 	padding: 0.5rem;
-	min-height: 665px;
-	max-height: 665px;
+	height: 95vh;
 	overflow-y: auto;
 	display: grid;
 	grid-template-rows: min-content auto;
