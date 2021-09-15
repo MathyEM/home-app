@@ -57,11 +57,14 @@ export default {
             background: initial;
             width: 100%;
 			margin: 0;
+			// border-left: 1px solid $border-color;
+			// border-right: 1px solid $border-color;
+			border-bottom: 1px solid $border-color;
+			border-radius: 0;
+			padding: 0.5rem 1rem;
 
-			&:not(:first-child) {
-				border-top: 1px solid $border-color;
-				border-radius: 0;
-			}
+			// &:not(:first-child) {
+			// }
 
             h3 {
                 margin: 0;
@@ -73,16 +76,16 @@ export default {
 				grid-template-columns: 0.7fr 2fr;
 
 				.switch-container.on-off-switch {
-					height: auto;
+					height: 90%;
 
 					button {
-						font-size: 1.8rem;
+						font-size: 2.4rem;
 						outline: none;
 
 						&.on, &:active {
 							background-color: #c1c1c1;
-							border-color: #b2b2b2;
-							border-width: 2px;
+							border-color: #aeaeae;
+							border-width: 3px;
 						}
 
 						&:focus-visible {
