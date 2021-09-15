@@ -74,7 +74,7 @@ export default {
 					height: auto;
 
 					button {
-						font-size: 1.5rem;
+						font-size: 1.8rem;
 						outline: none;
 
 						&.on, &:active {
@@ -104,13 +104,13 @@ export default {
 			
         }
 
-		$thumb-width: 24px;
-		$thumb-height: 28px;
-		$track-height: 18px;
-		$thumb-margin-top: ( $thumb-height * -0.52 ) + ( $track-height * 0.5 );
+		$thumb-width: 64px;
+		$thumb-height: 72px;
+		$track-height: 52px;
+		$thumb-margin-top: ( $thumb-height * -0.5 ) + ( $track-height * 0.5 );
 
 		* {
-			--thumb-color: whitesmoke;
+			--thumb-color: #efefef;
 		}
 
 		.color-temperature, .brightness {
@@ -126,7 +126,7 @@ export default {
 
 			&::-webkit-slider-thumb {
 				-webkit-appearance: none;
-				border: 1px solid #e2e2e2;
+				border: 1px solid #cfcfcf;
 				width: $thumb-width;
 				height: $thumb-height;
 				border-radius: 0px;
