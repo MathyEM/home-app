@@ -87,6 +87,7 @@ export default {
 .current-weather-wrapper {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     padding: 0 2rem;
 
     .column-one {
