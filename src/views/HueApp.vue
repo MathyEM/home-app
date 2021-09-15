@@ -114,16 +114,33 @@ export default {
 					& > div {
 						user-select: none;
 					}
+
+					&:focus-visible {
+						outline: none;
+					}
 				}
 			}
 		}
 	}
 
-	.group-controls {
-		.switch-container {
-			button {
-				width: 4em;
-				font-size: 1.2rem;
+	.group-header {
+		gap: 2rem;
+
+		.group-controls {
+			.switch-container {
+				button {
+					width: 4em;
+					font-size: 1.2rem;
+					outline: none;
+
+					&:focus-visible {
+						outline: none;
+					}
+				}
+			}
+			.color-temperature {
+				width: 22em;
+				margin: 0;
 			}
 		}
 	}
@@ -138,21 +155,84 @@ export default {
 	}
 
 	.color-picker-wrapper {
-		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-content: center;
 		justify-content: center;
 		padding: 0 2rem;
+		margin-top: 0.5rem;
 
 		& > div {
-			padding: 1rem 0 0 0;
+			// padding: 3.6rem;
 			justify-self: center;
 			align-self: center;
+			padding: 0 3rem;
+
+			$thumb-width: 46px;
+			$thumb-height: 46px;
+			$track-height: 36px;
+			$thumb-margin-top: ( $thumb-height * -0.53 ) + ( $track-height * 0.5 );
+
+			$satLumPosition: 5%;
+
+			.luminosity {
+				left: $satLumPosition;
+			}
+
+			.saturation {
+				left: 100%-$satLumPosition;
+			}
+
+			.luminosity, .saturation {
+				width: 70%;
+				&:focus {
+					outline: none;
+				}
+
+				&::-webkit-slider-thumb {
+					border: 1px solid $border-color;
+					width: $thumb-width;
+					height: $thumb-height;
+					border-radius: 0px;
+					background: var(--thumb-color);
+					margin-top: $thumb-margin-top; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+				}
+				&::-webkit-slider-runnable-track {
+					height: $track-height;
+					border-radius: 0px;
+					border: 1px solid darken($border-color, 15%);
+				}
+			}
 		}
+
+		.rcp.color-picker {
+			$margin: 2.5rem;
+
+			transform: scale(1.4);
+			width: 10rem;
+			height: 10rem;
+			margin-top: $margin;
+			margin-bottom: $margin;
+
+			&[aria-expanded=false] {
+				margin: -0.8*$margin 0;
+			}
+		}
+
+		.rcp__palette {
+			mask-size: 80%;
+			mask-position: 50% 50%;
+			// mask-repeat: no-repeat;
+			// background-size: 110% 110%;
+		}
+
+		.rcp__well {
+			transform: scale(1.2);
+		}
+
 	}
 
-	.color-temperature, .brightness {
+	.color-temperature {
 		&:focus {
 			outline: none;
 		}

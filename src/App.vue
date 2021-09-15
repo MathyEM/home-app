@@ -78,7 +78,7 @@ body {
 	height: 100%;
 
 	&>:not(div.home, div.header) {
-		padding: 1rem;
+		padding: 2.2rem;
 	}
 }
 
