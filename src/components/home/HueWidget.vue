@@ -65,6 +65,8 @@ export default {
 
             h3 {
                 margin: 0;
+				font-weight: normal;
+				font-size: 2rem;
             }
 
             .control-wrapper {
@@ -140,6 +142,7 @@ export default {
 				height: $track-height;
 				border: none;
 				border-radius: 0px;
+				border: 1px solid darken($border-color, 15%);
 			}
 		}
     }

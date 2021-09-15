@@ -37,12 +37,13 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .widget-container {
 	display: grid;
-	padding: 1rem 0.5rem;
+	padding: 1.5rem 0;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 1rem;
+	gap: 2rem;
+	margin: 0 2rem;
 }
 .widget {
-	border: 1px solid #E4E4E4;
+	border: 1px solid $border-color;
 	border-radius: $widget-border-radius;
 	background: rgba(245, 245, 245, 0.99);
 	padding: 0.5rem;
@@ -72,8 +73,9 @@ export default Vue.extend({
 <style lang="scss">
 .widget {
 	& > h2 {
-		padding: 1rem 0;
-		font-size: 2.2rem;
+		padding: 0.75rem 0;
+		padding-top: 0.25rem;
+		font-size: 3rem;
 		font-weight: normal;
 		border-bottom: 1px solid $border-color;
 	}
