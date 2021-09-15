@@ -1,14 +1,28 @@
 <template>
 	<div id="app">
 		<div class="header">
-			<div id="nav">
+			<div class="header-content">
 				<div class="header-weather">
 					<WeatherWidgetSmall />
 				</div>
-				<router-link to="/">Home</router-link>
-				<router-link to="/calendar">Kalender</router-link>
-				<router-link to="/todolist">Huskeseddel</router-link>
-				<router-link to="/hueapp">Hue App</router-link>
+				<div id="nav">
+					<router-link to="/">
+						<img src="@/assets/img/home.svg" alt="">
+						<p>Home</p>
+					</router-link>
+					<router-link to="/hueapp">
+						<img src="@/assets/img/light-bulb.svg" alt="">
+						<p>Lys</p>
+					</router-link>
+					<router-link to="/calendar">
+						<img src="@/assets/img/calendar.svg" alt="">
+						<p>Kalender</p>
+					</router-link>
+					<router-link to="/todolist">
+						<img src="@/assets/img/checklist.svg" alt="">
+						<p>Huskeseddel</p>
+					</router-link>
+				</div>
 			</div>
 		</div>
 		<router-view/>
@@ -62,6 +76,10 @@ body {
 	display: grid;
 	grid-template-columns: auto min-content;
 	height: 100%;
+
+	&>:not(div.home, div.header) {
+		padding: 1rem;
+	}
 }
 
 #app, input#updatedTodo {
@@ -71,8 +89,16 @@ body {
 .header {
 	grid-column: 2;
 	order: 1;
-	background: rgba(245, 245, 245, 0.99);
-	// padding: 0 1.4rem;
+	background: rgb(245, 245, 245);
+	height: 100%;
+
+	.header-content {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		display: grid;
+		grid-template-rows: min-content auto;
+	}
 }
 
 .header-weather {
@@ -83,17 +109,20 @@ body {
 #nav {
 	display: flex;
 	flex-direction: column;
-	position: sticky;
-	margin-top: -0.6rem;
-	top: 0;
+	justify-content: space-evenly;
+	padding-bottom: 3rem;
 
 	a {
 		font-weight: bold;
 		color: #2c3e50;
 		margin-bottom: 2rem;
 
+		img {
+			width: 50%;
+		}
+
 		&.router-link-exact-active {
-			color: #42b983;
+			color: #3eac7a;
 		}
 	}
 }

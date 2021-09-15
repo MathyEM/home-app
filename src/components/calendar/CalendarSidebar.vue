@@ -128,6 +128,12 @@ export default {
 .fc .fc-toolbar-chunk .fc-toolbar-title {
 	display: inline;
 }
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
 </style>
 <style lang="scss" scoped>
 .calendar-sidebar-container {
@@ -163,6 +169,7 @@ section.calendars {
 	line-height: 1.5;
 	background: #eaf9ff6b;
 	border-right: 1px solid #d3e2e8;
+	border-bottom: 1px solid #d3e2e8;
 	text-align: left;
 	display: none;
 
