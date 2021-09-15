@@ -6,15 +6,13 @@
                     <h3 class="location">Kolding</h3>
                     <p class="weather-description">{{ current.weather[0].description }}</p>
                 </div>
-                <div class="icon-temp-row">
-                    <!-- <img class="" :src="`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`" alt=""> -->
-                    <div class="icon-wrapper weather-icon">
-                        <i :class="`owf owf-fw owf-5x owf-${$store.state.weather.getIconWithSuffix(current.weather[0].icon, current.weather[0].id)}`"></i>
-                    </div>
-                    <div class="temperature-container">
-                        <h4 class="temperature">{{ current.temp.toFixed(0) }}°</h4>
-                        <p class="min-max">{{ daily[0].temp.max.toFixed(0) + "°" + "/" + daily[0].temp.min.toFixed(0) + "°" }}</p>
-                    </div>
+                <!-- <img class="" :src="`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`" alt=""> -->
+                <div class="icon-wrapper weather-icon">
+                    <i :class="`owf owf-fw owf-5x owf-${$store.state.weather.getIconWithSuffix(current.weather[0].icon, current.weather[0].id)}`"></i>
+                </div>
+                <div class="temperature-container">
+                    <h4 class="temperature">{{ current.temp.toFixed(0) }}°</h4>
+                    <p class="min-max">{{ daily[0].temp.max.toFixed(0) + "°" + "/" + daily[0].temp.min.toFixed(0) + "°" }}</p>
                 </div>
             </div>
         </div>
@@ -87,8 +85,9 @@ export default {
 .current-weather-wrapper {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    padding: 0 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0 2rem 0 0;
 
     .column-one {
         text-align: left;
@@ -150,11 +149,6 @@ export default {
     &::first-letter {
         text-transform: uppercase;
     }
-}
-.icon-temp-row {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
 }
 .min-max {
     margin-top: 2px;
