@@ -72,7 +72,7 @@ body {
 	grid-column: 2;
 	order: 1;
 	background: rgba(245, 245, 245, 0.99);
-	padding: 0 1.4rem;
+	// padding: 0 1.4rem;
 }
 
 .header-weather {
