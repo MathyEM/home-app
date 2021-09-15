@@ -47,6 +47,7 @@ export default {
     .weather-widget {
         .widget-content-container {
             padding-top: 1rem;
+            font-size: 1.6rem;
         }
     }
 </style>

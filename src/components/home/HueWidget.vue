@@ -75,11 +75,16 @@ export default {
 
 					button {
 						font-size: 1.5rem;
+						outline: none;
 
 						&.on, &:active {
 							background-color: #c1c1c1;
 							border-color: #b2b2b2;
 							border-width: 2px;
+						}
+
+						&:focus-visible {
+							outline: none;
 						}
 					}
 				}

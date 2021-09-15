@@ -1,7 +1,7 @@
 <template>
     <div v-if="daily" class="daily-weather">
         <div class="weather-daily">
-            <h5 class="date">{{ date }}</h5>
+            <p class="date">{{ date }}</p>
             <img
                 :src="`http://openweathermap.org/img/wn/${daily.weather[0].icon}@2x.png`"
                 :alt="'vejrikon med ' + daily.weather[0].description"
@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .daily-weather {
-    margin-top: 0.25em;
+    
     
     &:not(:last-child) {
         border-bottom: 1px solid $border-color;
@@ -48,9 +48,10 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
+
 }
 .icon {
-    height: 50px;
+    height: 6rem;
     justify-self: center;
 }
 </style>

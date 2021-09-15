@@ -2,7 +2,7 @@
     <div v-if="current && daily" class="current-weather">
         <div class="current-weather-container">
             <div class="current-weather-wrapper">
-                <h5 class="location">Kolding</h5>
+                <h3 class="location">Kolding</h3>
                 <div class="icon-temp-row">
                     <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`" alt="">
                     <div class="temperature-container">
@@ -70,6 +70,16 @@ export default {
     position: relative;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid $border-color;
+
+    .weather-icon {
+        margin: -10% -8%;
+        padding: 5px;
+        justify-self: right;
+    }
+    .temperature-container {
+        justify-self: left;
+        padding: 1em;
+    }
 }
 .current-weather-wrapper {
     margin-right: 5px;
@@ -136,15 +146,6 @@ export default {
 </style>
 
 <style lang="scss">
-.weather-icon {
-    margin: -10% -8%;
-    padding: 5px;
-    justify-self: right;
-}
-.temperature-container {
-    justify-self: left;
-    padding: 1em;
-}
 .icon-shadow {
     filter: drop-shadow(0px 0px 1px rgba(0,0,0,0.5));
 }
