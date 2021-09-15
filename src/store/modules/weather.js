@@ -2,6 +2,12 @@ import { getWeather } from "../../services/weatherapi";
 
 const state = {
     weatherCache: {},
+    getIconWithSuffix: (icon, id) => {
+        console.log("geticonwithsuffix",icon, id);
+        const suffix = icon.substr(-1)
+        const codeWithSuffix = id+"-"+suffix
+        return codeWithSuffix
+    }
 }
 
 const getters = {
@@ -9,6 +15,12 @@ const getters = {
     currentWeather: state => state.weatherCache.current,
     hourlyWeather: state => state.weatherCache.hourly,
     dailyWeather: state => state.weatherCache.daily,
+    getIconWithSuffix: (icon, id) => {
+        state
+        const suffix = icon.substr(-1)
+        const codeWithSuffix = id+"-"+suffix
+        return codeWithSuffix
+    }
 }
 
 const mutations = {
