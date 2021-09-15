@@ -51,6 +51,7 @@ export default Vue.extend({
 	overflow-y: auto;
 	display: grid;
 	grid-template-rows: min-content auto;
+	box-shadow: 0px -1px 9px -6px black;
 }
 
 // @media screen and (max-width: $lg-scrn) {
