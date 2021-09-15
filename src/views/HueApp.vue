@@ -27,9 +27,27 @@ export default {
 	},
 	methods: {
 		...mapActions(['updateLocalLights']),
+		disableContextMenu() {
+			const briDimBtns = document.querySelectorAll('button.btn-brighten, button.btn-dim')
+			if (!briDimBtns.length>0) {
+				console.log("is false", briDimBtns);
+				setTimeout(this.disableContextMenu, 100)
+			} else {
+				for (const btn in briDimBtns) {
+					if (Object.hasOwnProperty.call(briDimBtns, btn)) {
+						const element = briDimBtns[btn];
+						console.log(btn, element);
+						element.addEventListener('contextmenu', e => {
+							e.preventDefault();
+						});
+					}
+				}
+			}
+			
+		}
 	},
 	async mounted() {
-
+		
 	},
 	async created() {
 		var self = this;
@@ -40,6 +58,10 @@ export default {
 		}, this.$data.pollingInterval)
 
 		this.updateLocalLights();
+
+		this.$nextTick(() => {
+			this.disableContextMenu()
+		})
 	},
 	beforeDestroy() {
 		console.log('destroyed')
@@ -53,6 +75,7 @@ export default {
 
 :root {
 	scroll-behavior: smooth;
+	// font-size: 1.6rem;
 }
 
 * {
@@ -66,11 +89,87 @@ export default {
 	flex-wrap: wrap;
 	flex-direction: column;
 	padding: 0 2rem;
+	font-size: 1.4rem;
 
 	.entity-container {
-		margin: 0 1.5rem;
+		margin: 0 1.5em;
 		display: flex;
 
+		.entity-wrapper {
+			width: 16.5em;
+			padding: 1em;
+			margin-bottom: 2em;
+			padding-left: calc(1em + 4px);
+			padding-bottom: calc(1em + 4px);
+			user-select: none;
+
+			.hue-switch-container {
+				width: 6em;
+				height: 15em;
+				user-select: none;
+				
+				button {
+					user-select: none;
+
+					& > div {
+						user-select: none;
+					}
+				}
+			}
+		}
+	}
+
+	.group-controls {
+		.switch-container {
+			button {
+				width: 4em;
+				font-size: 1.2rem;
+			}
+		}
+	}
+
+	$thumb-width: 46px;
+	$thumb-height: 46px;
+	$track-height: 36px;
+	$thumb-margin-top: ( $thumb-height * -0.5 ) + ( $track-height * 0.5 );
+
+	* {
+		--thumb-color: #efefef;
+	}
+
+	.color-picker-wrapper {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+		justify-content: center;
+		padding: 0 2rem;
+
+		& > div {
+			padding: 1rem 0 0 0;
+			justify-self: center;
+			align-self: center;
+		}
+	}
+
+	.color-temperature, .brightness {
+		&:focus {
+			outline: none;
+		}
+
+		&::-webkit-slider-thumb {
+			border: 1px solid $border-color;
+			width: $thumb-width;
+			height: $thumb-height;
+			border-radius: 0px;
+			background: var(--thumb-color);
+			margin-top: $thumb-margin-top; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+		}
+		&::-webkit-slider-runnable-track {
+			height: $track-height;
+			border-radius: 0px;
+			border: 1px solid darken($border-color, 15%);
+		}
 	}
 }
 </style>
