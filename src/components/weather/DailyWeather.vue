@@ -2,11 +2,14 @@
     <div v-if="daily" class="daily-weather">
         <div class="weather-daily">
             <p class="date">{{ date }}</p>
-            <img
+            <!-- <img
                 :src="`http://openweathermap.org/img/wn/${daily.weather[0].icon}@2x.png`"
                 :alt="'vejrikon med ' + daily.weather[0].description"
                 class="icon icon-shadow"
-            >
+            > -->
+            <div class="icon-wrapper weather-icon">
+                <i :class="`owf owf-fw owf-4x owf-${$store.state.weather.getIconWithSuffix(daily.weather[0].icon, daily.weather[0].id)}`"></i>
+            </div>
             <div class="temp-rain">
                 <p class="min-max">{{ daily.temp.max.toFixed(0) + "°" + "/" + daily.temp.min.toFixed(0) + "°" }}</p>
                 <p v-if="daily.rain" class="rain">{{ daily.rain.toString().replace('.', ',') + "mm" }}</p>

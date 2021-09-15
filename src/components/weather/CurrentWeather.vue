@@ -2,15 +2,20 @@
     <div v-if="current && daily" class="current-weather">
         <div class="current-weather-container">
             <div class="current-weather-wrapper">
-                <h3 class="location">Kolding</h3>
+                <div class="column-one">
+                    <h3 class="location">Kolding</h3>
+                    <p class="weather-description">{{ current.weather[0].description }}</p>
+                </div>
                 <div class="icon-temp-row">
-                    <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`" alt="">
+                    <!-- <img class="" :src="`http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`" alt=""> -->
+                    <div class="icon-wrapper weather-icon">
+                        <i :class="`owf owf-fw owf-5x owf-${$store.state.weather.getIconWithSuffix(current.weather[0].icon, current.weather[0].id)}`"></i>
+                    </div>
                     <div class="temperature-container">
                         <h4 class="temperature">{{ current.temp.toFixed(0) }}°</h4>
                         <p class="min-max">{{ daily[0].temp.max.toFixed(0) + "°" + "/" + daily[0].temp.min.toFixed(0) + "°" }}</p>
                     </div>
                 </div>
-                <p class="weather-description">{{ current.weather[0].description }}</p>
             </div>
         </div>
         <div class="expand-hourly-weather-wrapper" @click="showHourly = !showHourly">
@@ -72,37 +77,45 @@ export default {
     border-bottom: 1px solid $border-color;
 
     .weather-icon {
-        margin: -10% -8%;
-        padding: 5px;
         justify-self: right;
     }
     .temperature-container {
         justify-self: left;
-        padding: 1em;
+        // padding: 1em;
     }
 }
 .current-weather-wrapper {
-    margin-right: 5px;
+    display: flex;
+    flex-direction: row;
+    padding: 0 2rem;
+
+    .column-one {
+        text-align: left;
+        align-self: center;
+    }
 }
 .expand-hourly-weather-wrapper {
+    display: flex;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 1em;
     cursor: pointer;
     user-select: none;
-    width: 2em;
-    height: 2em;
 }
 .expand-hourly-weather {
-    font-size: 1.75rem;
-    writing-mode: vertical-rl;
+    font-size: 5.5rem;
+    line-height: 3rem;
+    outline: none;
+    // writing-mode: vertical-rl;
 
     &::before {
         content: '+';
+        display: inline-block;
+        -webkit-tap-highlight-color:  transparent; 
     }
 
     &.show-hourly {
-        transform: rotateZ(90deg);
+        // transform: rotateZ(90deg);
         &::before {
             content: '\2212';
         }
@@ -122,7 +135,7 @@ export default {
     transition: all .3s ease;
 }
 .slide-fade-enter-to, .slide-fade-leave, .hourly-weather {
-    height: 63vh;
+    height: 69vh;
     border-bottom-left-radius: $widget-border-radius;
     border-bottom-right-radius: $widget-border-radius;
 }
@@ -131,8 +144,8 @@ export default {
     opacity: 0;
 }
 .weather-description {
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
+    // margin-top: -0.5rem;
+    // margin-bottom: 1rem;
     &::first-letter {
         text-transform: uppercase;
     }

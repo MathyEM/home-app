@@ -4,11 +4,14 @@
             <h5 class="date">{{ date }}</h5>
             <p class="time">{{ time }}</p>
         </div>
-        <img
+        <!-- <img
             :src="`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`"
             :alt="'vejrikon med ' + hour.weather[0].description"
             class="icon icon-shadow"
-        >
+        > -->
+        <div class="icon-wrapper weather-icon">
+            <i :class="`owf owf-fw owf-3x owf-${$store.state.weather.getIconWithSuffix(hour.weather[0].icon, hour.weather[0].id)}`"></i>
+        </div>
         <div class="temp-rain">
             <p class="temp">{{ hour.temp.toFixed(0) + "°" }}</p>
             <p v-if="hour.rain" class="rain">{{ hour.rain['1h'].toString().replace('.', ',') + "mm" }}</p>
@@ -47,7 +50,6 @@ export default {
 <style lang="scss" scoped>
 .weather-hour {
     margin-bottom: 5px;
-    padding: 0.25em;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
@@ -55,19 +57,24 @@ export default {
     &:not(:last-child) {
         border-bottom: 1px solid $border-color;
     }
+
+    .weather-icon {
+        width: min-content;
+        justify-self: center;
+    }
 }
 .date-time {
+    margin-left: 2.5rem;
     justify-self: flex-start;
 }
-.time {
-    font-size: 0.9em;
+
+.date, .time {
+    font-size: 1.6rem;
 }
-.icon {
-    height: 50px;
-    justify-self: center;
-}
+
 .temp-rain {
+    margin-left: 2rem;
     justify-self: center;
-    font-size: 0.9rem;
+    font-size: 1.6rem;
 }
 </style>

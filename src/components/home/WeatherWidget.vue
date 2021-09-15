@@ -10,11 +10,16 @@
                         />
             </template>
             <template v-if="dailyWeather">
-                <DailyWeather
+                <template 
                     v-for="(daily, index) in dailyWeather"
                     :daily="daily"
-                    :key="index"
-                />
+                >
+                    <DailyWeather
+                        :key="index"
+                        v-if="index <= 5"
+                        :daily="daily"
+                    />
+                </template>
             </template>
         </div>
 	</div>
