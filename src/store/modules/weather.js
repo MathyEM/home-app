@@ -3,7 +3,6 @@ import { getWeather } from "../../services/weatherapi";
 const state = {
     weatherCache: {},
     getIconWithSuffix: (icon, id) => {
-        console.log("geticonwithsuffix",icon, id);
         const suffix = icon.substr(-1)
         const codeWithSuffix = id+"-"+suffix
         return codeWithSuffix
