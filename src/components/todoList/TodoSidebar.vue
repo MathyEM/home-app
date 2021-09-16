@@ -99,7 +99,7 @@ export default {
 	padding: 5px;
 	text-decoration: none;
 	cursor: pointer;
-	font-size: 2rem;
+	font-size: 3.2em;
 	display: inline;
 	user-select: none;
 }
@@ -115,7 +115,7 @@ section.todos {
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 1em;
-		gap: 2rem;
+		gap: 2em;
 	}
 }
 
@@ -166,7 +166,7 @@ section.todos {
 	}
 
 	section {
-		padding: 2rem;
+		padding: 2em;
 	}
 }
 </style>
