@@ -47,11 +47,10 @@ export default {
 
 <style lang="scss" scoped>
 .todo-list {
-    padding: 0 0 0.5em;
     text-align: left;
     list-style: none;
     display: grid;
-    grid-auto-rows: 1fr;
+    grid-auto-rows: auto;
 
     &:not(:last-child) {
         margin-bottom: 1em;

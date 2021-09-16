@@ -40,12 +40,12 @@
             >✎</button>
 
             <button
-                v-if="!deleting"
+                v-if="!deleting && editing"
                 @click="deleteConfirmation"
                 class="delete-btn todo-btn"
             >🗑</button>
             <button
-                v-else
+                v-else-if="deleting && editing"
                 @click="doDelete"
                 class="delete-btn confirm-del-btn todo-btn"
             >🗑</button>
@@ -149,52 +149,48 @@ p.completed {
     text-decoration: line-through;
 }
 .todo-item {
+    $font-size: 1.5rem;
+    font-size: $font-size;
     padding: 5px 1em;
+    gap: 0.5em;
     cursor: pointer;
     display: grid;
-    grid-template-columns: minmax(auto, 80%) auto;
-    gap: 0.5em;
-    align-items: center;
-
-    &.editing .inputs {
-        width: calc(100% - 8px);
-    }
+    grid-template-columns: 80% min-content;
+    align-items: flex-start;
+    justify-content: space-between;
 
     .todo-info {
         align-self: baseline;
     }
 
-    .todo-summary {
-        font-size: 1.5em;
-        margin-bottom: 0.3rem;
+    .todo-summary, #updatedTodo {
+        font: unset;
+        border: none;
+        outline: none;
+        color: darken($base-font-color, 4%);
+        width: 100%;
+        padding: 0.3rem;
     }
 
     &:nth-child(odd) {
         background: $todo-color
     }
 
-    input {
-        font: unset;
-        outline: none;
-        font-size: 1.5em;
-        color: darken($base-font-color, 4%);
-        width: 100%;
-        border: none;
-        padding: 0.3rem;
-    }
-
     .todo-btn-container {
-        display: grid;
-        gap: 5px;
-        grid-template-columns: 1fr 1fr;
-        align-self: flex-start;
+        display: flex;
+        flex-direction: column;
+        align-content: flex-start;
+        align-items: flex-end;
+        justify-content: space-between;
+        justify-self: flex-end;
+        gap: 0.4rem;
 
         .todo-btn {
+            // margin: auto;
             border: 1px lightgray solid;
-            padding: 2px 6px;
-            font-size: 1.5em;
-            width: 1.75em;
-            height: 1.75em;
+            font-size: 3.4rem;
+            height: 100%;
+            aspect-ratio: 1;
         }
 
         .edit-btn {
@@ -226,6 +222,10 @@ p.completed {
         }
     }
 
+    .categories-list, .new-todo-category {
+        padding: 0.5rem;
+    }
+
     .categories-list {
         list-style: none;
         display: flex;
@@ -255,11 +255,16 @@ p.completed {
         }
     }
 
+    .inputs {
+        border: 1px solid lightgray;
+    }
+
     .new-todo-category {
-		$font-size: 1.3rem;
+        border: none;
+        border-top: 1px solid lighten($border-color, 10%);
+
 		.input-tag {
 			font-size: $font-size;
-            padding-right: 1.2em;
 
             a.remove {
                 font-size: $font-size*1.2;
@@ -268,9 +273,6 @@ p.completed {
 		.new-tag {
 			font-size: $font-size;
 		}
-        input {
-            width: 100%;
-        }
 	}
 }
 </style>
