@@ -4,7 +4,7 @@
 		<div class="widget-content-container">
 			<div class="calendar-widget-wrapper">
 				<FullCalendar ref="fullCalendar" :options="calendarOptions" />
-				<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + focusedEventSource.color">
+				<SimpleModal v-model="showModal" :title="focusedEventSource.name" :style="'--modal-header-color:' + (focusedEventSource.color ? focusedEventSource.color : '#3788d8')">
 					<template slot="body">
 						<h4>{{ focusedEvent.title }}</h4>
 						<p v-if="focusedEventDates.start">
@@ -108,7 +108,6 @@ export default {
 	padding-bottom: 2.4rem;
 }
 .calendar-widget-wrapper {
-	--modal-header-color: #f7f7f7;
 	padding-top: 1rem;
 	height: 100%;
     min-height: 400px;
@@ -118,14 +117,32 @@ export default {
 		gap: 0.25em;
 	}
 	h2.fc-toolbar-title {
-		font-size: 1.4em;
+		font-size: 2.4rem;
+
+		&::first-letter {
+			text-transform: uppercase;
+		}
 	}
 	.fc-toolbar-chunk .fc-button-group {
 		margin-left: 0.5em;
 	}
 	.fc-button {
 		//padding: 0.3em;
-		font-size: 1em;
+		font-size: 1.4rem;
+	}
+
+	.fc-list-day a {
+		font-size: 1.6rem;
+	}
+
+	.fc-list-event {
+		.fc-list-event-time, .fc-list-event-title {
+			font-size: 1.8rem;
+		}
+
+		.fc-list-event-graphic span {
+			--fc-list-event-dot-width: 1.6rem
+		}
 	}
 
 	span.focused-event-date {
@@ -136,14 +153,35 @@ export default {
 		}
 	}
 	.vsm-modal {
+		max-width: 80% !important;
+		border-radius: $widget-border-radius;
+
 		.btn-close {
+			top: 0;
 			color: white;
+			font-size: 3.6rem;
 		}
+
 		.vsm-modal-header {
 			background: var(--modal-header-color);
+			padding: 1.4rem;
 
 			.title {
 				color: white;
+				font-size: 2.4rem;
+			}
+		}
+
+		.vsm-modal-body {
+			padding: 2rem;
+
+			h4 {
+				font-size: 2rem;
+				margin-bottom: 0.8rem;
+			}
+
+			p {
+				font-size: 2rem;
 			}
 		}
 	}
