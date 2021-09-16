@@ -32,23 +32,23 @@
                 v-on:click="editing = true"
                 class="edit-btn todo-btn"
                 :disabled="disabled"
-            >✎</button>
+            ></button>
             <button
                 v-else
                 class="edit-btn todo-btn editing"
                 v-on:click="editTodo"
-            >✎</button>
+            ></button>
 
             <button
                 v-if="!deleting && editing"
                 @click="deleteConfirmation"
                 class="delete-btn todo-btn"
-            >🗑</button>
+            ></button>
             <button
                 v-else-if="deleting && editing"
                 @click="doDelete"
                 class="delete-btn confirm-del-btn todo-btn"
-            >🗑</button>
+            ></button>
         </div>
     </li>
 </template>
@@ -144,6 +144,8 @@ export default {
 <style lang="scss">
 $todo-color: whitesmoke;
 $light-text-color: rgb(235, 235, 235);
+$edit-btn-color: darken(lightgreen, 10%);
+$del-btn-color: lighten(red, 25%);
 
 p.completed {
     text-decoration: line-through;
@@ -192,26 +194,51 @@ p.completed {
         gap: 0.4em;
 
         .todo-btn {
-            border: 1px lightgray solid;
-            font-size: 2.6em;
-            height: 100%;
+            border: 1px rgba(169, 169, 169, 0.8) solid;
+            // padding: 0.8em;
+            width: 8em;
             aspect-ratio: 1;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: transparentize(darkgray, 0.8);
+            }
         }
 
         .edit-btn {
-            color: darken(grey, 30%);
+            position: relative;
+            background: url('~@/assets/img/edit-button.svg');
+            fill: darken($edit-btn-color, 30%);
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+
         }
 
-        .confirm-del-btn {
-            background: lighten(red, 25%);
+        .delete-btn {
+            position: relative;
+            color: darken($del-btn-color, 30%);
+            background: url('~@/assets/img/bin.svg');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .confirm-del-btn::before {
+            background: transparentize($del-btn-color, 0.6);
             border-color: lighten(red, 20%);
         }
     }
 
     &.editing {
 
-        .edit-btn {
-            background: darken(lightgreen, 10%);
+        .edit-btn::before {
+            background: transparentize($edit-btn-color, 0.8);
             border-color: darken(lightgreen, 20%);
         }
 
@@ -241,6 +268,7 @@ p.completed {
         display: flex;
         gap: 5px;
         padding-bottom: 0.5em;
+        font-size: 1.1em;
 
         .category-item {
             display: inline;
@@ -249,12 +277,7 @@ p.completed {
             background: darken($todo-color, 10);
         }
     }
-
-    &:hover {
-        $new-color: darken($todo-color, 30);
-        background: $new-color;
-    }
-
+    
     .inputs {
         border: 1px solid lightgray;
     }

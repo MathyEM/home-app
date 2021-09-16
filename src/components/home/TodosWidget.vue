@@ -21,6 +21,7 @@ export default {
 <style lang="scss">
     .widget-content-container {
         .todo-list {
+            font-size: 1.1rem;
             .todo-item:not(:first-child) {
                 border-top: 1px solid $border-color;
             }
