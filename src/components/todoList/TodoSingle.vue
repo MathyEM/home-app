@@ -24,7 +24,7 @@
                 v-on:blur="setUpdatedTodoSummary"
                 v-focus
             >
-            <CustomInputTag :value="categories" v-on:input="setUpdatedTodoCategories" />
+            <CustomInputTag :value="categories" v-on:input="setUpdatedTodoCategories" :editing="editing" />
         </div>
         <div class="todo-btn-container">
             <button
@@ -149,15 +149,16 @@ p.completed {
     text-decoration: line-through;
 }
 .todo-item {
-    $font-size: 1.5rem;
+    $font-size: 1.6em;
     font-size: $font-size;
-    padding: 5px 1em;
+    padding: 0.5em 1em;
     gap: 0.5em;
     cursor: pointer;
     display: grid;
     grid-template-columns: 80% min-content;
     align-items: flex-start;
     justify-content: space-between;
+    min-height: 5em;
 
     .todo-info {
         align-self: baseline;
@@ -169,7 +170,12 @@ p.completed {
         outline: none;
         color: darken($base-font-color, 4%);
         width: 100%;
-        padding: 0.3rem;
+        font-size: $font-size;
+        padding: 0.3em;
+    }
+
+    .categories-list {
+        padding: 0.4em
     }
 
     &:nth-child(odd) {
@@ -183,12 +189,11 @@ p.completed {
         align-items: flex-end;
         justify-content: space-between;
         justify-self: flex-end;
-        gap: 0.4rem;
+        gap: 0.4em;
 
         .todo-btn {
-            // margin: auto;
             border: 1px lightgray solid;
-            font-size: 3.4rem;
+            font-size: 2.6em;
             height: 100%;
             aspect-ratio: 1;
         }
@@ -209,6 +214,15 @@ p.completed {
             background: darken(lightgreen, 10%);
             border-color: darken(lightgreen, 20%);
         }
+
+        .vuetagger {
+            .vuetagger-list {
+                font-size: $font-size*0.7;
+            }
+            .vuetagger-input {
+                font-size: $font-size*0.8;
+            }
+        }
     }
 
     &.syncing {
@@ -222,14 +236,11 @@ p.completed {
         }
     }
 
-    .categories-list, .new-todo-category {
-        padding: 0.5rem;
-    }
-
     .categories-list {
         list-style: none;
         display: flex;
         gap: 5px;
+        padding-bottom: 0.5em;
 
         .category-item {
             display: inline;
@@ -242,37 +253,10 @@ p.completed {
     &:hover {
         $new-color: darken($todo-color, 30);
         background: $new-color;
-        color: lighten($new-color, 30);
-
-        .category-item {
-            $new-color2: darken($new-color, 15);
-            background: $new-color2;
-
-            &:hover {
-                background: lighten($new-color2, 2);
-                color: lighten($new-color, 35);
-            }
-        }
     }
 
     .inputs {
         border: 1px solid lightgray;
     }
-
-    .new-todo-category {
-        border: none;
-        border-top: 1px solid lighten($border-color, 10%);
-
-		.input-tag {
-			font-size: $font-size;
-
-            a.remove {
-                font-size: $font-size*1.2;
-            }
-		}
-		.new-tag {
-			font-size: $font-size;
-		}
-	}
 }
 </style>

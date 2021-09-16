@@ -1,7 +1,7 @@
 <template>
 	<div class="todo-list-container">
 		<AddTodo />
-		<Todos />
+		<Todos :showCompleted="false" />
 		<TodoStatus />
 	</div>
 </template>
@@ -36,8 +36,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.todo-list-container {
 		margin: 0 auto;
+		font-size: 24px;
+		width: 80%;
 	}
 </style>

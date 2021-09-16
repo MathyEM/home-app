@@ -1,16 +1,15 @@
 <template>
-<InputTag
-    :value="value"
-    :before-adding="beforeAddingTag"
-    v-on:input="emitCategories"
-    :validate="/^(?!\s*$).+/"
-    :add-tag-on-blur="true"
-    class="new-todo-category"
-    placeholder="Tilføj kategori" />
+    <VueTagger
+        :value="value"
+        @change="emitCategories"
+        pattern="^(?!\s*$).+"
+        class="category-input"
+        ref="vuetagger"
+    />
 </template>
 
 <script>
-import InputTag from 'vue-input-tag'
+import VueTagger from 'vuetagger'
 
 export default {
     name: "CustomInputTag",
@@ -19,58 +18,78 @@ export default {
             type: Array,
             required: true,
         },
+        editing: {
+            type: Boolean,
+        }
     },
     data() {
         return {
+            placerholder: "Netto, Rema 1000, Føtex..."
         }
     },
     components: {
-        InputTag,
+        VueTagger,
     },
     methods: {
-        beforeAddingTag(tag) {
-			return tag.trim().replace(/\s+/g, ' ')
-		},
 		emitCategories(e) {
             this.$emit('input', e)
-		}
+		},
+        setPlaceholder() {
+            this.$refs.vuetagger.$el.querySelector('.vuetagger-input').setAttribute('placeholder', this.placerholder)
+        }
+    },
+    mounted() {
+        this.setPlaceholder();
     }
 }
 </script>
 
 <style lang="scss">
-.vue-input-tag-wrapper.new-todo-category {
-    gap: 4px;
+.category-input .vuetagger {
+    padding: 0;
+    $new-padding: 0.4em;
+    $new-font-size: 1.6em;
 
-    .input-tag {
+    .vuetagger-list {
+        text-align: left;
+        padding: $new-padding;
+        font-size: $new-font-size*0.8;
+        background: white;
         display: flex;
-        align-items: center;
-        position: relative;
-        padding: 0 3px;
-        padding-right: 2rem;
-        margin: 0;
-        height: fit-content;
+        flex-wrap: wrap;
+        gap: 0.2em;
 
-        .remove {
-            position: absolute;
-            display: inline-flex;
-            right: 0;
-            width: 100%;
+        .vuetagger-tag {
+            position: relative;
+            padding-right: 1em;
 
-            &::before {
-                padding: 0 4px;
+            .vuetagger-tag-remover {
+                position: absolute;
+                top: 0;
+                right: 0;
                 width: 100%;
-                display: flex;
-                flex-direction: row-reverse;
+                text-align: right;
+
+                &:hover {
+                    background: transparent;
+                    color: gray;
+                }
             }
         }
     }
-
-    .new-tag {
-        margin: 0;
-        padding: 0;
-        padding-right: 4px;
-        flex-grow: 0;
+    .vuetagger-input {
+        padding: $new-padding;
+        padding-left: $new-padding*1.4;
+        font-size: $new-font-size;
+        color: $base-font-color;
+        border: none;
+        border-top: 1px solid $border-color;
+    }
+}
+.todo-item.editing {
+    .vuetagger {
+        border: none;
+        border-top: 1px solid $border-color;
     }
 }
 </style>

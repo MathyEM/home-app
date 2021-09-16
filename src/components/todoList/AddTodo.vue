@@ -68,7 +68,7 @@ div.new-todo {
 
 	#new-todo {
 		width: 100%;
-		font-size: 2rem;
+		font-size: 3.4em;
 		padding: 2px;
 		margin: 0;
 		outline: none;
@@ -76,7 +76,7 @@ div.new-todo {
 	}
 	.new-todo-category {
 		grid-area: categories;
-		$font-size: 1.5rem;
+		$font-size: 1.5em;
 
 		.input-tag {
 			font-size: $font-size;
@@ -88,7 +88,7 @@ div.new-todo {
 	.add-todo-btn {
 		grid-area: add_btn;
 		// font-weight: bold;
-		font-size: 2rem;
+		font-size: 2em;
 		padding: 0 0.5em;
 	}
 	#todo-sidebar {
