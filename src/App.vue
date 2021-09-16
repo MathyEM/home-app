@@ -39,6 +39,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('~@/assets/css/owfont-regular.css');
+
 * {
 	box-sizing: border-box;
 	margin: 0;
