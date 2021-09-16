@@ -43,7 +43,7 @@ export default {
     }
 }
 .temperature-container {
-    margin-top: -1.4rem;
+    margin-top: -0.8rem;
     font-size: 1.6rem;
 }
 </style>
