@@ -40,7 +40,6 @@ export default {
 
 <style lang="scss">
 .vue-input-tag-wrapper.new-todo-category {
-    padding: 0.5rem;
     gap: 4px;
 
     .input-tag {
@@ -48,7 +47,7 @@ export default {
         align-items: center;
         position: relative;
         padding: 0 3px;
-        padding-right: 0.875em;
+        padding-right: 2rem;
         margin: 0;
         height: fit-content;
 
