@@ -244,7 +244,7 @@ p.completed {
 
         .vuetagger {
             .vuetagger-list {
-                font-size: $font-size*0.7;
+                font-size: $font-size*0.9;
             }
             .vuetagger-input {
                 font-size: $font-size*0.8;
@@ -268,7 +268,7 @@ p.completed {
         display: flex;
         gap: 5px;
         padding-bottom: 0.5em;
-        font-size: 1.1em;
+        font-size: $font-size*0.9;
 
         .category-item {
             display: inline;

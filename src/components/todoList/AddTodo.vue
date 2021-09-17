@@ -9,7 +9,7 @@
 					v-on:keydown.enter="createTodo"
 		>
 		<button class="add-todo-btn" @click="createTodo">+</button>
-		<CustomInputTag :value="newTodoCategories" v-on:input="setNewTodoCategories" />
+		<CustomInputTag :value="newTodoCategories" v-on:input="setNewTodoCategories" ref="customInput" />
 		<TodoSidebar id="todo-sidebar" />
     </div>
 </template>
@@ -38,6 +38,7 @@ export default {
 		...mapActions(['addTodo']),
 		setNewTodoCategories(e) {
 			this.newTodoCategories = e
+			console.log();
 		},
 		createTodo() {
 			const summary = this.newTodoSummary.trim()
@@ -53,6 +54,7 @@ export default {
 			// Reset inputs
 			this.newTodoSummary = ""
 			this.newTodoCategories = []
+			this.$refs.customInput.$refs.vuetagger.tags = []
 		}
 	}
 }
@@ -69,10 +71,12 @@ div.new-todo {
 	#new-todo {
 		width: 100%;
 		font-size: 3.4em;
-		padding: 2px;
+		padding: 0.05em;
+		padding-left: 0.2em;
 		margin: 0;
 		outline: none;
 		grid-area: summary;
+		color: $base-font-color;
 	}
 	.new-todo-category {
 		grid-area: categories;

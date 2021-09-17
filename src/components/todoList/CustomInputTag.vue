@@ -32,7 +32,16 @@ export default {
     },
     methods: {
 		emitCategories(e) {
-            this.$emit('input', e)
+            var tags = [];
+            for (const i in e) {
+                if (Object.hasOwnProperty.call(e, i)) {
+                    const tag = e[i];
+                    const newTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+                    tags.push(newTag)
+                }
+            }
+            this.$emit('input', tags)
+            // this.$refs.vuetagger
 		},
         setPlaceholder() {
             this.$refs.vuetagger.$el.querySelector('.vuetagger-input').setAttribute('placeholder', this.placerholder)
@@ -53,7 +62,7 @@ export default {
     .vuetagger-list {
         text-align: left;
         padding: $new-padding;
-        font-size: $new-font-size*0.8;
+        font-size: $new-font-size*1.2;
         background: white;
         display: flex;
         flex-wrap: wrap;
@@ -62,6 +71,10 @@ export default {
         .vuetagger-tag {
             position: relative;
             padding-right: 1em;
+
+            &::first-letter {
+                text-transform: uppercase;
+            }
 
             .vuetagger-tag-remover {
                 position: absolute;
