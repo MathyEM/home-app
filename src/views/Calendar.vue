@@ -107,10 +107,12 @@ div#app > div.calendar-container {
 	padding-bottom: 0;
 	padding-left: 0;
 	padding-right: 0;
+	font-size: 1.5rem;
 
 	.fc-toolbar-chunk {
 		margin-left: 1rem;
 	}
+
 	h4 {
 		margin-bottom: 0.25em;
 	}

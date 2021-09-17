@@ -121,7 +121,7 @@ export default {
 	padding: 5px;
 	text-decoration: none;
 	cursor: pointer;
-	font-size: 2rem;
+	font-size: 2em;
 	display: inline;
 	user-select: none;
 }
