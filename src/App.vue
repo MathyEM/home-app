@@ -56,7 +56,18 @@ export default {
 
 :root {
 	height: 100vh;
+	// filter: invert(100%) hue-rotate(180deg);
 }
+
+// .invert {
+// 	filter: invert(100%) hue-rotate(180deg);
+// }
+
+// #brightness, #color-temperature, #luminosity, #saturation {
+// 	&::-webkit-slider-runnable-track, &::-webkit-slider-thumb {
+// 		filter: invert(1) hue-rotate(180deg);
+// 	}
+// }
 
 ::-webkit-scrollbar-track {
 	border-radius: 10px;
@@ -75,6 +86,7 @@ export default {
 
 body {
 	height: 100%;
+	background: white;
 }
 
 #app {
