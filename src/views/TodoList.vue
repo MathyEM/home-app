@@ -1,7 +1,7 @@
 <template>
 	<div class="todo-list-container">
 		<AddTodo />
-		<Todos :showCompleted="false" />
+		<Todos :showCompleted="true" />
 		<TodoStatus />
 	</div>
 </template>
