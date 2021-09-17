@@ -46,9 +46,6 @@ export default {
 			
 		}
 	},
-	async mounted() {
-		
-	},
 	async created() {
 		var self = this;
 

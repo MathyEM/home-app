@@ -6,19 +6,19 @@
 					<WeatherWidgetSmall />
 				</div>
 				<div id="nav">
-					<router-link to="/">
+					<router-link to="/" @click.native="scrollToTop">
 						<img src="@/assets/img/home.svg" alt="">
 						<p>Home</p>
 					</router-link>
-					<router-link to="/hueapp">
+					<router-link to="/hueapp" @click.native="scrollToTop">
 						<img src="@/assets/img/light-bulb.svg" alt="">
 						<p>Lys</p>
 					</router-link>
-					<router-link to="/calendar">
+					<router-link to="/calendar" @click.native="scrollToTop">
 						<img src="@/assets/img/calendar.svg" alt="">
 						<p>Kalender</p>
 					</router-link>
-					<router-link to="/todolist">
+					<router-link to="/todolist" @click.native="scrollToTop">
 						<img src="@/assets/img/checklist.svg" alt="">
 						<p>Huskeseddel</p>
 					</router-link>
@@ -34,8 +34,15 @@ import WeatherWidgetSmall from '@/components/weather/WeatherWidgetSmall.vue'
 export default {
 	components: {
 		WeatherWidgetSmall,
+	},
+	methods: {
+		scrollToTop() {
+			window.scrollTo(0, 0);
+		}
 	}
 }
+
+
 </script>
 
 <style lang="scss">
