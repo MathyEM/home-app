@@ -63,7 +63,7 @@ export default {
 <style lang="scss">
 div.new-todo {
 	display: grid;
-	grid-template-columns: 9fr 1fr;
+	grid-template-columns: auto max-content;
 	grid-template-areas:
 		'summary add_btn'
 		'categories sidebar';
@@ -91,12 +91,19 @@ div.new-todo {
 	}
 	.add-todo-btn {
 		grid-area: add_btn;
-		// font-weight: bold;
-		font-size: 2em;
-		padding: 0 0.5em;
+		font-size: 4rem;
+		width: 2em;
+		aspect-ratio: 1;
 	}
 	#todo-sidebar {
 		grid-area: sidebar;
+		font-size: 2rem;
+		width: 4em;
+		aspect-ratio: 1;
+	}
+
+	.vuetagger-list {
+		height: 4rem;
 	}
 }
 </style>

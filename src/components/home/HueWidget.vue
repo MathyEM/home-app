@@ -57,14 +57,9 @@ export default {
             background: initial;
             width: 100%;
 			margin: 0;
-			// border-left: 1px solid $border-color;
-			// border-right: 1px solid $border-color;
 			border-bottom: 1px solid $border-color;
 			border-radius: 0;
 			padding: 0.5rem 1rem;
-
-			// &:not(:first-child) {
-			// }
 
             h3 {
                 margin: 0;
@@ -76,7 +71,7 @@ export default {
 				grid-template-columns: 0.7fr 2fr;
 
 				.switch-container.on-off-switch {
-					height: 90%;
+					height: 85%;
 
 					button {
 						font-size: 2.4rem;
@@ -109,9 +104,9 @@ export default {
 			
         }
 
-		$thumb-width: 64px;
-		$thumb-height: 72px;
-		$track-height: 52px;
+		$thumb-width: 3.5rem;
+		$thumb-height: 4rem;
+		$track-height: 3.25rem;
 		$thumb-margin-top: ( $thumb-height * -0.5 ) + ( $track-height * 0.5 );
 
 		* {
@@ -120,6 +115,7 @@ export default {
 
 		.color-temperature, .brightness {
 			position: relative; // This makes the slider clickable even when the color wheel is overlapping
+			font-size: 1rem;
 			padding-top: 0.5rem;
 			padding-bottom: 0.5rem;
 			-webkit-appearance: none;

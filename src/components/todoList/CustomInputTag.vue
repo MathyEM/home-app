@@ -79,9 +79,10 @@ export default {
             .vuetagger-tag-remover {
                 position: absolute;
                 top: 0;
-                right: 0;
+                right: 0.3em;
                 width: 100%;
                 text-align: right;
+                padding: 0;
 
                 &:hover {
                     background: transparent;

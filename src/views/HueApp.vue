@@ -72,7 +72,6 @@ export default {
 
 :root {
 	scroll-behavior: smooth;
-	// font-size: 1.6rem;
 }
 
 * {
@@ -86,7 +85,7 @@ export default {
 	flex-wrap: wrap;
 	flex-direction: column;
 	padding: 0 2rem;
-	font-size: 1.4rem;
+	font-size: 1.6rem;
 
 	.entity-container {
 		margin: 0 1.5em;
@@ -108,6 +107,10 @@ export default {
 				button {
 					user-select: none;
 
+					.icon-wrap {
+						font-size: 1.5rem;
+					}
+
 					& > div {
 						user-select: none;
 					}
@@ -126,7 +129,7 @@ export default {
 		.group-controls {
 			.switch-container {
 				button {
-					width: 4em;
+					width: 6em;
 					font-size: 1.2rem;
 					outline: none;
 
@@ -156,32 +159,33 @@ export default {
 		flex-direction: column;
 		align-content: center;
 		justify-content: center;
-		padding: 0 2rem;
-		margin-top: 0.5rem;
+		padding: 1rem;
+		margin: auto;
+		width: 100%;
 
 		& > div {
 			// padding: 3.6rem;
 			justify-self: center;
 			align-self: center;
-			padding: 0 3rem;
+			padding: 1rem 3rem;
 
-			$thumb-width: 46px;
-			$thumb-height: 46px;
-			$track-height: 36px;
+			$thumb-width: 3.5rem;
+			$thumb-height: 4rem;
+			$track-height: 3.25rem;
 			$thumb-margin-top: ( $thumb-height * -0.53 ) + ( $track-height * 0.5 );
 
-			$satLumPosition: 5%;
+			$satLumPosition: 2em;
 
 			.luminosity {
 				left: $satLumPosition;
 			}
 
 			.saturation {
-				left: 100%-$satLumPosition;
+				left: calc(100% - $satLumPosition);
 			}
 
 			.luminosity, .saturation {
-				width: 70%;
+				width: 14em;
 				&:focus {
 					outline: none;
 				}
@@ -230,6 +234,9 @@ export default {
 	}
 
 	.color-temperature {
+		width: 22em;
+		margin: auto;
+
 		&:focus {
 			outline: none;
 		}
