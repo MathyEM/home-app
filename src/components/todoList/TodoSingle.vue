@@ -157,7 +157,7 @@ p.completed {
     gap: 0.5em;
     cursor: pointer;
     display: grid;
-    grid-template-columns: 80% min-content;
+    grid-template-columns: auto min-content;
     align-items: flex-start;
     justify-content: space-between;
     min-height: 5em;
@@ -192,10 +192,11 @@ p.completed {
         justify-content: space-between;
         justify-self: flex-end;
         gap: 0.4em;
+        height: 100%;
 
         .todo-btn {
             border: 1px rgba(169, 169, 169, 0.8) solid;
-            // padding: 0.8em;
+            font-size: 1rem;
             width: 8em;
             aspect-ratio: 1;
 

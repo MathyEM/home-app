@@ -111,6 +111,8 @@ div#app > div.calendar-container {
 
 	.fc-toolbar-chunk {
 		margin-left: 1rem;
+		display: flex;
+		align-items: center;
 	}
 
 	h4 {
