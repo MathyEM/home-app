@@ -227,6 +227,10 @@ body {
 				margin: 0;
 			}
 
+			.icon-wrapper, .temperature-container, #nav a p {
+				font-size: 1.3rem;
+			}
+
 			#nav {
 				flex-direction: row;
 				padding: 0;
