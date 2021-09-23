@@ -7,19 +7,19 @@
 				</div>
 				<div id="nav">
 					<router-link to="/" @click.native="scrollToTop">
-						<img src="@/assets/img/home.svg" alt="">
+						<div class="home"></div>
 						<p>Home</p>
 					</router-link>
 					<router-link to="/hueapp" @click.native="scrollToTop">
-						<img src="@/assets/img/light-bulb.svg" alt="">
+						<div class="light-bulb"></div>
 						<p>Lys</p>
 					</router-link>
 					<router-link to="/calendar" @click.native="scrollToTop">
-						<img src="@/assets/img/calendar.svg" alt="">
+						<div class="calendar"></div>
 						<p>Kalender</p>
 					</router-link>
 					<router-link to="/todolist" @click.native="scrollToTop">
-						<img src="@/assets/img/checklist.svg" alt="">
+						<div class="checklist"></div>
 						<p>Huskeseddel</p>
 					</router-link>
 					<!-- {{ windowWidth }} -->
@@ -147,10 +147,29 @@ body {
 		font-weight: bold;
 		color: #2c3e50;
 		margin-bottom: 2rem;
+		height: 100%;
 
-		img {
+		div {
 			width: 50%;
-			filter: contrast(0.5);
+			aspect-ratio: 1;
+			margin: auto;
+			mask-repeat: no-repeat;
+			mask-position: center;
+			mask-size: contain;
+			background-color: $base-font-color;
+
+			&.home {
+				mask-image: url('~@/assets/img/home.svg');
+			}
+			&.light-bulb {
+				mask-image: url('~@/assets/img/light-bulb.svg');
+			}
+			&.calendar {
+				mask-image: url('~@/assets/img/calendar.svg');
+			}
+			&.checklist {
+				mask-image: url('~@/assets/img/checklist.svg');
+			}
 		}
 
 		&.router-link-exact-active.router-link-active img {
@@ -162,7 +181,11 @@ body {
 		}
 
 		&.router-link-exact-active {
-			color: #3eac7a;
+			color: $link-active-color;
+
+			div {
+				background-color: darken($link-active-color, 8%);
+			}
 		}
 	}
 }
@@ -227,8 +250,8 @@ body {
 				margin: 0;
 			}
 
-			.icon-wrapper, .temperature-container, #nav a p {
-				font-size: 1.3rem;
+			.icon-wrapper, .temperature-container {
+				font-size: 1.7rem;
 			}
 
 			#nav {
@@ -239,6 +262,14 @@ body {
 
 				a {
 					margin: 0;
+
+					div {
+						width: 70%;
+					}
+
+					p {
+						font-size: 0;
+					}
 				}
 			}
 		}
@@ -300,6 +331,22 @@ body {
 			&[aria-expanded=false] {
 				margin: -0.8*$margin 0;
 			}
+		}
+	}
+}
+
+@media screen and (max-width: 400px) {
+	div#app {
+		div.container.main-content-container {
+			font-size: 2.0rem;
+		}
+
+		.icon-wrapper {
+			font-size: 1.2rem;
+		}
+		
+		.temperature-container {
+			font-size: 1.4rem;
 		}
 	}
 }
