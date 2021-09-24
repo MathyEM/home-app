@@ -56,6 +56,7 @@ export default {
             box-shadow: none;
             background: initial;
             width: 100%;
+			height: 33.3%;
 			margin: 0;
 			border-bottom: 1px solid $border-color;
 			border-radius: 0;

@@ -204,7 +204,7 @@ body {
 			grid-template-columns: none;
 
 			.widget {
-				height: $widget-height - 10;
+				height: $widget-height - 4;
 			}
 		}
 
@@ -259,11 +259,16 @@ body {
 				padding: 0;
 				display: grid;
 				grid-template-columns: repeat(4, 1fr);
+				height: 100%;
+				width: 100%;
 
 				a {
 					margin: 0;
+					height: 100%;
+					width: 100%;
 
 					div {
+						height: 100%;
 						width: 70%;
 					}
 
