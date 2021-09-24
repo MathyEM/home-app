@@ -6,6 +6,7 @@ entrypoint.sh
 # local env files
 .env.local
 .env.*.local
+docker-compose.yml
 
 # Log files
 npm-debug.log*
