@@ -8,7 +8,7 @@
 				<div id="nav">
 					<router-link to="/" @click.native="scrollToTop">
 						<div class="home"></div>
-						<p>Home</p>
+						<p>Forside</p>
 					</router-link>
 					<router-link to="/hueapp" @click.native="scrollToTop">
 						<div class="light-bulb"></div>
