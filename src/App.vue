@@ -338,7 +338,7 @@ body {
 			margin-bottom: $margin;
 
 			&[aria-expanded=false] {
-				margin: -0.8*$margin 0;
+				margin: -5*$margin 0;
 			}
 
 			.rcp__rotator .rcp__knob.in {

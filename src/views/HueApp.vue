@@ -133,6 +133,7 @@ export default {
 			.switch-container {
 				button {
 					width: 6em;
+					height: 6em;
 					font-size: 1.2rem;
 					outline: none;
 

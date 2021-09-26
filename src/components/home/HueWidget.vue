@@ -80,6 +80,7 @@ export default {
 
 				.switch-container.on-off-switch {
 					height: 85%;
+					width: 40%;
 
 					button {
 						font-size: 2.4rem;
@@ -99,7 +100,7 @@ export default {
 
 				.color-title-wrapper {
 					width: 100%;
-					
+
 					.single-control-wrapper {
 						padding-top: 0.5rem;
 						
