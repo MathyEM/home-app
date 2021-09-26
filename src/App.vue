@@ -222,6 +222,10 @@ body {
 		& > div.main-content-container, div.main-content-container.calendar-container, div.main-content-container.todo-list-container, div.container.main-content-container {
 			padding-bottom: 100-$widget-height;
 		}
+
+		.hue-widget-container .small-entity-wrapper .control-wrapper {
+			gap: 3rem;
+		}
 	}
 
 	.header {
@@ -290,7 +294,7 @@ body {
 			& > div {
 				justify-self: center;
 				align-self: center;
-				padding: 1em 3em;
+				padding: 1rem 3rem;
 
 				$thumb-width: 3.5rem;
 				$thumb-height: 4rem;
@@ -336,6 +340,12 @@ body {
 			&[aria-expanded=false] {
 				margin: -0.8*$margin 0;
 			}
+
+			.rcp__rotator .rcp__knob.in {
+				width: 11%;
+				height: 11%;
+				top: 4.5%;
+			}
 		}
 	}
 }
@@ -344,6 +354,30 @@ body {
 	div#app {
 		div.container.main-content-container {
 			font-size: 2.0rem;
+
+			.color-picker-wrapper {
+
+				.rcp.color-picker.off[aria-expanded=false] {
+					margin-top: -2.8em;
+					margin-bottom: -2.8em;
+				}
+				.rcp__palette {
+					mask-size: 90%;
+					
+					&.in {
+						transform: scale(0.8);
+					}
+				}
+				.rcp__rotator .rcp__knob.in {
+					width: 7%;
+					height: 7.5%;
+					top: 12.5%;
+				}
+			}
+			
+			.color-temperature {
+				width: 90%;
+			}
 		}
 
 		.icon-wrapper {

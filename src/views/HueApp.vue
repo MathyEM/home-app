@@ -174,8 +174,8 @@ export default {
 
 			$thumb-width: 3.5rem;
 			$thumb-height: 4rem;
-			$track-height: 3.25rem;
-			$thumb-margin-top: ( $thumb-height * -0.53 ) + ( $track-height * 0.5 );
+			$track-height: 3rem;
+			$thumb-margin-top: ( $thumb-height * -0.53 ) + ( $track-height * 0.53 );
 
 			$satLumPosition: 2em;
 
@@ -188,7 +188,7 @@ export default {
 			}
 
 			.luminosity, .saturation {
-				width: 14em;
+				width: 17em;
 				&:focus {
 					outline: none;
 				}

@@ -52,11 +52,15 @@ export default {
 
 <style lang="scss">
     .hue-widget-container {
+		.widget-content-container {
+			display: grid;
+			grid-auto-rows: 33.3%;
+		}
         .small-entity-wrapper {
             box-shadow: none;
             background: initial;
             width: 100%;
-			height: 33.3%;
+			height: 100%;
 			margin: 0;
 			border-bottom: 1px solid $border-color;
 			border-radius: 0;
@@ -69,7 +73,10 @@ export default {
             }
 
             .control-wrapper {
-				grid-template-columns: 0.7fr 2fr;
+				display: flex;
+				height: 100%;
+				gap: 6rem;
+				// grid-template-columns: 0.7fr 2fr;
 
 				.switch-container.on-off-switch {
 					height: 85%;
@@ -91,6 +98,8 @@ export default {
 				}
 
 				.color-title-wrapper {
+					width: 100%;
+					
 					.single-control-wrapper {
 						padding-top: 0.5rem;
 						
