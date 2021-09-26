@@ -106,6 +106,8 @@ export default {
 				
 				button {
 					user-select: none;
+					width: 100%;
+					position: relative;
 
 					.icon-wrap {
 						font-size: 1.5rem;
@@ -113,6 +115,7 @@ export default {
 
 					& > div {
 						user-select: none;
+						position: absolute;
 					}
 
 					&:focus-visible {
