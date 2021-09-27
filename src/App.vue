@@ -236,7 +236,7 @@ body {
 		order: 1;
 		height: 100-$widget-height;
 		width: 100%;
-		z-index: 10;
+		z-index: 20;
 		border: none;
 		border-top: 1px solid $border-color;
 		position: fixed;
