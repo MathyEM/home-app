@@ -22,7 +22,7 @@
 						<div class="checklist"></div>
 						<p>Huskeseddel</p>
 					</router-link>
-					<!-- {{ windowWidth }} -->
+					<Clock class="clock" />
 				</div>
 			</div>
 		</div>
@@ -32,9 +32,11 @@
 
 <script>
 import WeatherWidgetSmall from '@/components/weather/WeatherWidgetSmall.vue'
+import Clock from '@/components/clock/Clock.vue'
 export default {
 	components: {
 		WeatherWidgetSmall,
+		Clock,
 	},
 	methods: {
 		scrollToTop() {
@@ -279,6 +281,13 @@ body {
 					p {
 						font-size: 0;
 					}
+				}
+
+				.clock {
+					display: none;
+					grid-column: 2 / 4;
+					align-self: center;
+					font-size: 3rem;
 				}
 			}
 		}
