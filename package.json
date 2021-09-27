@@ -21,6 +21,7 @@
     "simple-modal-vue": "^1.0.12",
     "vue": "^2.6.11",
     "vue-input-tag": "^2.0.7",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.2.0",
     "vue-swatches": "^2.1.1",
     "vuetagger": "0.0.2",

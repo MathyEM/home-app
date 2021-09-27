@@ -38,6 +38,13 @@ export default {
 		WeatherWidgetSmall,
 		Clock,
 	},
+	metaInfo: {
+		meta: [
+			{ name: 'apple-mobile-web-app-capable', content: 'yes' },
+			{ name: 'apple-mobile-web-app-title', content: 'Home' },
+			{ name: 'mobile-web-app-capable', content: 'yes' }
+		]
+	},
 	methods: {
 		scrollToTop() {
 			window.scrollTo(0, 0);

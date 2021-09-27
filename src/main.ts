@@ -4,9 +4,11 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import HueApp from 'local-hue-app'
+import VueMeta from 'vue-meta'
 
 Vue.config.productionTip = false
 Vue.use(HueApp, { store })
+Vue.use(VueMeta)
 import ConfigProvider from './ConfigProvider'
 
 const hueBridgeIP = ConfigProvider.value('hueBridgeIP')
