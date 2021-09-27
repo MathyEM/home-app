@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentWeather && dailyWeather" class="current-weather-small-container">
+    <div v-if="currentWeather && dailyWeather" class="current-weather-small-container" @click="searchLocation">
             <div class="current-weather-small-wrapper">
                 <!-- <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`" alt=""> -->
                 <div class="icon-wrapper">
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
     name: 'WeatherWidgetSmall',
     props: {
@@ -27,6 +27,7 @@ export default {
         ...mapGetters(['currentWeather', 'dailyWeather']),
     },
     methods: {
+        ...mapActions(['searchLocation']),
     }
 }
 </script>

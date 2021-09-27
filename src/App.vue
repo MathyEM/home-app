@@ -135,8 +135,8 @@ body {
 }
 
 .header-weather {
-	pointer-events: none;
 	margin-bottom: 2rem;
+	user-select: none;
 }
 
 #nav {
