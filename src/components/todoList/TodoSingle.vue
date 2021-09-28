@@ -197,6 +197,7 @@ p.completed {
         .todo-btn {
             border: 1px rgba(169, 169, 169, 0.8) solid;
             font-size: 1rem;
+            height: 8em;
             width: 8em;
             aspect-ratio: 1;
 

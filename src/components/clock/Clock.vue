@@ -30,6 +30,6 @@ export default {
 <style lang="scss">
     .clock.time {
         width: 100%;
-        font-size: 2rem;
+        font-size: 2.6rem;
     }
 </style>
