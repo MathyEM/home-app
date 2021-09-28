@@ -33,6 +33,7 @@
 <script>
 import WeatherWidgetSmall from '@/components/weather/WeatherWidgetSmall.vue'
 import Clock from '@/components/clock/Clock.vue'
+
 export default {
 	components: {
 		WeatherWidgetSmall,
@@ -215,6 +216,10 @@ body {
 			.widget {
 				height: $widget-height - 4;
 			}
+		}
+
+		.qr-codes-container {
+			grid-column: unset;
 		}
 
 		div.main-content-container.todo-list-container {

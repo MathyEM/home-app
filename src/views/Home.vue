@@ -5,6 +5,7 @@
 			<WeatherWidget />
 			<CalendarWidget />
 			<TodosWidget />
+			<QRCodeWidget />
 		</div>
 	</div>
 </template>
@@ -15,6 +16,7 @@ import WeatherWidget from '@/components/home/WeatherWidget.vue'
 import CalendarWidget from '@/components/home/CalendarWidget.vue'
 import TodosWidget from '@/components/home/TodosWidget.vue'
 import HueWidget from '@/components/home/HueWidget.vue'
+import QRCodeWidget from '@/components/home/QRCodeWidget.vue'
 
 export default Vue.extend({
 	name: 'Home',
@@ -23,6 +25,7 @@ export default Vue.extend({
 		CalendarWidget,
 		TodosWidget,
 		HueWidget,
+		QRCodeWidget,
 	},
 	computed: {
 	},
@@ -72,12 +75,15 @@ export default Vue.extend({
 </style>
 
 <style lang="scss">
+h2 {
+	font-size: 3rem;
+	font-weight: normal;
+}
+
 .widget {
 	& > h2 {
 		padding: 0.75rem 0;
 		padding-top: 0.25rem;
-		font-size: 3rem;
-		font-weight: normal;
 		border-bottom: 1px solid $border-color;
 	}
 
