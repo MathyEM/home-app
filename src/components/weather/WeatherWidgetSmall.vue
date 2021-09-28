@@ -1,8 +1,8 @@
 <template>
-    <div v-if="currentWeather && dailyWeather" class="current-weather-small-container" @click="searchLocation">
+    <div v-if="currentWeather && dailyWeather" class="current-weather-small-container" @click="updateWeather">
             <div class="current-weather-small-wrapper">
                 <!-- <img class="weather-icon icon-shadow" :src="`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`" alt=""> -->
-                <div class="icon-wrapper">
+                <div class="icon-wrapper" :class="{ 'weather-updating': WeatherUpdating }">
                     <i :class="`owf owf-fw owf-5x owf-${$store.state.weather.getIconWithSuffix(currentWeather.weather[0].icon, currentWeather.weather[0].id)}`"></i>
                 </div>
                 <div class="temperature-container">
@@ -20,6 +20,11 @@ export default {
     props: {
         
     },
+    data() {
+        return {
+            WeatherUpdating: false,
+        }
+    },
     components: {
 
     },
@@ -28,6 +33,11 @@ export default {
     },
     methods: {
         ...mapActions(['searchLocation']),
+        async updateWeather() {
+            this.WeatherUpdating = true
+            await this.searchLocation()
+            this.WeatherUpdating = false
+        }
     }
 }
 </script>
@@ -41,6 +51,10 @@ export default {
 
     .icon-wrapper {
         font-size: 1.6rem;
+
+        &.weather-updating {
+            filter: blur(2px);
+        }
     }
 }
 .temperature-container {
