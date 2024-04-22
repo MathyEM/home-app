@@ -5,7 +5,7 @@ I created a custom REST API to access the Hue API on my bridge and my Nextcloud 
 
 The server is hosted on my Raspberry Pi 4B running Raspbian, with a touchscreen in kiosk mode and an on screen keyboard. See demo video below:
 
-![Example usage](https://i.imgur.com/ERuc91j.gif)
+![Example usage](https://i.imgur.com/ERuc91j.mp4)
 
 
 
